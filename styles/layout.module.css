@@ -1,0 +1,36 @@
+.TopNavBar {
+    display: block;
+}
+
+.TopNavBar .LeftIcon {
+    float: left;
+    font-size: 2rem;
+    margin-top: 15px;
+    transition: all 1s;
+}
+
+.TopNavBar .LeftIcon :hover {
+    transform: scale(1.05);
+}
+
+.TopNavBar .RightIcon {
+    float: right;
+    font-size: 2rem;
+    margin-top: 15px;
+    transition: all 1s;
+    z-index: 10000;
+}
+
+.TopNavBar .RightIcon :hover {
+    transform: scale(1.05);
+}
+
+.TopNavBar a {
+    color: white;
+    text-decoration: none;
+}
+
+.HeaderCompanyName {
+    font-size: 3rem;
+    letter-spacing: 1.3px;
+}

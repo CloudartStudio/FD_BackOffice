@@ -1,0 +1,29 @@
+{
+    "ConfigName": "Test_Configuration",
+    "ConfigData": [
+        {
+            "Label1": "Fatturato Complessivo",
+            "Info": "",
+            "IconID": "EuroSumm",
+            "ValueInfo": "EUR",
+            "Query": "Select FattCompl from ClientiTemp where id=1",
+            "returnName": "FattCompl"
+        },
+        {
+            "Label1": "Numero totale acquisti",
+            "Info": "test",
+            "IconID": "EuroTag",
+            "ValueInfo": "",
+            "Query": "Select NumTotAcquisti from ClientiTemp where id=1",
+            "returnName": "NumTotAcquisti"
+        },
+        {
+            "Label1": "Importo Medio acquisti",
+            "Info": "",
+            "IconID": "EuroAvg",
+            "ValueInfo": "EUR/AVG",
+            "Query": "Select MediaAcqu from ClientiTemp where id=1",
+            "returnName": "MediaAcqu"
+        }
+    ]
+}

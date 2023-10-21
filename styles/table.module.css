@@ -1,0 +1,55 @@
+/* table.module.css */
+.TableBase {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: none;
+    margin: auto;
+    margin-top: 3vh;
+    box-shadow: 1px 1px 10px #000;
+    border-radius: 10px;
+}
+
+.TableBase .TableHeadBox {
+    background-color: #004aadbb;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.TableBase .TableBodyBox {
+    height: 60vh;
+    border-radius: 0px 0px 10px 10px;
+    border: 5px solid #004aadbb;
+}
+
+.TableBaseRow {
+    display: flex;
+}
+
+.TableBaseRowWhite {
+    display: flex;
+    background-color: #ffffffbb;
+    color: #004aadbb;
+}
+
+.TableBaseRowWhite div,
+.TableBaseRowBlue div {
+    border-left: 1px solid #004aadbb;
+    border-right: 1px solid #004aadbb;
+    padding: 6px 0px;
+}
+
+.TableBaseRowBlue {
+    display: flex;
+    background-color: #004aadbb;
+    color: white;
+}
+
+.TableEndRow {
+    display: flex;
+}
+
+.TableBaseHeader,
+.TableBaseCell {
+    flex: 1;
+    text-align: center;
+}

@@ -1,0 +1,282 @@
+.ModalField {
+    width: 50%;
+    margin: 10px 0px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ModalField input[type="text"],
+.ModalField input[type="email"],
+.ModalField input[type="tel"],
+.ModalField input[type="date"],
+.ModalField input[type="number"] {
+    width: 90%;
+    background-color: #6dacff37;
+    border: none;
+    border-radius: 5px;
+    color: #004aad;
+    font-weight: 600;
+    height: 4vh;
+    margin-top: 10px;
+    font-size: 1rem;
+    border-bottom: 2px solid #004aad;
+}
+
+.FullModalFieldSection textarea {
+    width: 100%;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    color: #004aad;
+    font-weight: 600;
+    height: 15vh;
+    margin-top: 10px;
+    font-size: 1rem;
+    border-bottom: 2px solid #004aad;
+}
+
+.FullModalFieldSection .SectionLine {
+    display: flex;
+    flex-direction: row;
+    background-color: #004aadbb;
+    padding: 15px;
+    margin: 10px 0px;
+    border-radius: 10px;
+}
+
+.FullModalFieldSection .SectionLine .Cell {
+    flex: 8;
+    display: flex;
+}
+
+.FullModalFieldSection .SectionLine .IconCell {
+    flex: 1;
+    display: flex;
+}
+
+.FullModalFieldSection .SectionLine div p.SectionCell {
+    background-color: white;
+    padding: 15px 25px;
+    height: min-content;
+    vertical-align: middle;
+    border-radius: 10px;
+}
+
+.FullModalFieldSection .SectionLine div p.SectionCell input {
+    width: 100%;
+    background-color: #6dacff37;
+    border: none;
+    border-radius: 5px;
+    color: #004aad;
+    font-weight: 600;
+    height: 4vh;
+    margin-top: 10px;
+    font-size: 1rem;
+    border-bottom: 2px solid #004aad;
+}
+
+.FullModalFieldSection .SectionLine div button {
+    padding: 0.3vh;
+    vertical-align: middle;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    width: 5vh;
+    height: 5vh;
+    font-size: 2rem;
+    color: #004aaddd;
+    transition: 0.3s all;
+}
+
+.FullModalFieldSection .SectionLine div button:hover {
+    background-color: #004aaddd;
+    border: 2px solid white;
+    padding: 0.2vh;
+    color: white;
+    cursor: pointer;
+}
+
+.ModalField input[type="date"] {
+    background-color: white;
+}
+
+.ModalField label,
+.FullModalFieldSection label {
+    color: #004aaddd;
+    font-weight: 700;
+    text-align: left;
+}
+
+.ModalField input:focus {
+    border: none;
+}
+
+.ModalFieldSection {
+    width: 90%;
+    vertical-align: top;
+    padding: 1%;
+    background-color: #6dacff37;
+    border-radius: 5px;
+}
+
+.ModalFieldSection h3,
+.FullModalFieldSection h3 {
+    color: #004aad;
+    margin: 5px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.ModalFieldSection input {
+    margin-right: 40px;
+}
+
+.ModalFieldSection input[type="text"] {
+    color: black;
+    width: 90%;
+    background-color: #fffd;
+    border: none;
+    border-radius: 5px;
+    color: #fffd;
+    font-weight: 600;
+    height: 4vh;
+    margin-top: 10px;
+    font-size: 1rem;
+    border-bottom: 2px solid #004aad;
+}
+
+.FullModalFieldSection {
+    width: 93%;
+    margin: 10px 0px;
+    vertical-align: top;
+    padding: 1%;
+    background-color: #6dacff37;
+    border-radius: 5px;
+}
+
+.ModalFieldSection input[type="checkbox"] {
+    transform: scale(1.5); /* Aumenta la dimensione del 50% */
+    margin-right: 5px; /* Aggiungi un margine se necessario */
+}
+
+.FullModalFieldSection input[type="file"] {
+    display: none;
+}
+
+.checkboxField {
+    margin: 10px 20px;
+    display: inline-block;
+}
+
+.checkboxField label {
+    margin-right: 10px;
+}
+
+.customFileUpload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.ModalContainer {
+    width: 100vw;
+    height: 100vh;
+    background: #6b7888dd;
+    display: block;
+    position: fixed;
+    z-index: 10000000;
+    top: 0;
+    left: 0;
+}
+
+.Modal {
+    border: none;
+    margin: auto;
+    margin-top: 5vh;
+    height: 82vh;
+    width: 92vw;
+    border-radius: 10px;
+}
+
+.ModalHeader {
+    font-size: 2rem;
+    position: relative;
+    background-color: #004aadbb;
+    border-radius: 10px 10px 0px 0px;
+    color: white;
+}
+
+.ModalHeader h5 {
+    padding: 15px;
+    width: fit-content;
+    font-weight: 900;
+    margin: 0px;
+}
+
+.ModalBody h6 {
+    font-weight: 900;
+    font-size: 1rem;
+    margin-top: 25px;
+    margin: 0px;
+}
+
+.ModalHeader .closeBtnModal {
+    position: absolute;
+    right: 10px;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    transition: all 0.4s;
+    top: 5px;
+}
+
+.ModalHeader .closeBtnModal:hover {
+    position: absolute;
+    right: 10px;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.ModalBody {
+    padding-left: 25px;
+    font-size: 1.3rem;
+    overflow-y: scroll;
+    height: 70vh;
+    background-color: #fffb;
+}
+
+.ModalFoot {
+    text-align: right;
+    background-color: #004aadbb;
+    padding: 20px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.ModalFoot button {
+    border: none;
+}
+
+.ModalFoot button.Success {
+    background: #00357be4;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    transition: all 0.5s;
+    color: white;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.ModalFoot button.Success:hover {
+    transform: scale(1.1);
+    background: white;
+    color: #00357be4;
+}
+
+.ModalFoot button.Cancel {
+    background-color: red;
+}

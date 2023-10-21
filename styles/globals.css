@@ -1,0 +1,112 @@
+body {
+    margin: 0px;
+    font-family: "mont-serif-light", Arial, sans-serif;
+}
+
+header {
+    background-color: #004aad;
+    color: white;
+    padding: 10px 50px;
+    text-align: center;
+    height: 8dvh;
+    box-shadow: 0px 0px 10px 0px #130f1d;
+}
+
+header h1 {
+    margin: 0px;
+    font-size: 3rem;
+}
+
+header h1 .Customer-Header-Section .Logo-Small {
+    display: inline-block;
+    width: 2.5rem;
+}
+
+.bkgLogo {
+    position: fixed;
+    z-index: -2;
+    width: 500px;
+    height: 500px;
+    margin: 0px;
+    padding: 0px;
+    opacity: 0.7;
+    left: calc(50% - 270px);
+    top: 15%;
+}
+
+main {
+    padding-left: 13vw;
+    padding-right: 13vw;
+}
+
+ul {
+    list-style-type: none;
+    padding-right: 40px;
+}
+
+.HomeNav {
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.NavLeft {
+    left: 0;
+    top: 10vh;
+}
+
+.NavRight {
+    right: 12px;
+}
+
+.HomeNav a {
+    text-decoration: none;
+    box-shadow: 0px 0px 5px 0px #130f1d;
+    width: 10dvw;
+    display: block;
+    padding: 15px;
+    text-align: center;
+    margin: 12px 0px;
+    color: white;
+    background-color: #004aad;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.5s;
+    position: fixed;
+    z-index: 10000001;
+}
+
+.HomeNav a:hover {
+    transform: scale(1.05);
+    background-color: #53c6fb;
+}
+
+/* CARD */
+
+.SimpleCard {
+    width: 20vw;
+    background-color: #004aad;
+    display: inline-block;
+    text-align: center;
+    margin: 8vh 8vw;
+    color: white;
+    border-radius: 4px;
+    opacity: 0.9;
+    border: none;
+}
+
+.SimpleCard.Clickable {
+    background-color: #2f71c7;
+    cursor: grab;
+    transition: all 0.2s;
+}
+
+.SimpleCard.Clickable:hover {
+    transform: scale(1.05);
+    background-color: #36475e;
+}
+
+.SimpleCard b {
+    font-size: 2rem;
+}
