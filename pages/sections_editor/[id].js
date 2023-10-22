@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import fetch from "node-fetch";
 import Head from "next/head";
 import NewFieldVisualizerModal from "../../components/modal/NewFieldVisualizerModal";
+import NewChartTab from "../../components/modal/NewChartTab";
 
 const SectionsEditor = () => {
     const [Configs, SetConfigs] = useState(null);
     const [typeOfSection, setTypeOfSection] = useState(null);
     const [openModal, setOpenModal] = useState(false);
+    const [openModalChart, SetOpenModalChart] = useState(false);
     const [nomeSezione, setNomeSezione] = useState("");
     const [tipo, setTipo] = useState("");
     const [verticalOrder, setVerticalOrder] = useState("");
@@ -63,6 +65,13 @@ const SectionsEditor = () => {
                 }}
                 SectionID={id}
             ></NewFieldVisualizerModal>
+            <NewChartTab
+                isOpen={openModalChart}
+                onActionCloseModal={() => {
+                    SetOpenModalChart(false);
+                }}
+                SectionID={id}
+            ></NewChartTab>
             <div>
                 <h3>Section info</h3>
                 <input
@@ -97,6 +106,7 @@ const SectionsEditor = () => {
                                     if (typeOfSection == 0) {
                                         setOpenModal(true);
                                     } else if (typeOfSection == 1) {
+                                        SetOpenModalChart(true);
                                     } else if (typeOfSection == 2) {
                                     } else if (typeOfSection == 3) {
                                     }

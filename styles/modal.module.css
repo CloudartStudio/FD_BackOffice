@@ -49,6 +49,11 @@
     display: flex;
 }
 
+.FullModalFieldSection .SectionLine .SmallCell {
+    flex: 4;
+    display: flex;
+}
+
 .FullModalFieldSection .SectionLine .IconCell {
     flex: 1;
     display: flex;
@@ -62,7 +67,17 @@
     border-radius: 10px;
 }
 
-.FullModalFieldSection .SectionLine div p.SectionCell input {
+.FullModalFieldSection .SectionLine div p.BigSectionCell {
+    background-color: white;
+    padding: 15px 25px;
+    height: min-content;
+    vertical-align: middle;
+    border-radius: 10px;
+    width: 80%;
+}
+
+.FullModalFieldSection .SectionLine div p.SectionCell input,
+.FullModalFieldSection .SectionLine div p.BigSectionCell input {
     width: 100%;
     background-color: #6dacff37;
     border: none;

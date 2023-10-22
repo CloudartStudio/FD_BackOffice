@@ -1,97 +1,59 @@
-import style from "@/styles/graph.module.css";
-import React, { useState, useEffect, useRef } from "react";
-import Head from "next/head";
-import MenuSection from "@/components/menu/MenuSection";
-import { RiMenu2Fill, RiMenu3Fill, RiMoneyEuroBoxFill } from "react-icons/ri";
-import Tabs from "@/components/Tabs/tabs";
-import AcquistiPerMese from "@/components/Tabs/AcquistiPerMese";
-import FieldVisualizer from "@/components/data_component/fieldvisualizer";
+// components/ChartComponent.js
 
-export const getServerSideProps = async () => {
-    const response = await fetch("http://localhost:3000/api/getMenuData");
-    const responseOfCentralLabel = await fetch(
-        "http://localhost:3000/api/getCentralLabelHome"
-    );
-    const menu_data = await response.json();
-    const labelhome_data = await responseOfCentralLabel.json();
+import { useEffect, useRef } from "react";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
-    const data = {
-        menu_data: menu_data,
-        labelhome_data: labelhome_data,
-    };
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
 
-    return {
-        props: {
-            data,
+export const options = {
+    responsive: true,
+    plugins: {
+        legend: {
+            position: "top",
         },
-    };
+        title: {
+            display: true,
+            text: "Chart.js Bar Chart",
+        },
+    },
 };
 
-export default function testgraph({ data }) {
-    const [isOpenLeftMenu, setIsOpenLeftMenu] = useState(false);
-    const [isOpenRightMenu, setIsOpenRightMenu] = useState(false);
+const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
-    const handleLeftMenu = () => {
-        setIsOpenLeftMenu(isOpenLeftMenu ? false : true);
-    };
+export const data = {
+    labels,
+    datasets: [
+        {
+            label: "Dataset 1",
+            data: labels.map(() => 550),
+            backgroundColor: "rgba(255, 99, 132, 0.5)",
+        },
+        {
+            label: "Dataset 2",
+            data: labels.map(() => 650),
+            backgroundColor: "rgba(53, 162, 235, 0.5)",
+        },
+    ],
+};
 
-    const handleRightMenu = () => {
-        setIsOpenRightMenu(isOpenRightMenu ? false : true);
-    };
-
-    const tabData = [
-        { label: "Tab 1", content: <AcquistiPerMese /> },
-        { label: "Tab 2", content: "Contenuto Tab 2" },
-        // Aggiungi altri tabs qui se necessario
-    ];
-
-    useEffect(() => {}, []);
-
-    return (
-        <>
-            <Head>
-                <title>MIKE</title>
-            </Head>
-            <main>
-                {/* prima sezione */}
-                <FieldVisualizer></FieldVisualizer>
-                {/* seconda sezione */}
-                <div className={style.GraphSection}>
-                    <div className={style.GraphSectionSubSection}>
-                        <span>
-                            <RiMoneyEuroBoxFill />
-                        </span>
-                        <div>
-                            <p>Fatturato complessivo</p>
-                            <b>883.17</b> EUR
-                        </div>
-                    </div>
-                    <div className={style.GraphSectionSubSection}>
-                        <span>
-                            <RiMoneyEuroBoxFill />
-                        </span>
-                        <div>
-                            <p>Fatturato complessivo</p>
-                            <b>883.17</b> EUR
-                        </div>
-                    </div>
-                    <div className={style.GraphSectionSubSection}>
-                        <span>
-                            <RiMoneyEuroBoxFill />
-                        </span>
-                        <div>
-                            <p>Fatturato complessivo</p>
-                            <b>883.17</b> EUR
-                        </div>
-                    </div>
-                </div>
-                {/* tab sezione */}
-                <div className={style.GraphSection}>
-                    <Tabs data={tabData} />
-                </div>
-                {/* graph sezione */}
-                <div></div>
-            </main>
-        </>
-    );
+function ChartComponent() {
+    return <Bar options={options} data={data} />;
 }
+
+export default ChartComponent;
