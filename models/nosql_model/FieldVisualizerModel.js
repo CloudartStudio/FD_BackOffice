@@ -2,7 +2,7 @@ import ConfigBase from "../../models/nosql_model/base/ConfigBase";
 
 class FieldVisualizerModel extends ConfigBase {
     constructor(Label1, Info, IconID, ValueInfo, Query, returnName) {
-        super();
+        super("Configurations");
         this.Label1 = Label1;
         this.Info = Info;
         this.IconID = IconID;

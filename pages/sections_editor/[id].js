@@ -5,7 +5,7 @@ import Head from "next/head";
 import NewFieldVisualizerModal from "../../components/modal/NewFieldVisualizerModal";
 
 const SectionsEditor = () => {
-    const [sectionsConfig, setSectionsConfig] = useState(null);
+    const [Configs, SetConfigs] = useState(null);
     const [typeOfSection, setTypeOfSection] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [nomeSezione, setNomeSezione] = useState("");
@@ -26,13 +26,24 @@ const SectionsEditor = () => {
 
                 const data = await sectionsConfigResponse.json();
 
-                setSectionsConfig(data);
+                data.RelatedConfigData.map(async (configID) => {
+                    console.log("configID", configID.insertedId);
+                    const ConfigData = await fetch(
+                        "http://localhost:3000/api/visualizer/fieldbase/" +
+                            configID.insertedId
+                    );
+
+                    const Config = await ConfigData.json();
+
+                    SetConfigs(Configs ? [...Configs, Config] : [Config]);
+                });
+
                 setNomeSezione(data.NomeSezione);
                 setTipo(data.Tipo);
                 setVerticalOrder(data.VerticalOrder);
                 setMinRole(data.MinRole);
 
-                console.log("Sections Config", sectionsConfig);
+                console.log("Sections Config", Configs);
                 console.log("data", data);
                 setTypeOfSection(data.Tipo);
             }
@@ -41,71 +52,85 @@ const SectionsEditor = () => {
     }, [id]);
 
     return (
-        sectionsConfig && (
-            <>
-                <Head>
-                    <title>Section editor</title>
-                </Head>
-                <NewFieldVisualizerModal
-                    isOpen={openModal}
-                    onActionCloseModal={() => {
-                        setOpenModal(false);
-                    }}
-                ></NewFieldVisualizerModal>
+        <>
+            <Head>
+                <title>Section editor</title>
+            </Head>
+            <NewFieldVisualizerModal
+                isOpen={openModal}
+                onActionCloseModal={() => {
+                    setOpenModal(false);
+                }}
+                SectionID={id}
+            ></NewFieldVisualizerModal>
+            <div>
+                <h3>Section info</h3>
+                <input
+                    value={nomeSezione}
+                    onChange={(e) => setNomeSezione(e.target.value)}
+                    placeholder="Nome sezione"
+                />
+                <input
+                    value={verticalOrder}
+                    onChange={(e) => setVerticalOrder(e.target.value)}
+                    placeholder="Vertical order"
+                />
+                <input
+                    value={tipo}
+                    onChange={(e) => setTipo(e.target.value)}
+                    placeholder="Tipo"
+                />
+                <input
+                    value={minRole}
+                    onChange={(e) => setMinRole(e.target.value)}
+                    placeholder="Min role"
+                />
+            </div>
+            <div>
+                <h3>Configurazioni</h3>
                 <div>
-                    <h3>Section info</h3>
-                    <input
-                        value={nomeSezione}
-                        onChange={(e) => setNomeSezione(e.target.value)}
-                        placeholder="Nome sezione"
-                    />
-                    <input
-                        value={verticalOrder}
-                        onChange={(e) => setVerticalOrder(e.target.value)}
-                        placeholder="Vertical order"
-                    />
-                    <input
-                        value={tipo}
-                        onChange={(e) => setTipo(e.target.value)}
-                        placeholder="Tipo"
-                    />
-                    <input
-                        value={minRole}
-                        onChange={(e) => setMinRole(e.target.value)}
-                        placeholder="Min role"
-                    />
-                </div>
-                <div>
-                    <h3>Configurazioni</h3>
                     <div>
-                        <div>
-                            <hr></hr>
-                            {typeOfSection && (
-                                <button
-                                    onClick={() => {
-                                        if (typeOfSection == 0) {
-                                            setOpenModal(true);
-                                        } else if (typeOfSection == 1) {
-                                        } else if (typeOfSection == 2) {
-                                        } else if (typeOfSection == 3) {
-                                        }
-                                    }}
-                                >
-                                    Add config
-                                </button>
-                            )}
-                            <hr></hr>
-                        </div>
-                    </div>
-                    <div>
-                        {sectionsConfig &&
-                            sectionsConfig.RelatedConfigData.map((c) => {
-                                return <p>CIAO</p>;
-                            })}
+                        <hr></hr>
+                        {typeOfSection && (
+                            <button
+                                onClick={() => {
+                                    if (typeOfSection == 0) {
+                                        setOpenModal(true);
+                                    } else if (typeOfSection == 1) {
+                                    } else if (typeOfSection == 2) {
+                                    } else if (typeOfSection == 3) {
+                                    }
+                                }}
+                            >
+                                Add config
+                            </button>
+                        )}
+                        <hr></hr>
                     </div>
                 </div>
-            </>
-        )
+                <div>
+                    {Configs &&
+                        Configs.map((c) => {
+                            console.log("c", c);
+                            return (
+                                <>
+                                    <p>Label: {c.Label1}</p>
+                                    <p>Info: {c.Info}</p>
+                                    <p>Icon: {c.IconID}</p>
+                                    <p>Value Info: {c.ValueInfo}</p>
+                                    <p>Query: {c.Query}</p>
+                                    <p>Return name: {c.returnName}</p>
+                                    <p>
+                                        <textarea>TODO</textarea>
+                                        <button>Test Query</button>
+                                    </p>
+                                    <hr />
+                                </>
+                            );
+                        })}
+                </div>
+            </div>
+        </>
     );
 };
 

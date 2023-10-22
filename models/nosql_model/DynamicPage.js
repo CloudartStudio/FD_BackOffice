@@ -20,6 +20,10 @@ class DynamicPage extends DynamicBase {
     static async GetOne(id) {
         return super._BaseGetOne(id, "Pages");
     }
+
+    static async BaseGetByQuery(query) {
+        return super._BaseGetByQuery(query, "Pages");
+    }
 }
 
 export default DynamicPage;

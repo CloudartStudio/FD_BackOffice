@@ -3,19 +3,17 @@ import IconSelector from "../../components/IconSelector";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Visualizer({ visualizerData, Link, SectionID }) {
+export default function Visualizer({ visualizerData }) {
     const [DataValue, SetDataValue] = useState("");
 
     useEffect(() => {
         const GetDataForSection = async () => {
+            console.log("visualizerData", visualizerData);
             try {
-                console.log("API CALL");
                 const response = await axios.post(
                     "http://localhost:3000/api/query/SimpleSelect",
                     {
-                        ConfigID: visualizerData.ConfigID,
-                        Link: Link,
-                        SectionID: SectionID,
+                        ConfigID: visualizerData._id,
                     }
                 );
                 SetDataValue(response.data[visualizerData.returnName]);

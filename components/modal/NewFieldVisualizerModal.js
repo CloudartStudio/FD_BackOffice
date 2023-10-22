@@ -5,6 +5,7 @@ import axios from "axios";
 export default function NewFieldVisualizerModal({
     isOpen,
     onActionCloseModal,
+    SectionID,
 }) {
     const label1_Input = useRef(null);
     const info_Input = useRef(null);
@@ -21,6 +22,7 @@ export default function NewFieldVisualizerModal({
             ValueInfo: valueinfo_Input.current.value,
             ReturnName: returnName_Input.current.value,
             Query: Query_Input.current.value,
+            SectionID: SectionID,
         };
 
         const response = await axios.post(

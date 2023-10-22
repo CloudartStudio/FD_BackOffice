@@ -1,18 +1,15 @@
-import DynamicSections from "../../../models/nosql_model/DynamicSections";
+import FieldVisualizerModel from "../../../../models/nosql_model/FieldVisualizerModel";
 
-export const getReq = async (req, res) => {
+const getReq = async (req, res) => {
     const { id } = req.query;
-    let result = await DynamicSections.GetOne(id);
+    let result = await FieldVisualizerModel.GetOne(id);
     console.log("RESULT", result);
     return result;
 };
 
-//DynamicPage
-
 export default async (req, res) => {
     try {
         if (req.method === "GET") {
-            console.log("FACCIO LA GET");
             const result = await getReq(req, res);
             return res.status(200).json(result);
         } else {

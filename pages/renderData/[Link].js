@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import fetch from "node-fetch";
 import Head from "next/head";
 import FieldVisualizer from "../../components/data_component/fieldvisualizer";
@@ -18,8 +18,10 @@ const RenderData = () => {
                     "http://localhost:3000/api/dynPageConfig/" + Link
                 );
 
-                setPageConfig(await PageConfigResponse.json());
-                console.log(PageConfig);
+                const cfg = await PageConfigResponse.json();
+
+                setPageConfig(cfg);
+                console.log("PageConfig", cfg);
             }
         };
         fetchData();
@@ -30,17 +32,16 @@ const RenderData = () => {
         PageConfig.Sections && (
             <>
                 <Head>
-                    <title>MIKE</title>
+                    <title>{PageConfig.Nome}</title>
                 </Head>
                 <div>
                     {PageConfig.Sections.map((s) => {
-                        switch (s.TypeOfElement) {
-                            case 0:
+                        console.log("s", s.Tipo);
+                        switch (s.Tipo) {
+                            case "0":
                                 return (
                                     <FieldVisualizer
-                                        ConfigData={s.ConfigData}
-                                        Link={Link}
-                                        SectionID={s.ID}
+                                        ConfigData={s.Configs}
                                     ></FieldVisualizer>
                                 );
                         }

@@ -29,6 +29,21 @@ class DynamicBase {
         try {
             const id = new ObjectId(stringID);
             const db = await getDB();
+            const result = await db.collection(this.collectionName).updateOne(
+                { _id: id }, // filtro
+                { $set: this } // aggiornamenti
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async UpdateWithColl(stringID, collectionName) {
+        try {
+            const id = new ObjectId(stringID);
+            const db = await getDB();
             const result = await db.collection(collectionName).updateOne(
                 { _id: id }, // filtro
                 { $set: this } // aggiornamenti
@@ -59,6 +74,21 @@ class DynamicBase {
                 .collection(collectionName)
                 .findOne({ _id: id });
             return result;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    static async _BaseGetByQuery(Query, collectionName) {
+        try {
+            const db = await getDB();
+            //const result = await db.collection(collectionName).find(Query);
+            const result = await db
+                .collection(collectionName)
+                .find({ Link: "Test2" })
+                .toArray();
+            return result[0];
         } catch (error) {
             console.log(error);
             throw error;
