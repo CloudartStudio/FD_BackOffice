@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import fetch from "node-fetch";
 import Head from "next/head";
+import Datacharts from "../../components/data_component/datacharts";
 import FieldVisualizer from "../../components/data_component/fieldvisualizer";
 
 const RenderData = () => {
@@ -43,6 +44,12 @@ const RenderData = () => {
                                     <FieldVisualizer
                                         ConfigData={s.Configs}
                                     ></FieldVisualizer>
+                                );
+                            case "1":
+                                return (
+                                    <Datacharts
+                                        ConfigData={s.Configs}
+                                    ></Datacharts>
                                 );
                         }
                     })}

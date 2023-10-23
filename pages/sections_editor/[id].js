@@ -122,21 +122,47 @@ const SectionsEditor = () => {
                     {Configs &&
                         Configs.map((c) => {
                             console.log("c", c);
-                            return (
-                                <>
-                                    <p>Label: {c.Label1}</p>
-                                    <p>Info: {c.Info}</p>
-                                    <p>Icon: {c.IconID}</p>
-                                    <p>Value Info: {c.ValueInfo}</p>
-                                    <p>Query: {c.Query}</p>
-                                    <p>Return name: {c.returnName}</p>
-                                    <p>
-                                        <textarea>TODO</textarea>
-                                        <button>Test Query</button>
-                                    </p>
-                                    <hr />
-                                </>
-                            );
+
+                            if (typeOfSection == 0) {
+                                return (
+                                    <>
+                                        <p>Label: {c.Label1}</p>
+                                        <p>Info: {c.Info}</p>
+                                        <p>Icon: {c.IconID}</p>
+                                        <p>Value Info: {c.ValueInfo}</p>
+                                        <p>Query: {c.Query}</p>
+                                        <p>Return name: {c.returnName}</p>
+                                        <p>
+                                            <textarea>TODO</textarea>
+                                            <button>Test Query</button>
+                                        </p>
+                                        <hr />
+                                    </>
+                                );
+                            } else if (typeOfSection == 1) {
+                                return (
+                                    <>
+                                        <p>Name: {c.Name}</p>
+                                        <p>HexColor: {c.HexColor}</p>
+                                        <h5>Bars:</h5>
+                                        {c.Bars.map((B) => {
+                                            return (
+                                                <>
+                                                    <p>Label: {B.Label}</p>
+                                                    <p>
+                                                        ReturnName:{" "}
+                                                        {B.ReturnName}
+                                                    </p>
+                                                    <p>Query: {B.Query}</p>
+                                                </>
+                                            );
+                                        })}
+                                        <hr />
+                                    </>
+                                );
+                            } else if (typeOfSection == 2) {
+                            } else if (typeOfSection == 3) {
+                            }
                         })}
                 </div>
             </div>

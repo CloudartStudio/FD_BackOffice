@@ -1,6 +1,7 @@
 import DynamicPage from "../../../models/nosql_model/DynamicPage";
 import DynamicSections from "../../../models/nosql_model/DynamicSections";
 import FieldVisualizerModel from "../../../models/nosql_model/FieldVisualizerModel";
+import ChartTabModel from "../../../models/nosql_model/ChartTabModel";
 
 const fetch = async (req, res) => {
     try {
@@ -55,6 +56,26 @@ const fetch = async (req, res) => {
                             )
                         );
                     } else if (SectionResult.Tipo == 1) {
+                        await Promise.all(
+                            SectionResult.RelatedConfigData.map(
+                                async (config) => {
+                                    const configId = config.insertedId;
+                                    const Config = await ChartTabModel.GetOne(
+                                        configId
+                                    );
+
+                                    const CfgToReturn = {
+                                        Name: Config.Name,
+                                        HexColor: Config.HexColor,
+                                        Bars: Config.Bars,
+                                        _id: Config._id,
+                                    };
+                                    FinalSection.Configs = FinalSection.Configs
+                                        ? [...FinalSection.Configs, CfgToReturn]
+                                        : [CfgToReturn];
+                                }
+                            )
+                        );
                     } else if (SekctionResult.Tipo == 2) {
                     } else if (SectionResult.Tipo == 3) {
                     }

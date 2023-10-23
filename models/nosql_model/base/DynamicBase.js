@@ -86,7 +86,7 @@ class DynamicBase {
             //const result = await db.collection(collectionName).find(Query);
             const result = await db
                 .collection(collectionName)
-                .find({ Link: "Test2" })
+                .find(Query)
                 .toArray();
             return result[0];
         } catch (error) {
