@@ -9,8 +9,8 @@ import style from "../../styles/layout.module.css";
 const Layout = ({ children }) => {
     const [MenuData, setMenuData] = useState([]);
 
-    const [isOpenLeftMenu, setIsOpenLeftMenu] = useState(false);
-    const [isOpenRightMenu, setIsOpenRightMenu] = useState(false);
+    const [isOpenLeftMenu, setIsOpenLeftMenu] = useState(true);
+    const [isOpenRightMenu, setIsOpenRightMenu] = useState(true);
 
     const handleLeftMenu = () => {
         console.log("OPEN LEFT MENU");
