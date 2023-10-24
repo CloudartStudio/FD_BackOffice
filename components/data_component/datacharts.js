@@ -3,7 +3,7 @@ import CustomBarChart from "./CustomBarChart";
 
 export default function Datacharts({ ConfigData }) {
     return (
-        <div className={style.GraphSection}>
+        <div className={style.ChartSection}>
             {ConfigData &&
                 ConfigData.map((v, index) => {
                     console.log(v);
