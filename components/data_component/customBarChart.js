@@ -42,18 +42,16 @@ export default function CustomBarChart({ Graph }) {
             {Graph &&
                 Graph.Bars.map((b, index) => {
                     console.log("b", b);
-                    // const data = {
-                    //     labels: b.map((bars) => {
-                    //         b.Label;
-                    //     }),
-                    //     datasets: [
-                    //         {
-                    //             label: b.Label,
-                    //             data: b.map(() => 550),
-                    //             backgroundColor: Graph.HexColor,
-                    //         },
-                    //     ],
-                    // };
+                    const data = {
+                        labels,
+                        datasets: [
+                            {
+                                label:" b.Label",
+                                data: labels.map(() => 550),
+                                backgroundColor: Graph.HexColor,
+                            },
+                        ],
+                    };
                     return <Bar options={options} data={data} />; //TODO -> VA INGLOBATO IN UN COMPONENTE
                 })}
         </span>
