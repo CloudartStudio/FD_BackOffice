@@ -1,0 +1,121 @@
+.InfoContainer {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.FieldContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.InputContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.ModalField {
+    flex: 1;
+    margin: 10px 0px;
+    display: flex;
+    vertical-align: top;
+}
+
+.ModalField input[type="text"],
+.ModalField input[type="email"],
+.ModalField input[type="tel"],
+.ModalField input[type="date"],
+.ModalField input[type="number"] {
+    width: 90%;
+    background-color: #6dacff37;
+    border: none;
+    border-radius: 5px;
+    color: #004aad;
+    font-weight: 600;
+    height: 4vh;
+    margin-top: 10px;
+    font-size: 1rem;
+    border-bottom: 2px solid #004aad;
+}
+
+
+.ModalField input[type="date"] {
+    background-color: white;
+}
+
+.ModalField label,
+.FullModalFieldSection label {
+    color: #004aaddd;
+    font-weight: 700;
+    text-align: left;
+}
+
+.ModalField input:focus {
+    border: none;
+}
+
+
+.SectionLine {
+    display: flex;
+    flex-direction: row;
+    background-color: #004aadbb;
+    padding: 15px;
+    margin: 10px 0px;
+    border-radius: 10px;
+    color: #004aad;
+}
+.SectionLine .Cell {
+    flex: 8;
+    display: flex;
+}
+
+.SectionLine div p.SectionCell {
+    background-color: white;
+    padding: 15px 25px;
+    height: min-content;
+    vertical-align: middle;
+    border-radius: 10px;
+}
+
+.SectionCell input {
+    width: 100%;
+    background-color: #6dacff37;
+    border: none;
+    border-radius: 5px;
+    color: #004aad;
+    font-weight: 600;
+    height: 4vh;
+    margin-top: 10px;
+    font-size: 1rem;
+    border-bottom: 2px solid #004aad;
+}
+
+.SectionCell label {
+    color: #004aaddd;
+    font-weight: 700;
+    text-align: left;
+}
+
+.ModalField input:focus {
+    border: none;
+}
+
+.ButtonStandard {
+    border: none;
+    background: #00357be4;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    transition: all 0.5s;
+    color: white;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.ButtonStandard:hover {
+    transform: scale(1.1);
+    background: white;
+    color: #00357be4;
+}
