@@ -18,7 +18,8 @@
         "next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
-        "pages/manage_pages.js"
+        "pages/manage_pages.js",
+        "components/data_component/customBarChart.js"
     ],
     "exclude": ["node_modules"]
 }

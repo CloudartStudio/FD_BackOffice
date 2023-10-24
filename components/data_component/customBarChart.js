@@ -19,42 +19,61 @@ ChartJS.register(
     Legend
 );
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = ["January", "February"];
 
 export default function CustomBarChart({ Graph }) {
-    console.log("Graph", Graph);
-
     const options = {
         responsive: true,
         plugins: {
             legend: {
-                position: "bottom",
+                display: false,
             },
             title: {
                 display: true,
-                text: Graph.Name,
+                text: "Graph.Name",
+                color: "#FFFFFF",
             },
         },
+        scales: {
+            x: {
+                ticks: {
+                    color: "#FFFFFF",
+                },
+                grid: {
+                    color: "#FFFFFF",
+                },
+            },
+            y: {
+                ticks: {
+                    color: "#FFFFFF",
+                },
+                grid: {
+                    color: "#FFFFFF",
+                },
+            },
+        },
+    };
+
+    const data = {
+        labels,
+        datasets: [
+            {
+                label: "b.Label", // Corretto da "b.Label" a b.Label
+                data: labels.map(() => 550),
+                backgroundColor: labels.map(() => "#FFFFFFbb"),
+            },
+        ],
     };
 
     return (
         <span>
             {Graph &&
                 Graph.Bars.map((b, index) => {
-                    console.log("b", b);
-                    // const data = {
-                    //     labels: b.map((bars) => {
-                    //         b.Label;
-                    //     }),
-                    //     datasets: [
-                    //         {
-                    //             label: b.Label,
-                    //             data: b.map(() => 550),
-                    //             backgroundColor: Graph.HexColor,
-                    //         },
-                    //     ],
-                    // };
-                    return <Bar options={options} data={data} />; //TODO -> VA INGLOBATO IN UN COMPONENTE
+                    return (
+                        <div className={style.chartContainer}>
+                            <Bar options={options} data={data} />
+                        </div>
+                    );
                 })}
         </span>
     );
