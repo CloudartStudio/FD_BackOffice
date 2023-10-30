@@ -1,12 +1,13 @@
 import Head from "next/head";
 import fetch from "node-fetch";
 import { useState, useEffect } from "react";
-import { RiMenu2Fill, RiMenu3Fill, RiMoneyEuroBoxFill } from "react-icons/ri";
 import style from "../../styles/modernlayout.module.css";
 import ModernMenu from "../../components/layout/modernMenu";
+import IconSelector from "../IconSelector";
 
 const ModernLayout = ({ children }) => {
     const [MenuData, setMenuData] = useState([]);
+    const [IsFullScreen, setISFullScreen] = useState(false);
 
     const handleLeftMenu = () => {
         console.log("OPEN LEFT MENU");
@@ -52,8 +53,15 @@ const ModernLayout = ({ children }) => {
             </Head>
 
             <main className={style.main}>
-                <ModernMenu MenuData={MenuData}></ModernMenu>
-                <div className={style.mainbase}>{children}</div>
+                <ModernMenu MenuData={MenuData} IsFullScreen={IsFullScreen}></ModernMenu>
+                <div className={`${style.mainbase} ${IsFullScreen ? style.expanded : ''}`}>{children}</div>
+                <div className={style.IconMain} onClick={ () => {
+                    setISFullScreen(!IsFullScreen);
+                }}>
+                {IsFullScreen && <IconSelector IconSelector="SmallScreen"></IconSelector>}
+                {!IsFullScreen && <IconSelector IconSelector="FullScreen"></IconSelector>}
+                </div>
+
             </main>
         </>
     );

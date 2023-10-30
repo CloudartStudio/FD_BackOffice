@@ -6,7 +6,13 @@ import {
     RiEdit2Line,
     RiInformationFill,
     RiPagesFill,
+    
 } from "react-icons/ri";
+
+import { 
+    AiOutlineFullscreen,
+    AiOutlineFullscreenExit
+ } from "react-icons/ai";
 
 export default function IconSelector({ IconSelector }) {
     switch (IconSelector) {
@@ -24,6 +30,10 @@ export default function IconSelector({ IconSelector }) {
             return <RiInformationFill></RiInformationFill>;
         case "section":
             return <RiPagesFill></RiPagesFill>;
+        case "FullScreen":
+            return <AiOutlineFullscreen></AiOutlineFullscreen>
+        case "SmallScreen":
+            return <AiOutlineFullscreenExit></AiOutlineFullscreenExit>;
         case "wait":
             return <p>attendi</p>;
     }

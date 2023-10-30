@@ -38,7 +38,7 @@ MAIN ELEMNT ARANCIO:
     display: inline-block;
     height: 100vh;
     width: 10vw;
-    padding-top: 9vh;
+    padding-top: 12vh;
 }
 
 .menubase nav ul {
@@ -92,7 +92,7 @@ MAIN ELEMNT ARANCIO:
 }
 
 .mainbase {
-    background-color: #22222200;
+    background-color: #2222224f;
     display: flex;
     position: fixed;
     top: 10vh;
@@ -102,4 +102,27 @@ MAIN ELEMNT ARANCIO:
     border-radius: 10px;
     z-index: 100;
     transition: all 0.3s;
+}
+
+.expanded {
+    top: 2vh;
+    left: 1vw;
+    width: 95.5vw;
+    height: 96vh;
+    background-color: #2222227f;
+}
+
+.IconMain {
+    display: block;
+    position: fixed;
+    top: 2vh;
+    font-size: 2rem;
+    right: 2vh;
+    opacity: 0.6;
+    transition: all 0.3s;
+}
+
+.IconMain:hover {
+    opacity: 1;
+    transform: scale(1.15);
 }
