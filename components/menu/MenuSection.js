@@ -29,39 +29,40 @@ export default function MenuSection({ baseSection, PrevLevel, verticalOrder }) {
 
     return (
         <>
-            <li>
-                {baseSection.IsLeft && (
+            {baseSection.IsLeft && (
+                <li
+                    style={{
+                        backgroundColor: `${
+                            isOpen ? "#53c6fb" : "transparent"
+                        }`,
+                    }}
+                >
                     <a
                         onClick={handleOpenSubMenu}
                         href={"renderData/" + baseSection.Link}
-                        style={{
-                            left: `${PrevLevel * 13 + 1}dvw`,
-                            top: `${verticalOrder * 70 + 30}px`,
-                            backgroundColor: `${
-                                isOpen ? "#53c6fb" : "#004aad"
-                            }`,
-                        }}
                     >
                         {baseSection.Label}
                     </a>
-                )}
+                </li>
+            )}
 
-                {!baseSection.IsLeft && (
+            {!baseSection.IsLeft && (
+                <li
+                    style={{
+                        backgroundColor: `${
+                            isOpen ? "#53c6fb" : "transparent"
+                        }`,
+                    }}
+                >
                     <a
                         onClick={handleOpenSubMenu}
                         href={"/" + baseSection.Link}
-                        style={{
-                            right: `${PrevLevel * 13 + 1}dvw`,
-                            top: `${verticalOrder * 70 + 30}px`,
-                            backgroundColor: `${
-                                isOpen ? "#53c6fb" : "#004aad"
-                            }`,
-                        }}
                     >
                         {baseSection.Label}
                     </a>
-                )}
-            </li>
+                </li>
+            )}
+
             {isOpen && (
                 <>
                     <div className={style.ModalContainer}></div>

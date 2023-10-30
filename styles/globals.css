@@ -84,18 +84,6 @@ ul {
 
 /* CARD */
 
-.SimpleCard {
-    width: 20vw;
-    background-color: #004aad;
-    display: inline-block;
-    text-align: center;
-    margin: 8vh 8vw;
-    color: white;
-    border-radius: 4px;
-    opacity: 0.9;
-    border: none;
-}
-
 .SimpleCard.Clickable {
     background-color: #2f71c7;
     cursor: grab;

@@ -1,0 +1,84 @@
+.HomeContainer {
+    display: block;
+}
+
+.BadgeAndButtonContainer {
+    height: 30%;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.BadgeContainer {
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    flex: 3;
+}
+
+.BadgeAndButtonContainer .BtnContainer {
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.BadgeAndButtonContainer .BtnContainer button {
+    background-color: #2d70d4a1;
+    flex: 1;
+    text-align: center;
+    color: #222;
+    border-radius: 4px;
+    opacity: 0.9;
+    border: none;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+}
+
+.SimpleCard {
+    flex: 1;
+    text-align: center;
+    color: #222;
+    border: none;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: min-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+}
+
+.SimpleCard .SimpleCardlabel {
+    background-color: #ff7721a1;
+    border-radius: 4px 4px 0px 0px;
+    opacity: 0.9;
+    height: min-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    font-weight: 600;
+}
+
+.SimpleCard .SimpleCardValue {
+    background-color: #d45100a1;
+    border-radius: 0px 0px 4px 4px;
+    opacity: 0.9;
+    height: min-content;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    width: 100%;
+    font-weight: 800;
+}
+
+.SimpleCard h3 {
+    margin: 0px;
+}
+
+.HomeContent {
+    height: 70%;
+    width: 100%;
+}

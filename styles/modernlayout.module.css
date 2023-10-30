@@ -1,0 +1,105 @@
+/* 
+COLORI::
+MENU TONALITA DI BLU::
+1-2d5497
+2-5487de
+3-00399c
+
+MAIN BASE GRIGIO SCURO : 1b212b
+
+MAIN ELEMNT ARANCIO:
+1-E67D3A
+2-f78339
+3-fc4e03
+*/
+
+.main {
+    position: relative;
+}
+
+.menubase {
+    background: rgb(98, 126, 175);
+    background: linear-gradient(
+        180deg,
+        rgb(67, 94, 139) 9%,
+        rgba(45, 84, 151, 1) 33%,
+        rgba(0, 57, 156, 1) 100%
+    );
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    top: 0vh;
+    left: 0vw;
+    width: 100vw;
+    height: 100vh;
+}
+
+.menubase nav {
+    display: inline-block;
+    height: 100vh;
+    width: 10vw;
+    padding-top: 9vh;
+}
+
+.menubase nav ul {
+    width: 100%;
+    padding: 0px;
+}
+
+.menubase nav ul li {
+    border-top: 1px solid #333c;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+}
+
+.menubase nav ul li:hover {
+    background-color: #5487de !important;
+    font-weight: 800;
+}
+
+.menubase nav a {
+    color: black;
+    text-decoration: none;
+    padding: auto 5px;
+}
+
+.menubase .CentralMenuContent {
+    display: inline-block;
+    width: 80vw;
+}
+
+.menubase .CentralMenuContent .CentralTopSection {
+    margin: 0px;
+    text-align: center;
+    height: 7vh;
+    min-height: 40px;
+}
+
+.menubase .CentralMenuContent .CentralTopSection h1,
+.menubase .CentralMenuContent .CentralTopSection h3,
+.menubase .CentralMenuContent .CentralTopSection i {
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.menubase .CentralMenuContent .CentralMidSection {
+    height: 90vh;
+}
+
+.menubase .CentralMenuContent .CentralBottomSection {
+    height: 3vh;
+}
+
+.mainbase {
+    background-color: #22222200;
+    display: flex;
+    position: fixed;
+    top: 10vh;
+    left: 10vw;
+    width: 80vw;
+    height: 87vh;
+    border-radius: 10px;
+    z-index: 100;
+    transition: all 0.3s;
+}
