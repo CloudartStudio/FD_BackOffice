@@ -147,7 +147,7 @@
 }
 
 .ModalFieldSection input[type="text"] {
-    color: black;
+    color: rgb(57, 57, 57);
     width: 90%;
     background-color: #fffd;
     border: none;

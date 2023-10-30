@@ -15,6 +15,7 @@ MAIN ELEMNT ARANCIO:
 
 .main {
     position: relative;
+    color: rgb(57, 57, 57);
 }
 
 .menubase {
@@ -38,7 +39,7 @@ MAIN ELEMNT ARANCIO:
     display: inline-block;
     height: 100vh;
     width: 10vw;
-    padding-top: 12vh;
+    padding-top: 8vh;
 }
 
 .menubase nav ul {
@@ -47,10 +48,14 @@ MAIN ELEMNT ARANCIO:
 }
 
 .menubase nav ul li {
-    border-top: 1px solid #333c;
+    /* border-top: 1px solid #333c; */
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 5px;
+    text-align: center;
+    background-color: #ffffff0f !important;
+    margin: 5px 7px;
+    border-radius: 5px;
 }
 
 .menubase nav ul li:hover {
@@ -59,9 +64,11 @@ MAIN ELEMNT ARANCIO:
 }
 
 .menubase nav a {
-    color: black;
+    color: rgb(57, 57, 57);
     text-decoration: none;
-    padding: auto 5px;
+    padding: 5px;
+    text-align: center;
+    font-weight: 600;
 }
 
 .menubase .CentralMenuContent {
@@ -72,13 +79,24 @@ MAIN ELEMNT ARANCIO:
 .menubase .CentralMenuContent .CentralTopSection {
     margin: 0px;
     text-align: center;
-    height: 7vh;
-    min-height: 40px;
+    min-height: 20px;
+}
+
+.menubase .CentralMenuContent .CentralTopSection div {
+    background-color: #ffffff06;
+    display: block;
+    margin: auto;
+    padding: 10px 15vw;
+    margin-top: 1vh;
+    width: 20vw;
+    border-radius: 10px;
+    color: rgb(57, 57, 57);
 }
 
 .menubase .CentralMenuContent .CentralTopSection h1,
 .menubase .CentralMenuContent .CentralTopSection h3,
 .menubase .CentralMenuContent .CentralTopSection i {
+    margin: 0px;
     margin-left: 5px;
     display: inline-block;
 }
@@ -102,6 +120,8 @@ MAIN ELEMNT ARANCIO:
     border-radius: 10px;
     z-index: 100;
     transition: all 0.3s;
+    justify-content: center; /* allinea orizzontalmente */
+    align-items: start; /* allinea verticalmente */
 }
 
 .expanded {
@@ -115,11 +135,15 @@ MAIN ELEMNT ARANCIO:
 .IconMain {
     display: block;
     position: fixed;
-    top: 2vh;
+    top: 1vh;
     font-size: 2rem;
-    right: 2vh;
+    right: 1vh;
     opacity: 0.6;
     transition: all 0.3s;
+    background-color: #ffffff0f !important;
+    height: 2rem;
+    padding: 4px;
+    border-radius: 5px;
 }
 
 .IconMain:hover {

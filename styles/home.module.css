@@ -1,23 +1,30 @@
 .HomeContainer {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
 }
 
 .BadgeAndButtonContainer {
-    height: 30%;
-    width: 80vw;
     display: flex;
     flex-direction: column;
+    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
 }
 
 .BadgeContainer {
-    width: 80vw;
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex: 3;
 }
 
 .BadgeAndButtonContainer .BtnContainer {
-    width: 80vw;
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex: 1;
@@ -27,7 +34,7 @@
     background-color: #2d70d4a1;
     flex: 1;
     text-align: center;
-    color: #222;
+    color: rgb(57, 57, 57);
     border-radius: 4px;
     opacity: 0.9;
     border: none;
@@ -42,7 +49,7 @@
 .SimpleCard {
     flex: 1;
     text-align: center;
-    color: #222;
+    color: rgb(57, 57, 57);
     border: none;
     margin-left: 20px;
     margin-right: 20px;
@@ -50,6 +57,11 @@
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 20px;
+    transition: All 0.4s;
+}
+
+.SimpleCard:hover {
+    flex: 2;
 }
 
 .SimpleCard .SimpleCardlabel {
