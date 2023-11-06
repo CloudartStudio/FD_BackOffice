@@ -17,6 +17,11 @@ header h1 {
     font-size: 3rem;
 }
 
+::-webkit-scrollbar {
+    width: 7px; /* width of vertical scrollbar */
+    border: 1px solid #d5d5d5;
+}
+
 header h1 .Customer-Header-Section .Logo-Small {
     display: inline-block;
     width: 2.5rem;

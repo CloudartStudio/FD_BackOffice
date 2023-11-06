@@ -1,0 +1,37 @@
+.tabContainer {
+    border-radius: 5px;
+    padding: 20px 10px;
+    background-color: #ffffff11;
+    margin: 14px;
+}
+
+.tabs {
+    display: flex;
+}
+
+.tabs button {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    transition: border-color 0.3s;
+    text-align: center;
+    color: rgb(47, 47, 47);
+    font-weight: 600;
+    border-bottom: 2px solid #d45100a1;
+}
+.tabs button:hover {
+    border-bottom: 2px solid #2d70d4a1;
+}
+.tabs button.active {
+    border-bottom: 5px solid #d45100a1;
+    padding-bottom: -3px;
+}
+
+.tabcontentActive {
+    display: block !important;
+}
+
+.tabcontentHidden {
+    display: none !important;
+}

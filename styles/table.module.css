@@ -6,42 +6,64 @@
     border: none;
     margin: auto;
     margin-top: 3vh;
-    box-shadow: 1px 1px 10px #000;
     border-radius: 10px;
 }
 
 .TableBase .TableHeadBox {
-    background-color: #004aadbb;
+    background-color: #ff7721a1;
     border-radius: 10px 10px 0px 0px;
+    color: rgb(47, 47, 47);
+    font-weight: 800;
+    font-size: 1.3rem;
+    padding: 5px;
 }
 
 .TableBase .TableBodyBox {
-    height: 60vh;
+    min-height: 20vh;
     border-radius: 0px 0px 10px 10px;
-    border: 5px solid #004aadbb;
+    border: 5px solid #ff7721a1;
 }
 
 .TableBaseRow {
     display: flex;
 }
 
-.TableBaseRowWhite {
-    display: flex;
-    background-color: #ffffffbb;
-    color: #004aadbb;
+.TabIconBtn {
+    background-color: #ffffff52 !important;
+    border: none;
+    font-size: 1rem;
+    height: 2rem;
+    padding: 4px 8px;
+    border-radius: 5px;
+    transition: all 0.3s;
 }
 
-.TableBaseRowWhite div,
+.TabIconBtn:hover {
+    transform: scale(1.1);
+}
+
+.TableBaseRowWhite {
+    display: flex;
+    background-color: transparent;
+    color: rgb(47, 47, 47);
+    font-weight: 600;
+}
+
+.TableBaseRowWhite div {
+    border-left: 1px solid #ff772131;
+    border-right: 1px solid #ff772131;
+    padding: 6px 0px;
+}
+
 .TableBaseRowBlue div {
-    border-left: 1px solid #004aadbb;
-    border-right: 1px solid #004aadbb;
     padding: 6px 0px;
 }
 
 .TableBaseRowBlue {
     display: flex;
-    background-color: #004aadbb;
-    color: white;
+    background-color: #ff7721a1;
+    color: rgb(37, 37, 37);
+    font-weight: 600;
 }
 
 .TableEndRow {

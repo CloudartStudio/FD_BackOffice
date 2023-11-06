@@ -94,3 +94,17 @@
     height: 70%;
     width: 100%;
 }
+
+.GoToPageBtn {
+    color: rgb(57, 57, 57);
+    background-color: #2d70d4a1;
+    padding: 10px 40px;
+    border-radius: 5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.GoToPageBtn:hover {
+    background-color: #689ceaa1;
+}

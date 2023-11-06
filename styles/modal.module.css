@@ -14,12 +14,12 @@
     background-color: #6dacff37;
     border: none;
     border-radius: 5px;
-    color: #004aad;
+    color: white;
     font-weight: 600;
     height: 4vh;
     margin-top: 10px;
     font-size: 1rem;
-    border-bottom: 2px solid #004aad;
+    border-bottom: 2px solid #e67d3a;
 }
 
 .FullModalFieldSection textarea {
@@ -32,7 +32,7 @@
     height: 15vh;
     margin-top: 10px;
     font-size: 1rem;
-    border-bottom: 2px solid #004aad;
+    border-bottom: 2px solid #e67d3a;
 }
 
 .FullModalFieldSection .SectionLine {
@@ -82,12 +82,12 @@
     background-color: #6dacff37;
     border: none;
     border-radius: 5px;
-    color: #004aad;
+    color: white;
     font-weight: 600;
     height: 4vh;
     margin-top: 10px;
     font-size: 1rem;
-    border-bottom: 2px solid #004aad;
+    border-bottom: 2px solid #e67d3a;
 }
 
 .FullModalFieldSection .SectionLine div button {
@@ -117,8 +117,7 @@
 
 .ModalField label,
 .FullModalFieldSection label {
-    color: #004aaddd;
-    font-weight: 700;
+    color: white;
     text-align: left;
 }
 
@@ -194,30 +193,15 @@
     cursor: pointer;
 }
 
-.ModalContainer {
-    width: 100vw;
-    height: 100vh;
-    background: #6b7888dd;
-    display: block;
-    position: fixed;
-    z-index: 10000000;
-    top: 0;
-    left: 0;
-}
-
 .Modal {
     border: none;
     margin: auto;
-    margin-top: 5vh;
-    height: 82vh;
-    width: 92vw;
-    border-radius: 10px;
 }
 
 .ModalHeader {
     font-size: 2rem;
     position: relative;
-    background-color: #004aadbb;
+    background-color: transparent;
     border-radius: 10px 10px 0px 0px;
     color: white;
 }
@@ -259,37 +243,40 @@
     font-size: 1.3rem;
     overflow-y: scroll;
     height: 70vh;
-    background-color: #fffb;
+    background-color: #00000000;
 }
 
 .ModalFoot {
     text-align: right;
-    background-color: #004aadbb;
-    padding: 20px;
+    background-color: transparent;
     border-radius: 0px 0px 10px 10px;
 }
 
 .ModalFoot button {
     border: none;
+    margin-top: 2vh;
+    margin-right: 3vw;
 }
 
 .ModalFoot button.Success {
-    background: #00357be4;
-    padding: 12px;
+    background: white;
+    padding: 6px 12px;
     border-radius: 4px;
     font-size: 1.2rem;
-    font-weight: 600;
+
     letter-spacing: 0.1rem;
     transition: all 0.5s;
-    color: white;
+    color: #00357be4;
     cursor: pointer;
     transition: all 0.4s;
+    font-weight: 600;
 }
 
 .ModalFoot button.Success:hover {
     transform: scale(1.1);
     background: white;
     color: #00357be4;
+    font-weight: 600;
 }
 
 .ModalFoot button.Cancel {

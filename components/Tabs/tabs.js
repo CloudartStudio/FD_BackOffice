@@ -1,5 +1,3 @@
-// components/Tabs.js
-
 import React, { useState } from "react";
 
 export default function Tabs({ data }) {

@@ -7,6 +7,7 @@ export default function Table1({
     body_data,
     footer_action,
     row_actions,
+    isPreview,
     Title = null,
     Description = null,
 }) {
@@ -29,23 +30,42 @@ export default function Table1({
                         {head_data.map((tr) => {
                             return (
                                 <>
-                                    {Title && (
-                                        <div className={style.TableBaseRow}>
-                                            <h3>{Title}</h3>
-                                        </div>
+                                    {!isPreview && (
+                                        <>
+                                            {Title && (
+                                                <div
+                                                    className={
+                                                        style.TableBaseRow
+                                                    }
+                                                >
+                                                    <h3>{Title}</h3>
+                                                </div>
+                                            )}
+                                            {Description && (
+                                                <div
+                                                    className={
+                                                        style.TableBaseRow
+                                                    }
+                                                >
+                                                    <i>{Description}</i>
+                                                </div>
+                                            )}
+                                            {footer_action && (
+                                                <div
+                                                    className={
+                                                        style.TableEndRow
+                                                    }
+                                                >
+                                                    <button
+                                                        onClick={footer_action}
+                                                    >
+                                                        Add
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </>
                                     )}
-                                    {Description && (
-                                        <div className={style.TableBaseRow}>
-                                            <i>{Description}</i>
-                                        </div>
-                                    )}
-                                    {footer_action && (
-                                        <div className={style.TableEndRow}>
-                                            <button onClick={footer_action}>
-                                                Add
-                                            </button>
-                                        </div>
-                                    )}
+
                                     <div className={style.TableBaseRow}>
                                         {tr.col.map((th) => {
                                             return (
@@ -58,33 +78,12 @@ export default function Table1({
                                                 </div>
                                             );
                                         })}
-
-                                        {/* {row_actions &&
-                                            row_actions.map((action) => {
-                                                return (
-                                                    <div
-                                                        className={
-                                                            style.TableBaseHeader
-                                                        }
-                                                    >
-                                                        <button
-                                                            onClick={
-                                                                action.doAction
-                                                            }
-                                                            title={
-                                                                action.actionTitle
-                                                            }
-                                                        >
-                                                            {action.icon}
-                                                        </button>
-                                                    </div>
-                                                );
-                                            })} */}
                                     </div>
                                 </>
                             );
                         })}
                     </div>
+
                     <div className={style.TableBodyBox}>
                         {body_data.map((tr, index) => {
                             console.log("TR", tr);
@@ -113,6 +112,7 @@ export default function Table1({
                                     })}
                                     <div className={style.TableBaseCell}>
                                         <button
+                                            className={style.TabIconBtn}
                                             onClick={() => {
                                                 setOpenModalNewPage(true);
                                                 setEditPageId(cellTd[0]);

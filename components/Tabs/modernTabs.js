@@ -1,61 +1,37 @@
 // components/Tabs.js
-
+import style from "../../styles/tabs.module.css";
 import React, { useState } from "react";
 
 export default function Tabs({ data }) {
     const [activeTab, setActiveTab] = useState(data[0].label);
 
     return (
-        <div>
-            <div className="tabs">
+        <div className={style.tabContainer}>
+            <div className={style.tabs}>
                 {data.map((tab, index) => (
                     <button
                         key={index}
-                        className={activeTab === tab.label ? "active" : ""}
+                        className={activeTab === tab.label ? style.active : ""}
                         onClick={() => setActiveTab(tab.label)}
                     >
                         {tab.label}
                     </button>
                 ))}
             </div>
-            <div className="tab-content">
+            <div className={style.tabcontent}>
                 {data.map((tab, index) => (
                     <div
                         key={index}
                         className={
-                            activeTab === tab.label ? "active" : "hidden"
+                            activeTab === tab.label
+                                ? style.tabcontentActive
+                                : style.tabcontentHidden
                         }
                     >
                         {tab.content}
                     </div>
                 ))}
             </div>
-            <style jsx>{`
-                .tabs {
-                    display: flex;
-                    border-bottom: 1px solid #ccc;
-                }
-                .tabs button {
-                    padding: 10px 15px;
-                    cursor: pointer;
-                    border: none;
-                    background-color: transparent;
-                    border-bottom: 2px solid transparent;
-                    transition: border-color 0.3s;
-                }
-                .tabs button:hover {
-                    border-bottom-color: #0070f3;
-                }
-                .tabs button.active {
-                    border-bottom-color: #0070f3;
-                }
-                .tab-content > div {
-                    display: none;
-                }
-                .tab-content > div.active {
-                    display: block;
-                }
-            `}</style>
         </div>
     );
 }
