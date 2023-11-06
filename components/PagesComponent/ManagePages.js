@@ -3,6 +3,7 @@ import Head from "next/head";
 import NewPageModal from "../../components/modal/NewPageModal";
 import Table1 from "../../components/table/Table1";
 import fetch from "node-fetch";
+import style from "../../styles/table.module.css";
 
 export default function ManagePages({ isPreview = false }) {
     const [openModalNewPage, setOpenModalNewPage] = useState(false);
@@ -63,7 +64,7 @@ export default function ManagePages({ isPreview = false }) {
                 isOpen={openModalNewPage}
                 onActionCloseModal={HandleCloseNewPage}
             ></NewPageModal>
-            <div>
+            <div className={isPreview ? "" : style.PageContainer}>
                 <div>
                     {TableData && (
                         <Table1
