@@ -1,16 +1,13 @@
 import DynamicPage from "../../../models/nosql_model/DynamicPage";
 import DynamicSections from "../../../models/nosql_model/DynamicSections";
+import { ObjectId } from "mongodb";
 
 const postReq = async (req, res) => {
     const newSections = [];
 
     if (req.body.PageObj.RelatedSections) {
         for (const s of req.body.PageObj.RelatedSections) {
-            const dynSectionRequest = new DynamicSections(
-                s.NomeSezione,
-                s.VerticalOrder,
-                s.Tipo
-            );
+            const dynSectionRequest = new DynamicSections(s.NomeSezione, s.VerticalOrder, s.Tipo);
 
             const dynSection = await dynSectionRequest.save();
 
@@ -18,12 +15,7 @@ const postReq = async (req, res) => {
         }
     }
 
-    const dynPageRequest = new DynamicPage(
-        req.body.PageObj.Nome,
-        req.body.PageObj.Link,
-        req.body.PageObj.MinRole,
-        newSections
-    );
+    const dynPageRequest = new DynamicPage(req.body.PageObj.Nome, req.body.PageObj.Link, req.body.PageObj.MinRole, newSections);
 
     const dynPage = await dynPageRequest.save();
 
@@ -36,14 +28,14 @@ const postReq = async (req, res) => {
 };
 
 const putReq = async (req, res) => {
-    const dynPageRequest = new DynamicPage(
-        req.body.PageObj.Nome,
-        req.body.PageObj.Link,
-        req.body.PageObj.MinRole,
-        req.body.PageObj.RelatedSections
-    );
+    var RelatedSections = [];
+    req.body.PageObj.RelatedSections.map((section) => {
+        RelatedSections.push(new ObjectId(section._id));
+    });
 
-    const dynPage = await dynPageRequest.save();
+    const PageToUpdate = new DynamicPage(req.body.PageObj.Nome, req.body.PageObj.Link, req.body.PageObj.MinRole, RelatedSections); // = await DynamicPage.GetOne(req.body.PageObj.ID);
+
+    const dynPage = await PageToUpdate.Update(req.body.PageObj.ID);
 
     const returnObj = {
         page: dynPage,

@@ -15,9 +15,7 @@ const RenderData = () => {
             if (Link) {
                 console.log(Link);
                 //CHIAMATA AL API PER LE CONFIGURAZIONI PASSANDO IL LINK
-                const PageConfigResponse = await fetch(
-                    "http://localhost:3000/api/dynPageConfig/" + Link
-                );
+                const PageConfigResponse = await fetch("http://localhost:3000/api/dynPageConfig/" + Link);
 
                 const cfg = await PageConfigResponse.json();
 
@@ -38,19 +36,12 @@ const RenderData = () => {
                 <div>
                     {PageConfig.Sections.map((s) => {
                         console.log("s", s.Tipo);
+                        console.log("SECTION", s);
                         switch (s.Tipo) {
                             case "0":
-                                return (
-                                    <FieldVisualizer
-                                        ConfigData={s.Configs}
-                                    ></FieldVisualizer>
-                                );
+                                return <FieldVisualizer ConfigData={s.Configs}></FieldVisualizer>;
                             case "1":
-                                return (
-                                    <Datacharts
-                                        ConfigData={s.Configs}
-                                    ></Datacharts>
-                                );
+                                return <Datacharts ConfigData={s.Configs}></Datacharts>;
                         }
                     })}
                 </div>

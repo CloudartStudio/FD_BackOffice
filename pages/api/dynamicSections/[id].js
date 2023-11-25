@@ -1,10 +1,15 @@
 import DynamicSections from "../../../models/nosql_model/DynamicSections";
 
 export const getReq = async (req, res) => {
-    const { id } = req.query;
-    let result = await DynamicSections.GetOne(id);
-    console.log("RESULT", result);
-    return result;
+    try {
+        const { id } = req.query;
+        let result = await DynamicSections.GetOne(id);
+        console.log("RESULT", result);
+        return result;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
 };
 
 //DynamicPage

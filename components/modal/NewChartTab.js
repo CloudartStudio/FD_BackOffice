@@ -6,8 +6,8 @@ import axios from "axios";
 export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
     const [Bars, SetBars] = useState([]);
     const GraphName_input = useRef(null);
-    const GraphColor_input = useRef(null);
     const BarReturnName_input = useRef(null);
+    const BarColor_input = useRef(null);
     const BarLabel_input = useRef(null);
     const BarQuery_input = useRef(null);
 
@@ -15,10 +15,12 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
         const Label = BarLabel_input.current.value;
         const Query = BarQuery_input.current.value;
         const ReturnName = BarReturnName_input.current.value;
+        const BarColor = BarColor_input.current.value;
 
         if (Label && Query && ReturnName) {
             const newBar = {
                 Label: Label,
+                Color: BarColor,
                 Query: Query,
                 ReturnName: ReturnName,
             };
@@ -34,17 +36,13 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
     const HandleSendNewChart_PostRequest = async () => {
         const newConfig = {
             GraphName: GraphName_input.current.value,
-            HexColor: GraphColor_input.current.value,
             SectionID: SectionID,
             Bars: Bars,
         };
 
-        const response = await axios.post(
-            "http://localhost:3000/api/visualizer/chart",
-            {
-                newConfig: newConfig,
-            }
-        );
+        const response = await axios.post("http://localhost:3000/api/visualizer/chart", {
+            newConfig: newConfig,
+        });
         alert("SALVATO");
         onActionCloseModal();
     };
@@ -56,10 +54,7 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
                     <div className={style.Modal}>
                         <div className={style.ModalHeader}>
                             <h5>NUOVO GRAFICO</h5>
-                            <span
-                                onClick={onActionCloseModal}
-                                className={style.closeBtnModal}
-                            >
+                            <span onClick={onActionCloseModal} className={style.closeBtnModal}>
                                 ✖
                             </span>
                         </div>
@@ -67,24 +62,10 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
                             <div className={style.ModalField}>
                                 <label>Nome grafico</label>
                                 <br />
-                                <input
-                                    ref={GraphName_input}
-                                    type={"text"}
-                                    placeholder="Nome grafico..."
-                                    name="GraphName"
-                                ></input>
-                            </div>
-                            <div className={style.ModalField}>
-                                <label>Colore grafico (hex)</label>
-                                <br />
-                                <input
-                                    ref={GraphColor_input}
-                                    type={"text"}
-                                    placeholder="Colore grafico..."
-                                    name="GraphColor"
-                                ></input>
+                                <input ref={GraphName_input} type={"text"} placeholder="Nome grafico..." name="GraphName"></input>
                             </div>
                             <AddBars
+                                BarColor_input={BarColor_input}
                                 BarLabel_input={BarLabel_input}
                                 BarQuery_input={BarQuery_input}
                                 handleAddnewSection={handleAddnewBar}
@@ -94,10 +75,7 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
                         </div>
 
                         <div className={style.ModalFoot}>
-                            <button
-                                onClick={HandleSendNewChart_PostRequest}
-                                className={style.Success}
-                            >
+                            <button onClick={HandleSendNewChart_PostRequest} className={style.Success}>
                                 INVIA
                             </button>
                         </div>
@@ -108,13 +86,7 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
     );
 }
 
-function AddBars({
-    handleAddnewSection,
-    BarLabel_input,
-    BarQuery_input,
-    BarReturnName_input,
-    Bars,
-}) {
+function AddBars({ BarColor_input, handleAddnewSection, BarLabel_input, BarQuery_input, BarReturnName_input, Bars }) {
     return (
         <div className={style.FullModalFieldSection}>
             <label>Barre del grafico</label>
@@ -133,6 +105,13 @@ function AddBars({
                         <label>Return name</label>
                         <br></br>
                         <input ref={BarReturnName_input} type="text"></input>
+                    </p>
+                </div>
+                <div className={style.SmallCell}>
+                    <p className={style.SectionCell}>
+                        <label>Bar Color</label>
+                        <br></br>
+                        <input ref={BarColor_input} type="text"></input>
                     </p>
                 </div>
                 <div className={style.Cell}>
@@ -158,19 +137,13 @@ function AddBars({
                         return (
                             <div className={style.SectionLine}>
                                 <div className={style.SmallCell}>
-                                    <p className={style.SectionCell}>
-                                        {bar.Label}
-                                    </p>
+                                    <p className={style.SectionCell}>{bar.Label}</p>
                                 </div>
                                 <div className={style.SmallCell}>
-                                    <p className={style.SectionCell}>
-                                        {bar.ReturnName}
-                                    </p>
+                                    <p className={style.SectionCell}>{bar.ReturnName}</p>
                                 </div>
                                 <div className={style.Cell}>
-                                    <p className={style.BigSectionCell}>
-                                        {bar.Query}
-                                    </p>
+                                    <p className={style.BigSectionCell}>{bar.Query}</p>
                                 </div>
                                 <div className={style.IconCell}></div>
                             </div>

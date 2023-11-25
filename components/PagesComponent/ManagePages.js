@@ -9,15 +9,15 @@ export default function ManagePages({ isPreview = false }) {
     const [openModalNewPage, setOpenModalNewPage] = useState(false);
     const [TableData, setTableData] = useState({});
 
+    const [PageIndex, SetPageIndex] = useState(0);
+
     const HandleCloseNewPage = () => {
         setOpenModalNewPage(false);
     };
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(
-                "http://localhost:3000/api/dynamicPage"
-            );
+            const response = await fetch("http://localhost:3000/api/dynamicPage");
             const data = await response.json();
             console.log("DATA", data);
             const tempData = {
@@ -60,12 +60,10 @@ export default function ManagePages({ isPreview = false }) {
             <Head>
                 <title>Manage Page</title>
             </Head>
-            <NewPageModal
-                isOpen={openModalNewPage}
-                onActionCloseModal={HandleCloseNewPage}
-            ></NewPageModal>
+
             <div className={isPreview ? "" : style.PageContainer}>
                 <div>
+                    <NewPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage}></NewPageModal>
                     {TableData && (
                         <Table1
                             head_data={TableData.head_data}
@@ -80,9 +78,7 @@ export default function ManagePages({ isPreview = false }) {
                                 setOpenModalNewPage(true);
                             }}
                             Title={"Manage Page"}
-                            Description={
-                                "Use this page to create and Manage the page"
-                            }
+                            Description={"Use this page to create and Manage the page"}
                         ></Table1>
                     )}
                 </div>

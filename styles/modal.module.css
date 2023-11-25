@@ -60,7 +60,7 @@
 }
 
 .FullModalFieldSection .SectionLine div p.SectionCell {
-    background-color: white;
+    background-color: transparent;
     padding: 15px 25px;
     height: min-content;
     vertical-align: middle;
@@ -68,7 +68,7 @@
 }
 
 .FullModalFieldSection .SectionLine div p.BigSectionCell {
-    background-color: white;
+    background-color: transparent;
     padding: 15px 25px;
     height: min-content;
     vertical-align: middle;

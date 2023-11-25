@@ -4,11 +4,7 @@ import IconSelector from "../IconSelector";
 import axios from "axios";
 import Link from "next/link";
 
-export default function NewPageModal({
-    isOpen,
-    onActionCloseModal,
-    id = null,
-}) {
+export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) {
     //variabili di aggiunta sezioni
     const SectionName_input = useRef(null);
     const VerticalOrder_input = useRef(null);
@@ -27,55 +23,26 @@ export default function NewPageModal({
     useEffect(() => {
         const fetch = async () => {
             if (id && isOpen) {
-                //MODIFICA
                 setIsInEdit(true);
-                const resposePage = await axios.get(
-                    "http://localhost:3000/api/dynamicPage/" + id
-                );
-                const { Nome, Link, RelatedSections, MinRole } =
-                    resposePage.data;
+                const resposePage = await axios.get("http://localhost:3000/api/dynamicPage/" + id);
+                const { Nome, Link, RelatedSections, MinRole } = resposePage.data;
 
                 PageName_input.current.value = Nome;
                 Link_input.current.value = Link;
                 MinRole_input.current.value = MinRole;
 
-                RelatedSections.forEach(async (element) => {
-                    const resposeSection = await axios.get(
-                        "http://localhost:3000/api/dynamicSections/" + element
-                    );
-
-                    const { NomeSezione, VerticalOrder, Tipo, _id } =
-                        resposeSection.data;
-
-                    const newSection = {
-                        NomeSezione: NomeSezione,
-                        VerticalOrder: VerticalOrder,
-                        Tipo: Tipo,
-                        id: _id,
-                    };
-
-                    // Utilizza lo spread operator per creare una nuova copia dell'array
-                    const newPageSections = [...pageSections, newSection];
-
-                    // Imposta il nuovo stato
-                    setPageSections(newPageSections);
-                });
-
-                //FACCIO l'API DI MODIFICA
-                //RENDO IL METODO DINAMICO SU ACTIONS DELLA TABELLA
-                //FACCIO LA DELETE
-                //FACCIO l'AGGIUNTA l'EDIT E LA DELETE DELLE SEZIONI
-                //FACCIO LA PAGINA DI VISUALIZZAZIONE DELLE PAGINE CON IL VISUALIZER PER ORA
-                //FACCIO LE CUSTOM SELECT E RIFINISCO I CONTROLLI
-                //DOMANI POME DEVO ESSERE QUI
-                //FACCIO TABELLA
-                //FACCIO GRAFICO
-                //FACCIO INPUT
+                let sections = [];
+                for (const element of RelatedSections) {
+                    const responseSection = await axios.get("http://localhost:3000/api/dynamicSections/" + element);
+                    const { NomeSezione, VerticalOrder, Tipo, _id } = responseSection.data;
+                    sections.push({ NomeSezione, VerticalOrder, Tipo, _id });
+                }
+                setPageSections(sections);
             }
         };
 
         fetch();
-    }, [isOpen]);
+    }, [isOpen, id]);
 
     const handleAddnewSection = () => {
         const SectionName = SectionName_input.current.value;
@@ -104,6 +71,7 @@ export default function NewPageModal({
 
         if (PageName && Link && MinRole) {
             const PageObj = {
+                ID: id,
                 Nome: PageName_input.current.value,
                 Link: Link_input.current.value,
                 MinRole: MinRole_input.current.value,
@@ -114,19 +82,13 @@ export default function NewPageModal({
 
             if (isInEdit) {
                 PageObj["id"] = id;
-                const response = await axios.put(
-                    "http://localhost:3000/api/dynamicPage",
-                    {
-                        PageObj: PageObj,
-                    }
-                );
+                const response = await axios.put("http://localhost:3000/api/dynamicPage", {
+                    PageObj: PageObj,
+                });
             } else {
-                const response = await axios.post(
-                    "http://localhost:3000/api/dynamicPage",
-                    {
-                        PageObj: PageObj,
-                    }
-                );
+                const response = await axios.post("http://localhost:3000/api/dynamicPage", {
+                    PageObj: PageObj,
+                });
             }
         }
     };
@@ -141,17 +103,10 @@ export default function NewPageModal({
                             {isInEdit && (
                                 <h5>
                                     MODIFICA PAGINA
-                                    {PageName_input &&
-                                    PageName_input.current &&
-                                    PageName_input.current.value
-                                        ? " - " + PageName_input.current.value
-                                        : ""}
+                                    {PageName_input && PageName_input.current && PageName_input.current.value ? " - " + PageName_input.current.value : ""}
                                 </h5>
                             )}
-                            <span
-                                onClick={onActionCloseModal}
-                                className={style.closeBtnModal}
-                            >
+                            <span onClick={onActionCloseModal} className={style.closeBtnModal}>
                                 ✖
                             </span>
                         </div>
@@ -170,48 +125,35 @@ export default function NewPageModal({
                             <div className={style.ModalField}>
                                 <label>Nome</label>
                                 <br />
-                                <input
-                                    ref={PageName_input}
-                                    type={"text"}
-                                    placeholder="Nome..."
-                                    name="Nome"
-                                ></input>
+                                <input ref={PageName_input} type={"text"} placeholder="Nome..." name="Nome"></input>
                             </div>
                             <div className={style.ModalField}>
                                 <label>Link</label>
                                 <br />
-                                <input
-                                    ref={Link_input}
-                                    type={"text"}
-                                    placeholder="Link..."
-                                    name="Link"
-                                ></input>
+                                <input ref={Link_input} type={"text"} placeholder="Link..." name="Link"></input>
                             </div>
                             <div className={style.ModalField}>
                                 <label>Role - todo: select con ruoli</label>
                                 <br />
-                                <input
-                                    ref={MinRole_input}
-                                    type={"number"}
-                                    placeholder="Role..."
-                                    name="MinRole"
-                                ></input>
+                                <input ref={MinRole_input} type={"number"} placeholder="Role..." name="MinRole"></input>
                             </div>
-                            <AddSection
-                                SectionName_input={SectionName_input}
-                                Type_input={Type_input}
-                                VerticalOrder_input={VerticalOrder_input}
-                                handleAddnewSection={handleAddnewSection}
-                                pageSections={pageSections}
-                                setPageSections={setPageSections}
-                                isInEdit={isInEdit}
-                            ></AddSection>
+                            {pageSections && (
+                                <>
+                                    <p>CIAO</p>
+                                    <AddSection
+                                        SectionName_input={SectionName_input}
+                                        Type_input={Type_input}
+                                        VerticalOrder_input={VerticalOrder_input}
+                                        handleAddnewSection={handleAddnewSection}
+                                        pageSections={pageSections}
+                                        setPageSections={setPageSections}
+                                        isInEdit={isInEdit}
+                                    ></AddSection>
+                                </>
+                            )}
                         </div>
                         <div className={style.ModalFoot}>
-                            <button
-                                onClick={handleSavePage}
-                                className={style.Success}
-                            >
+                            <button onClick={handleSavePage} className={style.Success}>
                                 INVIA
                             </button>
                         </div>
@@ -222,15 +164,7 @@ export default function NewPageModal({
     );
 }
 
-function AddSection({
-    handleAddnewSection,
-    SectionName_input,
-    VerticalOrder_input,
-    Type_input,
-    pageSections,
-    setPageSections,
-    isInEdit,
-}) {
+function AddSection({ handleAddnewSection, SectionName_input, VerticalOrder_input, Type_input, pageSections, setPageSections, isInEdit }) {
     return (
         <div className={style.FullModalFieldSection}>
             <label>Sections of the page</label>
@@ -274,36 +208,32 @@ function AddSection({
 
             {/*DA CICLARE - ESISTENTI/EDIT*/}
             {pageSections &&
-                pageSections.map((section) => {
+                pageSections.map((section, index) => {
+                    console.log("pageSections", pageSections);
+                    console.log("section " + index, section);
                     if (section)
                         return (
                             <div className={style.SectionLine}>
                                 <div className={style.Cell}>
-                                    <p className={style.SectionCell}>
-                                        {section.NomeSezione}
-                                    </p>
+                                    <p className={style.SectionCell}>{section.NomeSezione}</p>
                                 </div>
                                 <div className={style.Cell}>
                                     <p className={style.SectionCell}>
                                         {section.VerticalOrder}
                                         <span>
-                                            <IconSelector
-                                                IconSelector={"info"}
-                                            ></IconSelector>
+                                            <IconSelector IconSelector={"info"}></IconSelector>
                                         </span>
                                     </p>
-                                    {/* 
+                                    {/*
                                         <div>Vertical order popup</div> */}
                                 </div>
                                 <div className={style.Cell}>
                                     <p className={style.SectionCell}>
                                         {section.Tipo}
-                                        <IconSelector
-                                            IconSelector={"info"}
-                                        ></IconSelector>
+                                        <IconSelector IconSelector={"info"}></IconSelector>
                                     </p>
 
-                                    {/* 
+                                    {/*
                                         <div>Tipo popup</div> */}
                                 </div>
                                 {isInEdit && (
@@ -311,26 +241,15 @@ function AddSection({
                                         <div className={style.IconCell}>
                                             <p>
                                                 <button>
-                                                    <IconSelector
-                                                        IconSelector={"edit"}
-                                                    ></IconSelector>
+                                                    <IconSelector IconSelector={"edit"}></IconSelector>
                                                 </button>
                                             </p>
                                         </div>
                                         <div className={style.IconCell}>
                                             <p>
                                                 <button>
-                                                    <Link
-                                                        href={
-                                                            "/sections_editor/" +
-                                                            section.id
-                                                        }
-                                                    >
-                                                        <IconSelector
-                                                            IconSelector={
-                                                                "section"
-                                                            }
-                                                        ></IconSelector>
+                                                    <Link href={"/sections_editor/" + section._id}>
+                                                        <IconSelector IconSelector={"section"}></IconSelector>
                                                     </Link>
                                                 </button>
                                             </p>
@@ -341,21 +260,16 @@ function AddSection({
                                     <p>
                                         <button
                                             onClick={() => {
-                                                const newPageSections =
-                                                    pageSections.map((s) => {
-                                                        if (s !== section) {
-                                                            return s;
-                                                        }
-                                                    });
+                                                const newPageSections = pageSections.map((s) => {
+                                                    if (s !== section) {
+                                                        return s;
+                                                    }
+                                                });
 
-                                                setPageSections([
-                                                    ...newPageSections,
-                                                ]);
+                                                setPageSections([...newPageSections]);
                                             }}
                                         >
-                                            <IconSelector
-                                                IconSelector={"remove"}
-                                            ></IconSelector>
+                                            <IconSelector IconSelector={"remove"}></IconSelector>
                                         </button>
                                     </p>
                                 </div>

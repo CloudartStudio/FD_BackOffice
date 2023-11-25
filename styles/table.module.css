@@ -70,6 +70,20 @@
     display: flex;
 }
 
+.buttonAdd {
+    padding: 8px 15px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 200;
+    border-radius: 5px;
+    background-color: #ffffff4d;
+    margin: 15px 5px;
+}
+
+.buttonAdd:hover {
+    transform: scale(1.05);
+}
+
 .TableBaseHeader,
 .TableBaseCell {
     flex: 1;
