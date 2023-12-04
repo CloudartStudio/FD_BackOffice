@@ -1,15 +1,18 @@
 .InfoContainer {
     display: flex;
     flex-direction: column;
-
+    background-color: #ffffff0f !important;
+    margin: 10px 0px;
+    padding: 0px 15px;
+    border-radius: 10px;
 }
 
-.FieldContainer{
+.FieldContainer {
     display: flex;
     flex-direction: row;
 }
 
-.InputContainer{
+.InputContainer {
     display: flex;
     flex-direction: column;
 }
@@ -38,7 +41,6 @@
     border-bottom: 2px solid #004aad;
 }
 
-
 .ModalField input[type="date"] {
     background-color: white;
 }
@@ -54,15 +56,10 @@
     border: none;
 }
 
-
 .SectionLine {
     display: flex;
     flex-direction: row;
-    background-color: #004aadbb;
-    padding: 15px;
-    margin: 10px 0px;
     border-radius: 10px;
-    color: #004aad;
 }
 .SectionLine .Cell {
     flex: 8;
@@ -70,19 +67,18 @@
 }
 
 .SectionLine div p.SectionCell {
-    background-color: white;
-    padding: 15px 25px;
     height: min-content;
     vertical-align: middle;
     border-radius: 10px;
+    margin: 4px;
 }
 
-.SectionCell input {
+.SectionCell input,
+.Select {
     width: 100%;
     background-color: #6dacff37;
     border: none;
     border-radius: 5px;
-    color: #004aad;
     font-weight: 600;
     height: 4vh;
     margin-top: 10px;
@@ -91,7 +87,6 @@
 }
 
 .SectionCell label {
-    color: #004aaddd;
     font-weight: 700;
     text-align: left;
 }
@@ -118,4 +113,27 @@
     transform: scale(1.1);
     background: white;
     color: #00357be4;
+}
+
+.Info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+}
+
+.InfoSection {
+    flex: 1;
+    width: 100%;
+}
+
+.InfoSection h3 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin: 0px;
+}
+
+.InfoSection b {
+    margin-right: 50px;
+    opacity: 0.9;
 }

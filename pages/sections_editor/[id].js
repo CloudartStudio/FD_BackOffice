@@ -1,13 +1,14 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import fetch from "node-fetch";
 import Head from "next/head";
 import NewFieldVisualizerModal from "../../components/modal/NewFieldVisualizerModal";
 import NewChartTab from "../../components/modal/NewChartTab";
 import style from "../../styles/info.module.css";
+import EditPageContext from "../../context/editPageContext";
 
 const SectionsEditor = () => {
-    const [Configs, SetConfigs] = useState(null);
+    const [Configs, SetConfigs] = useState([]);
     const [typeOfSection, setTypeOfSection] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [openModalChart, SetOpenModalChart] = useState(false);
@@ -15,25 +16,37 @@ const SectionsEditor = () => {
     const [tipo, setTipo] = useState("");
     const [verticalOrder, setVerticalOrder] = useState("");
     const [minRole, setMinRole] = useState("");
+    const [indexOfPage, SetIndexOfPage] = useState(0);
+
+    const selectId = useRef(null);
 
     const router = useRouter();
     const { id } = router.query;
 
+    const context = useContext(EditPageContext);
+
     useEffect(() => {
         const fetchData = async () => {
             if (id) {
-                console.log(id);
+                SetConfigs([]);
+                console.log("Inizio fetch");
                 const sectionsConfigResponse = await fetch("http://localhost:3000/api/dynamicSections/" + id);
 
                 const data = await sectionsConfigResponse.json();
                 if (data) {
-                    data.RelatedConfigData.map(async (configID) => {
-                        console.log("configID", configID.insertedId);
+                    data.RelatedConfigData.map(async (configID, index) => {
                         const ConfigData = await fetch("http://localhost:3000/api/visualizer/fieldbase/" + configID.insertedId);
 
                         const Config = await ConfigData.json();
+                        console.log("config", Config);
+                        console.log("index", index);
 
-                        SetConfigs(Configs ? [...Configs, Config] : [Config]);
+                        SetConfigs((prev) => {
+                            if (prev.find((c) => c._id == Config._id)) {
+                                return prev;
+                            }
+                            return [...prev, Config];
+                        });
                     });
 
                     setNomeSezione(data.NomeSezione);
@@ -41,129 +54,121 @@ const SectionsEditor = () => {
                     setVerticalOrder(data.VerticalOrder);
                     setMinRole(data.MinRole);
 
-                    console.log("Sections Config", Configs);
-                    console.log("data", data);
                     setTypeOfSection(data.Tipo);
                 }
             }
         };
-        fetchData();
-    }, [id]);
+        if (indexOfPage === 0) fetchData();
+    }, [id, indexOfPage]);
 
     return (
         <>
             <Head>
                 <title>Section editor</title>
             </Head>
-            <NewFieldVisualizerModal
-                isOpen={openModal}
-                onActionCloseModal={() => {
-                    setOpenModal(false);
-                }}
-                SectionID={id}
-            ></NewFieldVisualizerModal>
-            <NewChartTab
-                isOpen={openModalChart}
-                onActionCloseModal={() => {
-                    SetOpenModalChart(false);
-                }}
-                SectionID={id}
-            ></NewChartTab>
-
-            <div>
-                <h3>Section info</h3>
-                <div className={style.FieldContainer}>
-                    <div className={style.ModalField}>
-                        <div>
-                            <label>Nome</label>
-                            <br />
-                            <input type={"text"} placeholder="Nome..." name="Nome" value={nomeSezione} onChange={(e) => setNomeSezione(e.target.value)}></input>
-                        </div>
+            {indexOfPage === 0 && (
+                <div className={style.Info}>
+                    <div className={style.InfoSection}>
+                        <h3>{nomeSezione} - info</h3>
+                        <br></br>
+                        {context.PageInfo && (
+                            <>
+                                <select
+                                    className={style.Select}
+                                    value={id}
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        router.replace("/sections_editor/" + e.target.value, undefined, { shallow: false });
+                                    }}
+                                >
+                                    {context.PageInfo.relatedSections &&
+                                        context.PageInfo.relatedSections.map((s) => {
+                                            return <option value={s}>{s}</option>;
+                                        })}
+                                </select>
+                            </>
+                        )}
+                        <p>
+                            <b>
+                                <i>Vertical Order : {verticalOrder}</i>
+                            </b>
+                            <b>
+                                <i>Tipo : {tipo}</i>
+                            </b>
+                            <b>
+                                <i>Ruolo Minimo : {minRole}</i>
+                            </b>
+                        </p>
                     </div>
-                    <div className={style.ModalField}>
+                    <div className={style.InfoSection}>
                         <div>
-                            <label>Ordine Verticale</label>
-                            <br />
-                            <input
-                                type={"text"}
-                                placeholder="Ordine Verticale..."
-                                name="Ordine Verticale"
-                                value={verticalOrder}
-                                onChange={(e) => setVerticalOrder(e.target.value)}
-                            ></input>
+                            <div>
+                                {!Configs && <h1>Non ci sono configurazioni</h1>}
+                                {typeOfSection && (
+                                    <button
+                                        className={style.ButtonStandard}
+                                        onClick={() => {
+                                            if (typeOfSection == 0) {
+                                                setOpenModal(true);
+                                                SetIndexOfPage(1);
+                                            } else if (typeOfSection == 1) {
+                                                SetOpenModalChart(true);
+                                                SetIndexOfPage(2);
+                                            } else if (typeOfSection == 2) {
+                                            } else if (typeOfSection == 3) {
+                                            }
+                                        }}
+                                    >
+                                        Add config
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                    <div className={style.ModalField}>
                         <div>
-                            <label>Tipo</label>
-                            <br />
-                            <input type={"text"} placeholder="Tipo..." name="Tipo" value={tipo} onChange={(e) => setTipo(e.target.value)}></input>
-                        </div>
-                    </div>
-                    <div className={style.ModalField}>
-                        <div>
-                            <label>Ruolo Minimo</label>
-                            <br />
-                            <input
-                                type={"text"}
-                                placeholder="Ruolo Minimo..."
-                                name="Ruolo Minimo"
-                                value={minRole}
-                                onChange={(e) => setMinRole(e.target.value)}
-                            ></input>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr></hr>
-            <div>
-                <h3>Configurazioni</h3>
-                <div>
-                    <div>
-                        {typeOfSection && (
-                            <button
-                                className={style.ButtonStandard}
-                                onClick={() => {
+                            {Configs &&
+                                Configs.map((c) => {
                                     if (typeOfSection == 0) {
-                                        setOpenModal(true);
+                                        return (
+                                            <>
+                                                <VisualizeInfo info={c}></VisualizeInfo>
+                                            </>
+                                        );
                                     } else if (typeOfSection == 1) {
-                                        SetOpenModalChart(true);
+                                        return (
+                                            <>
+                                                <ChartInfo info={c}></ChartInfo>
+                                            </>
+                                        );
                                     } else if (typeOfSection == 2) {
                                     } else if (typeOfSection == 3) {
                                     }
-                                }}
-                            >
-                                Add config
-                            </button>
-                        )}
-                        <hr></hr>
+                                })}
+                        </div>
                     </div>
                 </div>
-                <div>
-                    {Configs &&
-                        Configs.map((c) => {
-                            console.log("c", c);
+            )}
 
-                            if (typeOfSection == 0) {
-                                return (
-                                    <>
-                                        <VisualizeInfo info={c}></VisualizeInfo>
-                                    </>
-                                );
-                            } else if (typeOfSection == 1) {
-                                return (
-                                    <>
-                                        <h1>chart</h1>
-                                        <ChartInfo info={c}></ChartInfo>
-                                    </>
-                                );
-                                <hr></hr>;
-                            } else if (typeOfSection == 2) {
-                            } else if (typeOfSection == 3) {
-                            }
-                        })}
-                </div>
-            </div>
+            {indexOfPage === 1 && (
+                <NewFieldVisualizerModal
+                    isOpen={openModal}
+                    onActionCloseModal={() => {
+                        setOpenModal(false);
+                        SetIndexOfPage(0);
+                    }}
+                    SectionID={id}
+                ></NewFieldVisualizerModal>
+            )}
+
+            {indexOfPage === 2 && (
+                <NewChartTab
+                    isOpen={openModalChart}
+                    onActionCloseModal={() => {
+                        SetOpenModalChart(false);
+                        SetIndexOfPage(0);
+                    }}
+                    SectionID={id}
+                ></NewChartTab>
+            )}
         </>
     );
 };
@@ -172,24 +177,19 @@ function ChartInfo({ info }) {
     return (
         <div className={style.InfoContainer}>
             <div className={style.FieldContainer}>
-                <div className={style.ModalField}>
-                    <div>
-                        <label>Nome</label>
-                        <br />
-                        <input type={"text"} placeholder="Nome..." name="Nome" value={info.Name}></input>
-                    </div>
-                </div>
-            </div>
-
-            <div className={style.FieldContainer}>
-                <h2>Bars:</h2>
+                <h2>
+                    <b>
+                        <i>grafico: </i>
+                        {"  " + info.Name}
+                    </b>
+                </h2>
             </div>
 
             <div className={style.InputContainer}>
-                {info.Bars.map((B, index) => {
-                    return <BarsInfo bar={B} key={index}></BarsInfo>;
-                })}
-                <hr />
+                {info.Bars &&
+                    info.Bars.map((B, index) => {
+                        return <BarsInfo bar={B} key={index}></BarsInfo>;
+                    })}
             </div>
         </div>
     );

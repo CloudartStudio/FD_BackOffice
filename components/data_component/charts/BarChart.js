@@ -1,13 +1,7 @@
 // components/BarChart.js
 
 import { Bar } from "react-chartjs-2";
-import {
-    Chart,
-    BarController,
-    BarElement,
-    CategoryScale,
-    LinearScale,
-} from "chart.js";
+import { Chart, BarController, BarElement, CategoryScale, LinearScale } from "chart.js";
 
 // export default function RichiediPreventivoModale({
 //     isOpen,
@@ -15,7 +9,6 @@ import {
 // })
 
 export default function BarChart({ labels, Data, colors }) {
-    console.log(labels);
     Chart.register(BarController, BarElement, CategoryScale, LinearScale);
     const data = {
         labels: labels,

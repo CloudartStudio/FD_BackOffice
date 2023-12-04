@@ -1,9 +1,12 @@
-import FieldVisualizerModel from "../../../../models/nosql_model/FieldVisualizerModel";
+import DynamicSections from "../../../models/nosql_model/DynamicSections";
 
-const getReq = async (req, res) => {
-    const { id } = req.query;
-    let result = await FieldVisualizerModel.GetOne(id);
-    return result;
+export const getReq = async (req, res) => {
+    try {
+        let result = await DynamicSections.FetchAll();
+        return result;
+    } catch (error) {
+        return error;
+    }
 };
 
 export default async (req, res) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import NewPageModal from "../../components/modal/NewPageModal";
 import Table1 from "../../components/table/Table1";
@@ -8,18 +8,24 @@ import style from "../../styles/table.module.css";
 export default function ManagePages({ isPreview = false }) {
     const [openModalNewPage, setOpenModalNewPage] = useState(false);
     const [TableData, setTableData] = useState({});
+    const [update, setUpdate] = useState(false);
 
-    const [PageIndex, SetPageIndex] = useState(0);
+    const [indexOfPage, SetIndexOfPage] = useState(0);
 
     const HandleCloseNewPage = () => {
         setOpenModalNewPage(false);
+        SetIndexOfPage(0);
+    };
+
+    const HandleOpenNewPage = () => {
+        setOpenModalNewPage(true);
+        SetIndexOfPage(1);
     };
 
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch("http://localhost:3000/api/dynamicPage");
             const data = await response.json();
-            console.log("DATA", data);
             const tempData = {
                 head_data: [
                     {
@@ -52,37 +58,47 @@ export default function ManagePages({ isPreview = false }) {
             };
             setTableData(tempData);
         };
-        fetchData();
-    }, []);
+
+        if (indexOfPage === 0) fetchData();
+    }, [indexOfPage, update]);
 
     return (
         <>
-            <Head>
-                <title>Manage Page</title>
-            </Head>
-
-            <div className={isPreview ? "" : style.PageContainer}>
-                <div>
-                    <NewPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage}></NewPageModal>
-                    {TableData && (
-                        <Table1
-                            head_data={TableData.head_data}
-                            body_data={TableData.body_data}
-                            isPreview={isPreview}
-                            row_actions={[
-                                {
-                                    doAction: (isOpen, SetOpen, Data) => {},
-                                },
-                            ]}
-                            footer_action={() => {
-                                setOpenModalNewPage(true);
-                            }}
-                            Title={"Manage Page"}
-                            Description={"Use this page to create and Manage the page"}
-                        ></Table1>
-                    )}
+            {indexOfPage === 0 && (
+                <div className={isPreview ? "" : style.PageContainer}>
+                    <Head>
+                        <title>Manage Page</title>
+                    </Head>
+                    <div>
+                        {TableData && (
+                            <Table1
+                                setUpdate={() => {
+                                    setUpdate(!update);
+                                }}
+                                head_data={TableData.head_data}
+                                body_data={TableData.body_data}
+                                isPreview={isPreview}
+                                row_actions={[
+                                    {
+                                        doAction: (isOpen, SetOpen, Data) => {},
+                                    },
+                                ]}
+                                footer_action={HandleOpenNewPage}
+                                Title={"Manage Page"}
+                                Description={"Use this page to create and Manage the page"}
+                            ></Table1>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
+            {indexOfPage === 1 && (
+                <>
+                    <Head>
+                        <title>Manage Page - New page</title>
+                    </Head>
+                    <NewPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage}></NewPageModal>
+                </>
+            )}
         </>
     );
 }

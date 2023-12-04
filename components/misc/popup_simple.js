@@ -1,19 +1,14 @@
 import IconSelector from "../IconSelector";
 import style from "../../styles/misc.module.scss";
 
-export default function PopupSimple({
-    _IconSelector,
-    Status,
-    additionalInfo,
-    duration = 2000,
-}) {
+export default function PopupSimple({ notification }) {
     let classForStatus;
 
-    if (Status == popup_status_ok()) {
+    if (notification.status == "success") {
         classForStatus = style.PopUp_Container_Green;
-    } else if (Status == popup_status_error()) {
+    } else if (notification.status == "error") {
         classForStatus = style.PopUp_Container_Error;
-    } else if (Status == popup_status_warning()) {
+    } else if (notification.status == "warning") {
         classForStatus = style.PopUp_Container_Warning;
     } else {
         classForStatus = style.PopUp_Container;
@@ -21,22 +16,13 @@ export default function PopupSimple({
 
     return (
         <div className={classForStatus}>
-            <p>
-                <IconSelector IconSelector={_IconSelector}></IconSelector>
-                {additionalInfo}
-            </p>
+            <div className={style.PopUp_StatusIcon}>
+                <IconSelector IconSelector={notification.status}></IconSelector>
+            </div>
+            <div className={style.PopUp_StatusMsg}>
+                <h5>{notification.title}</h5>
+                <p>{notification.message}</p>
+            </div>
         </div>
     );
 }
-
-export const popup_status_ok = () => {
-    return "ok";
-};
-
-export const popup_status_error = () => {
-    return "error";
-};
-
-export const popup_status_warning = () => {
-    return "warning";
-};

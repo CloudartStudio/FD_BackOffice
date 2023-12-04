@@ -2,12 +2,16 @@
     display: block;
     position: fixed;
     bottom: 3vh;
-    left: 3vh;
+    right: 3vh;
     border-radius: 10px;
     padding: 0px 40px 0px 20px;
     text-align: left;
     box-shadow: 0px 2px 10px #0009;
     background-color: #004aaddd;
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+    padding: 10px 20px;
 }
 
 .PopUp_Container_Green {
@@ -23,4 +27,23 @@
 .PopUp_Container_Error {
     background-color: #f55b;
     @extend .PopUp_Container;
+}
+
+.PopUp_StatusIcon {
+    flex: 2;
+    font-size: 3rem;
+}
+
+.PopUp_StatusMsg {
+    flex: 8;
+}
+
+.PopUp_StatusMsg h5 {
+    font-size: 1.5rem;
+    margin: 2px;
+}
+
+.PopUp_StatusMsg p {
+    margin: 2px;
+    margin-top: 5px;
 }

@@ -13,25 +13,20 @@ const Layout = ({ children }) => {
     const [isOpenRightMenu, setIsOpenRightMenu] = useState(true);
 
     const handleLeftMenu = () => {
-        console.log("OPEN LEFT MENU");
         setIsOpenLeftMenu(isOpenLeftMenu ? false : true);
     };
 
     const handleRightMenu = () => {
-        console.log("OPEN LEFT MENU");
         setIsOpenRightMenu(isOpenRightMenu ? false : true);
     };
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(
-                "http://localhost:3000/api/getMenuData"
-            )
+            const response = await fetch("http://localhost:3000/api/getMenuData")
                 .then((result) => {
                     return result;
                 })
                 .catch((error) => {
-                    console.log(error);
                     return [];
                 });
             const data = await response.json();
@@ -44,14 +39,8 @@ const Layout = ({ children }) => {
         <>
             <Head>
                 <title>FIRST DATA</title>
-                <meta
-                    name="description"
-                    content="first data è l'applicazione web per la gestione dei tuoi dati e contenuti online"
-                />
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
+                <meta name="description" content="first data è l'applicazione web per la gestione dei tuoi dati e contenuti online" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <header>
@@ -64,9 +53,7 @@ const Layout = ({ children }) => {
 
                     {/* da cambiare */}
                     <Link href="/">
-                        <span className={style.HeaderCompanyName}>
-                            FIRST DATA
-                        </span>
+                        <span className={style.HeaderCompanyName}>FIRST DATA</span>
                     </Link>
                     <div className={style.RightIcon}>
                         <span onClick={handleRightMenu}>
@@ -81,15 +68,9 @@ const Layout = ({ children }) => {
                 {isOpenLeftMenu && (
                     <nav className="HomeNav NavLeft">
                         <ul>
-                            {MenuData.filter((item) => item.IsLeft).map(
-                                (item, index) => (
-                                    <MenuSection
-                                        verticalOrder={index + 1}
-                                        PrevLevel={0}
-                                        baseSection={item}
-                                    ></MenuSection>
-                                )
-                            )}
+                            {MenuData.filter((item) => item.IsLeft).map((item, index) => (
+                                <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
+                            ))}
                         </ul>
                     </nav>
                 )}
@@ -97,15 +78,9 @@ const Layout = ({ children }) => {
                 {isOpenRightMenu && (
                     <nav className="HomeNav NavRight">
                         <ul>
-                            {MenuData.filter((item) => !item.IsLeft).map(
-                                (item, index) => (
-                                    <MenuSection
-                                        verticalOrder={index + 1}
-                                        PrevLevel={0}
-                                        baseSection={item}
-                                    ></MenuSection>
-                                )
-                            )}
+                            {MenuData.filter((item) => !item.IsLeft).map((item, index) => (
+                                <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
+                            ))}
                         </ul>
                     </nav>
                 )}

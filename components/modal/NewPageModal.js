@@ -1,24 +1,34 @@
 import style from "../../styles/modal.module.css";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import IconSelector from "../IconSelector";
 import axios from "axios";
 import Link from "next/link";
+import NotificationContext from "../../context/notificationContext";
+import SectionManager from "./SectionManager";
+import RoleOptions from "../misc/role_options";
 
-export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) {
-    //variabili di aggiunta sezioni
-    const SectionName_input = useRef(null);
-    const VerticalOrder_input = useRef(null);
-    const Type_input = useRef(null);
-
-    //variabili di aggiunta pagina
-    const PageName_input = useRef(null);
-    const Link_input = useRef(null); //No white space and some rules (no .)
-    const MinRole_input = useRef(null);
-
-    const [pageSections, setPageSections] = useState([]);
-    const [showPopUp, setShowPopUp] = useState(false);
-
+export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null }) {
+    const [pageIndex, setPageIndex] = useState(0);
+    const [showSectionEditor, setSectionEditor] = useState(false);
     const [isInEdit, setIsInEdit] = useState(false);
+    const [Page, setPage] = useState({
+        PageName: "",
+        Link: "",
+        MinRole: "",
+        Sections: [],
+    });
+
+    const NotificationCtx = useContext(NotificationContext);
+
+    const handleOpenSectionEditor = () => {
+        setSectionEditor(true);
+        setPageIndex(1);
+    };
+
+    const handleCloseSectionEditor = () => {
+        setSectionEditor(false);
+        setPageIndex(0);
+    };
 
     useEffect(() => {
         const fetch = async () => {
@@ -29,7 +39,7 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
 
                 PageName_input.current.value = Nome;
                 Link_input.current.value = Link;
-                MinRole_input.current.value = MinRole;
+                //MinRole_input.current.value = MinRole;
 
                 let sections = [];
                 for (const element of RelatedSections) {
@@ -67,18 +77,16 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
     const handleSavePage = async () => {
         const PageName = PageName_input.current.value;
         const Link = Link_input.current.value;
-        const MinRole = MinRole_input.current.value;
+        //const MinRole = MinRole_input.current.value;
 
         if (PageName && Link && MinRole) {
             const PageObj = {
                 ID: id,
                 Nome: PageName_input.current.value,
                 Link: Link_input.current.value,
-                MinRole: MinRole_input.current.value,
+                //MinRole: MinRole_input.current.value,
                 RelatedSections: pageSections,
             };
-
-            console.log("PageObj", PageObj);
 
             if (isInEdit) {
                 PageObj["id"] = id;
@@ -90,75 +98,128 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
                     PageObj: PageObj,
                 });
             }
+            NotificationCtx.showNotification({
+                title: "Salvataggio",
+                message: "Il salvataggio è andato a buon fine",
+                status: "success",
+            });
+            onActionCloseModal();
         }
     };
 
     return (
         <>
-            {isOpen && (
-                <div className={style.ModalContainer}>
-                    <div className={style.Modal}>
-                        <div className={style.ModalHeader}>
-                            {!isInEdit && <h5>NUOVA PAGINA</h5>}
-                            {isInEdit && (
-                                <h5>
-                                    MODIFICA PAGINA
-                                    {PageName_input && PageName_input.current && PageName_input.current.value ? " - " + PageName_input.current.value : ""}
-                                </h5>
-                            )}
-                            <span onClick={onActionCloseModal} className={style.closeBtnModal}>
-                                ✖
-                            </span>
-                        </div>
-                        <div className={style.ModalBody}>
-                            {/* {showPopUp && (
-                                <PopupSimple
-                                    IconSelector={""}
-                                    Status={PopUpStatus.popup_status_ok()}
-                                    additionalInfo={
-                                        "Il salvataggio è andato a buon fine"
-                                    }
-                                    key={0}
-                                ></PopupSimple>
-                            )} */}
-
-                            <div className={style.ModalField}>
-                                <label>Nome</label>
-                                <br />
-                                <input ref={PageName_input} type={"text"} placeholder="Nome..." name="Nome"></input>
+            {pageIndex === 0 && (
+                <>
+                    {" "}
+                    {isOpen && (
+                        <div className={style.Modal}>
+                            <div className={style.ModalHeader}>
+                                {!isInEdit && <h5>NUOVA PAGINA</h5>}
+                                {isInEdit && (
+                                    <h5>
+                                        MODIFICA PAGINA
+                                        {Page.PageName}
+                                    </h5>
+                                )}
+                                <span onClick={onActionCloseModal} className={style.closeBtnModal}>
+                                    ✖
+                                </span>
                             </div>
-                            <div className={style.ModalField}>
-                                <label>Link</label>
-                                <br />
-                                <input ref={Link_input} type={"text"} placeholder="Link..." name="Link"></input>
+                            <div className={style.ModalBody}>
+                                <div className={style.ModalField}>
+                                    <label>Nome</label>
+                                    <br />
+                                    <input
+                                        value={Page.PageName}
+                                        onChange={(e) => {
+                                            setPage({
+                                                ...Page,
+                                                PageName: e.target.value,
+                                            });
+                                        }}
+                                        type={"text"}
+                                        placeholder="Nome..."
+                                        name="Nome"
+                                    ></input>
+                                </div>
+                                <div className={style.ModalField}>
+                                    <label>Link</label>
+                                    <br />
+                                    <input
+                                        value={Page.Link}
+                                        onChange={(e) => {
+                                            setPage({
+                                                ...Page,
+                                                Link: e.target.value,
+                                            });
+                                        }}
+                                        type={"text"}
+                                        placeholder="Link..."
+                                        name="Link"
+                                    ></input>
+                                </div>
+                                <RoleOptions
+                                    selectedRole={Page.MinRole}
+                                    setSelectedRole={(newRole) => {
+                                        setPage({
+                                            ...Page,
+                                            MinRole: newRole,
+                                        });
+                                    }}
+                                ></RoleOptions>
+                                <div className={style.ModalField}>
+                                    <button
+                                        style={{
+                                            backgroundColor: "#ffffff2f",
+                                            border: "1px solid white",
+                                            color: "white",
+                                            padding: "10px 15px",
+                                            borderRadius: "5px",
+                                            fontSize: "1rem",
+                                            width: "90%",
+                                            margin: "0 auto",
+                                        }}
+                                        onClick={handleOpenSectionEditor}
+                                    >
+                                        EDIT SECTIONS
+                                    </button>
+                                </div>
+                                {Page.Sections && (
+                                    <>
+                                        <h4 style={{ color: "white" }}>Sections</h4>
+                                        {Page.Sections.map((s) => (
+                                            <div>Name : {s.NomeSezione}</div>
+                                        ))}
+                                    </>
+                                )}
                             </div>
-                            <div className={style.ModalField}>
-                                <label>Role - todo: select con ruoli</label>
-                                <br />
-                                <input ref={MinRole_input} type={"number"} placeholder="Role..." name="MinRole"></input>
+                            <div className={style.ModalFoot}>
+                                <button onClick={handleSavePage} className={style.Success}>
+                                    INVIA
+                                </button>
                             </div>
-                            {pageSections && (
-                                <>
-                                    <p>CIAO</p>
-                                    <AddSection
-                                        SectionName_input={SectionName_input}
-                                        Type_input={Type_input}
-                                        VerticalOrder_input={VerticalOrder_input}
-                                        handleAddnewSection={handleAddnewSection}
-                                        pageSections={pageSections}
-                                        setPageSections={setPageSections}
-                                        isInEdit={isInEdit}
-                                    ></AddSection>
-                                </>
-                            )}
                         </div>
-                        <div className={style.ModalFoot}>
-                            <button onClick={handleSavePage} className={style.Success}>
-                                INVIA
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                    )}
+                </>
+            )}
+            {pageIndex === 1 && (
+                <>
+                    {" "}
+                    {isOpen && (
+                        <SectionManager
+                            saveNewSections={(sections) => {
+                                console.log("sections", sections);
+                                setPage((prev) => {
+                                    return { ...prev, Sections: sections };
+                                });
+                            }}
+                            startingSection={Page.Sections}
+                            isOpen={showSectionEditor}
+                            onActionCloseModal={handleCloseSectionEditor}
+                        ></SectionManager>
+                    )}
+                </>
             )}
         </>
     );
@@ -184,7 +245,7 @@ function AddSection({ handleAddnewSection, SectionName_input, VerticalOrder_inpu
                         <br></br>
                         <input ref={VerticalOrder_input} type="number"></input>
                     </p>
-                    {/* 
+                    {/*
                                         <div>Vertical order popup</div> */}
                 </div>
                 <div className={style.Cell}>
@@ -194,7 +255,7 @@ function AddSection({ handleAddnewSection, SectionName_input, VerticalOrder_inpu
                         <input ref={Type_input} type="number"></input>
                     </p>
 
-                    {/* 
+                    {/*
                                         <div>Tipo popup</div> */}
                 </div>
                 <div className={style.IconCell}>
@@ -209,8 +270,6 @@ function AddSection({ handleAddnewSection, SectionName_input, VerticalOrder_inpu
             {/*DA CICLARE - ESISTENTI/EDIT*/}
             {pageSections &&
                 pageSections.map((section, index) => {
-                    console.log("pageSections", pageSections);
-                    console.log("section " + index, section);
                     if (section)
                         return (
                             <div className={style.SectionLine}>

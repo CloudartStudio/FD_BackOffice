@@ -24,6 +24,10 @@ class DynamicPage extends DynamicBase {
     static async BaseGetByQuery(query) {
         return super._BaseGetByQuery(query, "Pages");
     }
+
+    static async Delete(id) {
+        return super._BaseDelete(id, "Pages");
+    }
 }
 
 export default DynamicPage;

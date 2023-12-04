@@ -4,9 +4,7 @@ import { getDB } from "../../../helpers/mongoDBConnect";
 class DynamicBase {
     constructor(collectionName) {
         if (new.target === DynamicBase) {
-            throw new TypeError(
-                "Non puoi istanziare direttamente questa classe"
-            );
+            throw new TypeError("Non puoi istanziare direttamente questa classe");
         }
 
         this.collectionName = collectionName;
@@ -15,12 +13,9 @@ class DynamicBase {
     async save() {
         try {
             const db = await getDB();
-            const result = await db
-                .collection(this.collectionName)
-                .insertOne(this);
+            const result = await db.collection(this.collectionName).insertOne(this);
             return result;
         } catch (error) {
-            console.log(error);
             throw error;
         }
     }
@@ -35,7 +30,6 @@ class DynamicBase {
             );
             return result;
         } catch (error) {
-            console.log(error);
             throw error;
         }
     }
@@ -50,7 +44,6 @@ class DynamicBase {
             );
             return result;
         } catch (error) {
-            console.log(error);
             throw error;
         }
     }
@@ -61,7 +54,17 @@ class DynamicBase {
             const result = await db.collection(collectionName).find().toArray();
             return result;
         } catch (error) {
-            console.log(error);
+            throw error;
+        }
+    }
+
+    static async _BaseDelete(stringID, collectionName) {
+        try {
+            const id = new ObjectId(stringID);
+            const db = await getDB();
+            const result = await db.collection(collectionName).deleteOne({ _id: id });
+            return result;
+        } catch (error) {
             throw error;
         }
     }
@@ -70,12 +73,9 @@ class DynamicBase {
         try {
             const id = new ObjectId(stringID);
             const db = await getDB();
-            const result = await db
-                .collection(collectionName)
-                .findOne({ _id: id });
+            const result = await db.collection(collectionName).findOne({ _id: id });
             return result;
         } catch (error) {
-            console.log(error);
             throw error;
         }
     }
@@ -84,13 +84,9 @@ class DynamicBase {
         try {
             const db = await getDB();
             //const result = await db.collection(collectionName).find(Query);
-            const result = await db
-                .collection(collectionName)
-                .find(Query)
-                .toArray();
+            const result = await db.collection(collectionName).find(Query).toArray();
             return result[0];
         } catch (error) {
-            console.log(error);
             throw error;
         }
     }

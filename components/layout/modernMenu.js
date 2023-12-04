@@ -1,8 +1,12 @@
 import style from "../../styles/modernlayout.module.css";
 import MenuSection from "../../components/menu/MenuSection";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
+import BreadCrumbContext from "../../context/breadcrumbContext";
 
 const options = {
     fpsLimit: 120,
@@ -18,12 +22,12 @@ const options = {
             value: "#2c2f41",
         },
         shape: {
-            polygon: { 
-                nb_sides: 8
+            polygon: {
+                nb_sides: 8,
             },
             image: {
                 width: 100,
-                height: 100
+                height: 100,
             },
             type: "polygon",
         },
@@ -32,14 +36,14 @@ const options = {
                 enable: true,
                 speed: 8,
                 size_min: 40,
-                sync: false
+                sync: false,
             },
             value: 80,
-            random: false
+            random: false,
         },
         opacity: {
             value: 0.1,
-            random: true
+            random: true,
         },
         links: {
             enable: false,
@@ -74,7 +78,7 @@ const options = {
             value: "transparent",
         },
     },
-    
+
     detectRetina: true,
 };
 
@@ -85,6 +89,15 @@ const ModernMenu = ({ MenuData, IsFullScreen }) => {
         // starting from v2 you can add only the features you need reducing the bundle size
         await loadFull(main);
     };
+
+    const Router = useRouter();
+    const BreadCrumbCtx = useContext(BreadCrumbContext);
+
+    useEffect(() => {
+        Router.events.on("routeChangeComplete", (url, { shallow }) => {
+            BreadCrumbCtx.addToBreadCrumb(url);
+        });
+    }, []);
 
     // ICONA IN ALTO A DX PER VISUALIZZARE L'APERTURA FULL SCREEN, ICONA TIPO YOUTUBE VEDI COME SONO FATTE LE ALTRE ICONE -> Icon Selector
     // EVENTO IN MODERN LAYOUT DI TIPO STATO ([isFullScreen,SetFullScreen] = usestate(false))
@@ -97,45 +110,52 @@ const ModernMenu = ({ MenuData, IsFullScreen }) => {
     return (
         <div id="particles-js" className={style.menubase}>
             <Particles init={particlesInit} options={options}></Particles>
-            {!IsFullScreen && <>
-                <nav>
-                <ul>
-                    {MenuData.filter((item) => item.IsLeft).map(
-                        (item, index) => (
-                            <MenuSection
-                                verticalOrder={index + 1}
-                                PrevLevel={0}
-                                baseSection={item}
-                            ></MenuSection>
-                        )
-                    )}
-                </ul>
-            </nav>
-            <div className={style.CentralMenuContent}>
-                <div className={style.CentralTopSection}>
-                    <div>
-                        <h1>IKEA</h1> <i>your</i> <h3>FIRST DATA</h3>
+            {!IsFullScreen && (
+                <>
+                    <nav>
+                        <ul>
+                            {MenuData.filter((item) => item.IsLeft).map((item, index) => (
+                                <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
+                            ))}
+                        </ul>
+                    </nav>
+                    <div className={style.CentralMenuContent}>
+                        <div className={style.CentralTopSection}>
+                            <div style={BreadCrumbCtx.BreadCrumb.length > 0 ? {} : { opacity: 0.1 }} onClick={BreadCrumbCtx.goBack} className={style.LatBtn}>
+                                <IoIosArrowBack></IoIosArrowBack>
+                            </div>
+                            <div
+                                style={{ cursor: "pointer" }}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    Router.push("/");
+                                }}
+                            >
+                                <h1>IKEA</h1> <i>your</i> <h3>FIRST DATA</h3>
+                            </div>
+
+                            <div
+                                style={BreadCrumbCtx.ForwardBreadCrumb.length > 0 ? {} : { opacity: 0.1 }}
+                                onClick={BreadCrumbCtx.goForward}
+                                className={style.LatBtn}
+                            >
+                                <IoIosArrowForward></IoIosArrowForward>
+                            </div>
+                        </div>
+                        <div className={style.CentralMidSection}></div>
+                        <div className={style.CentralBottomSection}>AC - solutions</div>
                     </div>
-                </div>
-                <div className={style.CentralMidSection}></div>
-                <div className={style.CentralBottomSection}>AC - solutions</div>
-            </div>
-            <div>
-                <nav>
-                    <ul>
-                        {MenuData.filter((item) => !item.IsLeft).map(
-                            (item, index) => (
-                                <MenuSection
-                                    verticalOrder={index + 1}
-                                    PrevLevel={0}
-                                    baseSection={item}
-                                ></MenuSection>
-                            )
-                        )}
-                    </ul>
-                </nav>
-            </div>
-            </>}
+                    <div>
+                        <nav>
+                            <ul>
+                                {MenuData.filter((item) => !item.IsLeft).map((item, index) => (
+                                    <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
+                                ))}
+                            </ul>
+                        </nav>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

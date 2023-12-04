@@ -13,14 +13,12 @@ const RenderData = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (Link) {
-                console.log(Link);
                 //CHIAMATA AL API PER LE CONFIGURAZIONI PASSANDO IL LINK
                 const PageConfigResponse = await fetch("http://localhost:3000/api/dynPageConfig/" + Link);
 
                 const cfg = await PageConfigResponse.json();
 
                 setPageConfig(cfg);
-                console.log("PageConfig", cfg);
             }
         };
         fetchData();
@@ -35,8 +33,6 @@ const RenderData = () => {
                 </Head>
                 <div>
                     {PageConfig.Sections.map((s) => {
-                        console.log("s", s.Tipo);
-                        console.log("SECTION", s);
                         switch (s.Tipo) {
                             case "0":
                                 return <FieldVisualizer ConfigData={s.Configs}></FieldVisualizer>;

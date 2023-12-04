@@ -1,18 +1,8 @@
-import {
-    RiMenu2Fill,
-    RiMenu3Fill,
-    RiMoneyEuroBoxFill,
-    RiAddLine,
-    RiEdit2Line,
-    RiInformationFill,
-    RiPagesFill,
-    
-} from "react-icons/ri";
+import { RiMenu2Fill, RiMenu3Fill, RiMoneyEuroBoxFill, RiAddLine, RiEdit2Line, RiInformationFill, RiPagesFill } from "react-icons/ri";
 
-import { 
-    AiOutlineFullscreen,
-    AiOutlineFullscreenExit
- } from "react-icons/ai";
+import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai";
+import { MdErrorOutline, MdOutlineDone } from "react-icons/md";
+import { CiClock2 } from "react-icons/ci";
 
 export default function IconSelector({ IconSelector }) {
     switch (IconSelector) {
@@ -31,10 +21,16 @@ export default function IconSelector({ IconSelector }) {
         case "section":
             return <RiPagesFill></RiPagesFill>;
         case "FullScreen":
-            return <AiOutlineFullscreen></AiOutlineFullscreen>
+            return <AiOutlineFullscreen></AiOutlineFullscreen>;
         case "SmallScreen":
             return <AiOutlineFullscreenExit></AiOutlineFullscreenExit>;
         case "wait":
-            return <p>attendi</p>;
+            return <CiClock2></CiClock2>;
+        case "success":
+            return <MdOutlineDone></MdOutlineDone>;
+        case "error":
+            return <MdErrorOutline></MdErrorOutline>;
+        case "warning":
+            return <IoMdWarning></IoMdWarning>;
     }
 }

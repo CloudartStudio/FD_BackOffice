@@ -9,7 +9,8 @@
 .ModalField input[type="email"],
 .ModalField input[type="tel"],
 .ModalField input[type="date"],
-.ModalField input[type="number"] {
+.ModalField input[type="number"],
+.SelectModern {
     width: 90%;
     background-color: #6dacff37;
     border: none;
@@ -22,16 +23,20 @@
     border-bottom: 2px solid #e67d3a;
 }
 
+.SelectModern:focus {
+    color: black;
+}
+
 .FullModalFieldSection textarea {
     width: 100%;
-    background-color: white;
-    border: none;
+    background-color: #6dacff37;
     border-radius: 5px;
     color: #004aad;
     font-weight: 600;
     height: 15vh;
     margin-top: 10px;
     font-size: 1rem;
+    border: 1px solid #e67d3a;
     border-bottom: 2px solid #e67d3a;
 }
 
@@ -111,10 +116,6 @@
     cursor: pointer;
 }
 
-.ModalField input[type="date"] {
-    background-color: white;
-}
-
 .ModalField label,
 .FullModalFieldSection label {
     color: white;
@@ -135,7 +136,7 @@
 
 .ModalFieldSection h3,
 .FullModalFieldSection h3 {
-    color: #004aad;
+    color: white;
     margin: 5px;
     margin-bottom: 15px;
     display: inline-block;
@@ -143,20 +144,6 @@
 
 .ModalFieldSection input {
     margin-right: 40px;
-}
-
-.ModalFieldSection input[type="text"] {
-    color: rgb(57, 57, 57);
-    width: 90%;
-    background-color: #fffd;
-    border: none;
-    border-radius: 5px;
-    color: #fffd;
-    font-weight: 600;
-    height: 4vh;
-    margin-top: 10px;
-    font-size: 1rem;
-    border-bottom: 2px solid #004aad;
 }
 
 .FullModalFieldSection {
@@ -196,6 +183,7 @@
 .Modal {
     border: none;
     margin: auto;
+    width: 100%;
 }
 
 .ModalHeader {
@@ -246,6 +234,63 @@
     background-color: #00000000;
 }
 
+.ModalBodySplitted {
+    padding-left: 25px;
+    font-size: 1.3rem;
+    overflow-y: scroll;
+    height: 70vh;
+    background-color: #00000000;
+    display: flex;
+    flex-direction: row;
+}
+
+.ModalBodySplitted div {
+    flex: 1;
+}
+
+.SectionSelector {
+    background-color: #ffffff0f;
+    margin: 5px;
+    border-radius: 10px;
+    padding: 2px 10px;
+}
+
+.SectionSelector .SectionSelectorBody .row {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #ffffff0f;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+.SectionSelector .SectionSelectorBody .row div {
+    flex: 9;
+}
+
+.SectionSelector .SectionSelectorBody .row .action {
+    flex: 1;
+}
+
+.SectionSelector .SectionSelectorBody .row .action button {
+    border: none;
+    background-color: #ffffff0f;
+    padding: 5px;
+    color: white;
+    transition: all 0.4s;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.SectionSelector .SectionSelectorBody .row .action .sectionLabel {
+    padding: 5px;
+}
+
+.SectionSelector h5 {
+    margin: 5px;
+}
+
 .ModalFoot {
     text-align: right;
     background-color: transparent;
@@ -273,6 +318,29 @@
 }
 
 .ModalFoot button.Success:hover {
+    transform: scale(1.1);
+    background-color: #00357be4;
+    color: white;
+    font-weight: 600;
+}
+
+.ModalFoot button.Delete {
+    background: #00357be4;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+
+    letter-spacing: 0.1rem;
+    transition: all 0.5s;
+
+    cursor: pointer;
+    transition: all 0.4s;
+    font-weight: 600;
+}
+
+.ModalFoot button.Delete:hover {
     transform: scale(1.1);
     background: white;
     color: #00357be4;

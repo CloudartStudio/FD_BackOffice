@@ -6,10 +6,7 @@ export default function Datacharts({ ConfigData }) {
         <div className={style.ChartSection}>
             {ConfigData &&
                 ConfigData.map((v, index) => {
-                    console.log(v);
-                    return (
-                        <CustomBarChart Graph={v} key={index}></CustomBarChart>
-                    );
+                    return <CustomBarChart Graph={v} key={index}></CustomBarChart>;
                 })}
         </div>
     );

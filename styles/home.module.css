@@ -47,7 +47,7 @@
 }
 
 .SimpleCard {
-    flex: 1;
+    flex: 8;
     text-align: center;
     color: rgb(57, 57, 57);
     border: none;
@@ -61,7 +61,7 @@
 }
 
 .SimpleCard:hover {
-    flex: 2;
+    flex: 9;
 }
 
 .SimpleCard .SimpleCardlabel {

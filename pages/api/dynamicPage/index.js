@@ -46,9 +46,7 @@ const putReq = async (req, res) => {
 };
 
 const getReq = async (req, res) => {
-    console.log("IL FETCH INIZIA###");
     const result = await DynamicPage.FetchAll();
-    console.log("RESULT", result);
     res.status(200).json(result);
 };
 
@@ -56,7 +54,6 @@ const getReq = async (req, res) => {
 
 export default async (req, res) => {
     try {
-        console.log("ENTRO NEL METODO");
         if (req.method === "POST") {
             postReq(req, res);
             return;
@@ -71,7 +68,6 @@ export default async (req, res) => {
             });
         }
     } catch (error) {
-        console.log("error", error);
         res.status(500).send({ message: "Error fetching data", error: error });
     }
 };

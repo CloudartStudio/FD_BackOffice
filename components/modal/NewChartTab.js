@@ -1,7 +1,8 @@
 import style from "../../styles/modal.module.css";
 import IconSelector from "../IconSelector";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import axios from "axios";
+import NotificationContext from "../../context/notificationContext";
 
 export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
     const [Bars, SetBars] = useState([]);
@@ -10,6 +11,8 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
     const BarColor_input = useRef(null);
     const BarLabel_input = useRef(null);
     const BarQuery_input = useRef(null);
+
+    const NotificationCtx = useContext(NotificationContext);
 
     const handleAddnewBar = () => {
         const Label = BarLabel_input.current.value;
@@ -34,6 +37,12 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
     };
 
     const HandleSendNewChart_PostRequest = async () => {
+        NotificationCtx.showNotification({
+            title: "Salvataggio",
+            message: "In attesa di salvataggio...",
+            status: "wait",
+        });
+
         const newConfig = {
             GraphName: GraphName_input.current.value,
             SectionID: SectionID,
@@ -43,42 +52,45 @@ export default function NewChartTab({ isOpen, onActionCloseModal, SectionID }) {
         const response = await axios.post("http://localhost:3000/api/visualizer/chart", {
             newConfig: newConfig,
         });
-        alert("SALVATO");
+
+        NotificationCtx.showNotification({
+            title: "Salvataggio",
+            message: "Il salvataggio è andato a buon fine",
+            status: "success",
+        });
         onActionCloseModal();
     };
 
     return (
         <>
             {isOpen && (
-                <div className={style.ModalContainer}>
-                    <div className={style.Modal}>
-                        <div className={style.ModalHeader}>
-                            <h5>NUOVO GRAFICO</h5>
-                            <span onClick={onActionCloseModal} className={style.closeBtnModal}>
-                                ✖
-                            </span>
+                <div className={style.Modal}>
+                    <div className={style.ModalHeader}>
+                        <h5>NUOVO GRAFICO</h5>
+                        <span onClick={onActionCloseModal} className={style.closeBtnModal}>
+                            ✖
+                        </span>
+                    </div>
+                    <div className={style.ModalBody}>
+                        <div className={style.ModalField}>
+                            <label>Nome grafico</label>
+                            <br />
+                            <input ref={GraphName_input} type={"text"} placeholder="Nome grafico..." name="GraphName"></input>
                         </div>
-                        <div className={style.ModalBody}>
-                            <div className={style.ModalField}>
-                                <label>Nome grafico</label>
-                                <br />
-                                <input ref={GraphName_input} type={"text"} placeholder="Nome grafico..." name="GraphName"></input>
-                            </div>
-                            <AddBars
-                                BarColor_input={BarColor_input}
-                                BarLabel_input={BarLabel_input}
-                                BarQuery_input={BarQuery_input}
-                                handleAddnewSection={handleAddnewBar}
-                                BarReturnName_input={BarReturnName_input}
-                                Bars={Bars}
-                            ></AddBars>
-                        </div>
+                        <AddBars
+                            BarColor_input={BarColor_input}
+                            BarLabel_input={BarLabel_input}
+                            BarQuery_input={BarQuery_input}
+                            handleAddnewSection={handleAddnewBar}
+                            BarReturnName_input={BarReturnName_input}
+                            Bars={Bars}
+                        ></AddBars>
+                    </div>
 
-                        <div className={style.ModalFoot}>
-                            <button onClick={HandleSendNewChart_PostRequest} className={style.Success}>
-                                INVIA
-                            </button>
-                        </div>
+                    <div className={style.ModalFoot}>
+                        <button onClick={HandleSendNewChart_PostRequest} className={style.Success}>
+                            INVIA
+                        </button>
                     </div>
                 </div>
             )}

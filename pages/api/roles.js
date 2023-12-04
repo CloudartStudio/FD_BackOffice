@@ -1,9 +1,12 @@
-import FieldVisualizerModel from "../../../../models/nosql_model/FieldVisualizerModel";
+import Role from "../../models/nosql_model/Role";
 
-const getReq = async (req, res) => {
-    const { id } = req.query;
-    let result = await FieldVisualizerModel.GetOne(id);
-    return result;
+export const getReq = async (req, res) => {
+    try {
+        let result = await Role.FetchAll();
+        return result;
+    } catch (error) {
+        return error;
+    }
 };
 
 export default async (req, res) => {

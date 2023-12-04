@@ -10,9 +10,7 @@ import Link from "next/link";
 
 export const getServerSideProps = async () => {
     const response = await fetch("http://localhost:3000/api/getMenuData");
-    const responseOfCentralLabel = await fetch(
-        "http://localhost:3000/api/getCentralLabelHome"
-    );
+    const responseOfCentralLabel = await fetch("http://localhost:3000/api/getCentralLabelHome");
     const menu_data = await response.json();
     const labelhome_data = await responseOfCentralLabel.json();
 
@@ -58,18 +56,12 @@ const Home = ({ data }) => {
 
     useEffect(() => {
         const _fetch = async () => {
-            const response = await fetch(
-                "http://localhost:3000/api/getMenuData"
-            );
-            const responseOfCentralLabel = await fetch(
-                "http://localhost:3000/api/getCentralLabelHome"
-            );
+            const response = await fetch("http://localhost:3000/api/getMenuData");
+            const responseOfCentralLabel = await fetch("http://localhost:3000/api/getCentralLabelHome");
 
             const menu_data = await response.json();
             const labelhome_data = await responseOfCentralLabel.json();
 
-            console.log("menu_data", menu_data);
-            console.log("labelhome_data", labelhome_data);
             const data = {
                 menu_data: menu_data,
                 labelhome_data: labelhome_data,
@@ -94,33 +86,18 @@ const Home = ({ data }) => {
                             {indexData &&
                                 indexData.labelhome_data &&
                                 indexData.labelhome_data.map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className={style.SimpleCard}
-                                    >
-                                        <div className={style.SimpleCardlabel}>
-                                            {item.Label}
-                                        </div>
-                                        <div className={style.SimpleCardValue}>
-                                            {item.Value}
-                                        </div>
+                                    <div key={index} className={style.SimpleCard}>
+                                        <div className={style.SimpleCardlabel}>{item.Label}</div>
+                                        <div className={style.SimpleCardValue}>{item.Value}</div>
                                     </div>
                                 ))}
                         </div>
                         <div className={style.BtnContainer}>
-                            <button
-                                id="add-customer"
-                                class="SimpleCard Clickable"
-                                onClick={HandleOpenNewClient}
-                            >
+                            <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClient}>
                                 <h3>NUOVO CLIENTE</h3>
                             </button>
 
-                            <button
-                                id="add-customer"
-                                class="SimpleCard Clickable"
-                                onClick={HandleOpenNewPartner}
-                            >
+                            <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewPartner}>
                                 <h3>NUOVO COLLABORATORE</h3>
                             </button>
                         </div>
@@ -133,15 +110,10 @@ const Home = ({ data }) => {
                                     content: (
                                         <>
                                             <br></br>
-                                            <Link
-                                                className={style.GoToPageBtn}
-                                                href={"/manage_pages"}
-                                            >
+                                            <Link className={style.GoToPageBtn} href={"/manage_pages"}>
                                                 Vai alla pagina
                                             </Link>
-                                            <ManagePages
-                                                isPreview={true}
-                                            ></ManagePages>
+                                            <ManagePages isPreview={true}></ManagePages>
                                         </>
                                     ),
                                 },
@@ -155,19 +127,9 @@ const Home = ({ data }) => {
                 </div>
             )}
 
-            {indexOfPage === 1 && (
-                <NewClientModal
-                    isOpen={openModalNewClient}
-                    onActionCloseModal={HandleCloseNewClient}
-                ></NewClientModal>
-            )}
+            {indexOfPage === 1 && <NewClientModal isOpen={openModalNewClient} onActionCloseModal={HandleCloseNewClient}></NewClientModal>}
 
-            {indexOfPage === 2 && (
-                <NewPartnerModal
-                    isOpen={openModalNewPartner}
-                    onActionCloseModal={HandleCloseNewPartner}
-                ></NewPartnerModal>
-            )}
+            {indexOfPage === 2 && <NewPartnerModal isOpen={openModalNewPartner} onActionCloseModal={HandleCloseNewPartner}></NewPartnerModal>}
         </>
     );
 };

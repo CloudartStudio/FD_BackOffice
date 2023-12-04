@@ -8,18 +8,13 @@ export default function Visualizer({ visualizerData }) {
 
     useEffect(() => {
         const GetDataForSection = async () => {
-            console.log("visualizerData", visualizerData);
             try {
-                const response = await axios.post(
-                    "http://localhost:3000/api/query/SimpleSelect",
-                    {
-                        ConfigID: visualizerData._id,
-                    }
-                );
+                const response = await axios.post("http://localhost:3000/api/query/SimpleSelect", {
+                    ConfigID: visualizerData._id,
+                });
                 SetDataValue(response.data[visualizerData.returnName]);
             } catch (err) {
                 //TODO: LOGGER
-                console.error("Si è verificato un errore:", err);
             }
         };
 
@@ -29,9 +24,7 @@ export default function Visualizer({ visualizerData }) {
     return (
         <div className={style.GraphSectionSubSection}>
             <span>
-                <IconSelector
-                    IconSelector={visualizerData.IconID}
-                ></IconSelector>
+                <IconSelector IconSelector={visualizerData.IconID}></IconSelector>
             </span>
             <div>
                 <p>{visualizerData.Label1}</p>

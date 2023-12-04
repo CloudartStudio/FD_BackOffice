@@ -19,10 +19,8 @@ export default function CustomBarChart({ Graph }) {
                             ConfigID: Graph._id,
                             GraphID: index,
                         });
-                        console.log("b", b);
                         return response.data[b.ReturnName]; // o un valore predefinito se necessario
                     } catch (error) {
-                        console.error("Errore durante il caricamento dei dati", error);
                         return 0; // Gestisci errori o fornisci un valore di fallback
                     }
                 })
@@ -51,7 +49,6 @@ export default function CustomBarChart({ Graph }) {
                 },
             };
 
-            console.log("data", { chartData, options });
             setData({ chartData, options });
         };
 

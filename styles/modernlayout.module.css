@@ -19,13 +19,8 @@ MAIN ELEMNT ARANCIO:
 }
 
 .menubase {
-    background: rgb(77,126,212);
-    background: linear-gradient(
-        180deg,
-        rgba(77,126,212,1) 9%,
-        rgba(55,111,209,1) 33%, 
-        rgba(34,98,210,1) 100%
-    );
+    background: rgb(77, 126, 212);
+    background: linear-gradient(180deg, rgba(77, 126, 212, 1) 9%, rgba(55, 111, 209, 1) 33%, rgba(34, 98, 210, 1) 100%);
     display: flex;
     flex-direction: row;
     position: fixed;
@@ -83,14 +78,33 @@ MAIN ELEMNT ARANCIO:
 }
 
 .menubase .CentralMenuContent .CentralTopSection div {
-    background-color: #ffffff06;
-    display: block;
+    background-color: #ffffff0f;
+    display: inline-block;
     margin: auto;
     padding: 10px 15vw;
     margin-top: 1vh;
     width: 20vw;
     border-radius: 10px;
     color: rgb(57, 57, 57);
+}
+
+.menubase .CentralMenuContent .CentralTopSection .LatBtn {
+    background-color: #ffffff0f;
+    margin: auto;
+    padding: 10px 10px;
+    margin: 10px;
+    margin-top: 1vh;
+    width: 2vw;
+    border-radius: 10px;
+    color: rgb(57, 57, 57);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.menubase .CentralMenuContent .CentralTopSection .LatBtn:hover {
+    background-color: #ffffff3f;
+    transform: scale(1.1);
 }
 
 .menubase .CentralMenuContent .CentralTopSection h1,
@@ -122,6 +136,7 @@ MAIN ELEMNT ARANCIO:
     transition: all 0.3s;
     justify-content: center; /* allinea orizzontalmente */
     align-items: start; /* allinea verticalmente */
+    overflow-y: auto;
 }
 
 .expanded {

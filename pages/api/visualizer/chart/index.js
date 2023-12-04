@@ -13,26 +13,17 @@ const postReq = async (req, res) => {
         req.query.id = SectionID;
         const SectionResult = await getReq(req, res);
 
-        const newSection = new DynamicSections(
-            SectionResult.NomeSezione,
-            SectionResult.VerticalOrder,
-            SectionResult.Tipo
-        );
+        const newSection = new DynamicSections(SectionResult.NomeSezione, SectionResult.VerticalOrder, SectionResult.Tipo);
 
         newSection.CreationDate = Date.now();
         newSection.IsActive = SectionResult.IsActive;
         newSection.IsConfigured = true;
-        newSection.MinRole = SectionResult;
-        newSection.RelatedConfigData = SectionResult.RelatedConfigData
-            ? [...SectionResult.RelatedConfigData, dynPage]
-            : [returnObj.config];
+        newSection.MinRole = SectionResult.MinRole;
+        newSection.RelatedConfigData = SectionResult.RelatedConfigData ? [...SectionResult.RelatedConfigData, dynPage] : [returnObj.config];
 
         newSection.collectionName = "";
 
-        const updatedSec = await newSection.UpdateWithColl(
-            SectionID,
-            "Sections"
-        );
+        const updatedSec = await newSection.UpdateWithColl(SectionID, "Sections");
 
         const returnObj = {
             config: dynPage,
@@ -41,7 +32,6 @@ const postReq = async (req, res) => {
 
         res.status(201).json(returnObj);
     } catch (error) {
-        console.log(error);
         res.status(500).send({ message: "Error fetching data", error: error });
     }
 };
@@ -60,7 +50,6 @@ export default async (req, res) => {
             });
         }
     } catch (error) {
-        console.log("error", error);
         res.status(500).send({ message: "Error fetching data", error: error });
     }
 };

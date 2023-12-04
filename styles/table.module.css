@@ -28,6 +28,12 @@
     display: flex;
 }
 
+.TableBaseRow i {
+    font-size: 0.9rem;
+    color: #000000a1;
+    cursor: pointer;
+}
+
 .TabIconBtn {
     background-color: #ffffff52 !important;
     border: none;
@@ -36,6 +42,7 @@
     padding: 4px 8px;
     border-radius: 5px;
     transition: all 0.3s;
+    margin: 0px 5px;
 }
 
 .TabIconBtn:hover {
