@@ -9,7 +9,12 @@ import TypeOptions from "../misc/type_options";
 export default function SectionManager({ isOpen, onActionCloseModal, startingSection, saveNewSections }) {
     const [Sections, setSections] = useState([]);
     const [SelectedSection, setSelectedSection] = useState(startingSection);
-    const [InfoPanel, setInfoPanel] = useState(null);
+    const [InfoPanel, setInfoPanel] = useState({
+        NomeSezione: "",
+        VerticalOrder: "",
+        Ruolo: "",
+        Tipo: "",
+    });
 
     useEffect(() => {
         axios
@@ -27,6 +32,10 @@ export default function SectionManager({ isOpen, onActionCloseModal, startingSec
 
     const handleClose = () => {
         onActionCloseModal();
+    };
+
+    const handleOnChangeForm = (e) => {
+        setInfoPanel((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     return (
@@ -79,46 +88,92 @@ export default function SectionManager({ isOpen, onActionCloseModal, startingSec
                             </div>
                         </div>
                         <div className="InfoPanel">
+                            <div>
+                                <div className={style.ModalField}>
+                                    <label>Nome sezione</label>
+                                    <br />
+                                    <input
+                                        value={InfoPanel.NomeSezione}
+                                        onChange={handleOnChangeForm}
+                                        type={"text"}
+                                        placeholder="Nome..."
+                                        name="NomeSezione"
+                                    ></input>
+                                </div>
+                                <div className={style.ModalField}>
+                                    <label>Ordine verticale</label>
+                                    <br />
+                                    <input
+                                        value={InfoPanel.VerticalOrder}
+                                        onChange={handleOnChangeForm}
+                                        type={"text"}
+                                        placeholder="Vertical order..."
+                                        name="VerticalOrder"
+                                    ></input>
+                                </div>
+                                <RoleOptions></RoleOptions>
+                                <TypeOptions></TypeOptions>
+                                {InfoPanel && (
+                                    <button
+                                        style={{
+                                            backgroundColor: "#ffffff2f",
+                                            border: "1px solid white",
+                                            color: "white",
+                                            padding: "10px 15px",
+                                            borderRadius: "5px",
+                                            fontSize: "1rem",
+                                            width: "90%",
+                                            margin: "10px auto",
+                                        }}
+                                        onClick={() => {
+                                            setInfoPanel({});
+                                        }}
+                                    >
+                                        add
+                                    </button>
+                                )}
+                                {!InfoPanel && (
+                                    <button
+                                        style={{
+                                            backgroundColor: "#ffffff2f",
+                                            border: "1px solid white",
+                                            color: "white",
+                                            padding: "10px 15px",
+                                            borderRadius: "5px",
+                                            fontSize: "1rem",
+                                            width: "90%",
+                                            margin: "10px auto",
+                                        }}
+                                        onClick={() => {
+                                            setInfoPanel({});
+                                        }}
+                                    >
+                                        edit
+                                    </button>
+                                )}
+                            </div>
                             <button
+                                style={{
+                                    backgroundColor: "#ffffff2f",
+                                    border: "1px solid white",
+                                    color: "white",
+                                    padding: "10px 15px",
+                                    borderRadius: "5px",
+                                    fontSize: "1rem",
+                                    width: "90%",
+                                    margin: "0 auto",
+                                }}
                                 onClick={() => {
-                                    setInfoPanel({});
+                                    setInfoPanel({
+                                        NomeSezione: "",
+                                        VerticalOrder: "",
+                                        Ruolo: "",
+                                        Tipo: "",
+                                    });
                                 }}
                             >
                                 reset
                             </button>
-                            {InfoPanel && (
-                                <button
-                                    onClick={() => {
-                                        setInfoPanel({});
-                                    }}
-                                >
-                                    add
-                                </button>
-                            )}
-                            {!InfoPanel && (
-                                <button
-                                    onClick={() => {
-                                        setInfoPanel({});
-                                    }}
-                                >
-                                    edit
-                                </button>
-                            )}
-
-                            <form onSubmit={(e) => {}}>
-                                <div className={style.ModalField}>
-                                    <label>Nome sezione</label>
-                                    <br />
-                                    <input type={"text"} placeholder="Nome..." name="Nome"></input>
-                                </div>
-                                <div className={style.ModalField}>
-                                    <label>VerticalOrder</label>
-                                    <br />
-                                    <input type={"text"} placeholder="Link..." name="Link"></input>
-                                </div>
-                                <RoleOptions></RoleOptions>
-                                <TypeOptions></TypeOptions>
-                            </form>
                         </div>
                     </div>
 

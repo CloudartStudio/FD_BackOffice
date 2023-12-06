@@ -54,26 +54,6 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
         fetch();
     }, [isOpen, id]);
 
-    const handleAddnewSection = () => {
-        const SectionName = SectionName_input.current.value;
-        const VerticalOrder = VerticalOrder_input.current.value;
-        const Type = Type_input.current.value;
-
-        if (SectionName && VerticalOrder && Type) {
-            const newSection = {
-                NomeSezione: SectionName,
-                VerticalOrder: VerticalOrder,
-                Tipo: Type,
-            };
-
-            // Utilizza lo spread operator per creare una nuova copia dell'array
-            const newPageSections = [...pageSections, newSection];
-
-            // Imposta il nuovo stato
-            setPageSections(newPageSections);
-        }
-    };
-
     const handleSavePage = async () => {
         const PageName = PageName_input.current.value;
         const Link = Link_input.current.value;
