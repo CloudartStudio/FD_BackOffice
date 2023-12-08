@@ -10,25 +10,7 @@ import Link from "next/link";
 import NewClientPartnerB2B from "../components/modal/NewClientPartnerB2B";
 import NewClientPartnerB2C from "../components/modal/NewClientPartnerB2C";
 
-export const getServerSideProps = async () => {
-    const response = await fetch("http://localhost:3000/api/getMenuData");
-    const responseOfCentralLabel = await fetch("http://localhost:3000/api/getCentralLabelHome");
-    const menu_data = await response.json();
-    const labelhome_data = await responseOfCentralLabel.json();
-
-    const data = {
-        menu_data: menu_data,
-        labelhome_data: labelhome_data,
-    };
-
-    return {
-        props: {
-            data,
-        },
-    };
-};
-
-const Home = ({ data }) => {
+const Home = () => {
     const [openModalNewClient, setOpenModalNewClient] = useState(false);
 
     const [openModalNewPartner, setOpenModalNewPartner] = useState(false);

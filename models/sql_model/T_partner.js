@@ -35,6 +35,30 @@ class T_partner extends SqlBase {
         this.is_b2b = is_b2b;
         this.is_b2c = is_b2c;
     }
+
+    static async fetchAll() {
+        return super.Base_fetchAll("T_partner");
+    }
+
+    static async fetchOne(id) {
+        return super.Base_fetchOne(id, "T_partner");
+    }
+
+    static async fetchOneByField(fieldName, fieldValue) {
+        return super.Base_fetchOneByField(fieldName, fieldValue, "T_partner");
+    }
+
+    static async executeQuery() {
+        return super.Base_executeQuery("T_partner");
+    }
+
+    static async Base_executeStoredProcedure() {
+        return super.Base_executeStoredProcedure("T_partner");
+    }
+
+    static async Base_executeFunction() {
+        return super.Base_executeFunction("T_partner");
+    }
 }
 
 export default T_partner;
