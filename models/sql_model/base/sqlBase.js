@@ -9,20 +9,31 @@ class SqlBase {
         this.tableName = tableName;
     }
 
-    async fetchAll() {
+    static async Base_fetchAll(tableName) {
         try {
             const pool = await poolPromise;
-            const result = await pool.request().query(`SELECT * FROM ${this.tableName}`);
+            const result = await pool.request().query(`SELECT * FROM ${tableName}`);
             return result.recordset;
         } catch (error) {
             throw error;
         }
     }
 
-    async fetchOne(id) {
+    static async Base_fetchOne(id, tableName) {
         try {
             const pool = await poolPromise;
-            const result = await pool.request().query(`SELECT * FROM ${this.tableName} WHERE ID = ${id}`);
+            const result = await pool.request().query(`SELECT * FROM ${tableName} WHERE ID = ${id}`);
+            return result.recordset[0];
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async Base_fetchOneByField(fieldName, fieldValue, tableName) {
+        try {
+            const pool = await poolPromise;
+            if (typeof fieldValue === "string") fieldValue = "'" + fieldValue + "'";
+            const result = await pool.request().query(`SELECT * FROM ${tableName} WHERE ${fieldName} = ${fieldValue}`);
             return result.recordset[0];
         } catch (error) {
             throw error;
@@ -59,19 +70,37 @@ class SqlBase {
         try {
             const pool = await poolPromise;
             let updateString = "";
-            for (const key in [...this]) {
-                if (key !== "tableName" && key !== "ID") updateString += `${key} = ${this[key]}, `;
+            let keyString = "";
+
+            const properties = Object.keys(this);
+            for (const key of properties) {
+                if (key !== "tableName" && key !== "ID") {
+                    keyString += `${key}, `;
+                    switch (typeof this[key]) {
+                        case "string":
+                            updateString += `'${this[key]}', `;
+                            break;
+                        case "boolean":
+                            this[key] ? (updateString += `1, `) : (updateString += `0, `);
+                            break;
+                        default:
+                            updateString += `${this[key]}, `;
+                            break;
+                    }
+                }
             }
             updateString = updateString.slice(0, -2); // Remove the trailing comma and space
+            keyString = keyString.slice(0, -2); // Remove the trailing comma and space
 
-            const result = await pool.request().query(`INSERT INTO ${this.tableName} VALUES ${updateString}`);
+            const q = `INSERT INTO ${this.tableName} (${keyString}) VALUES (${updateString} )`;
+            const result = await pool.request().query(q);
             return result;
         } catch (error) {
             throw error;
         }
     }
 
-    async executeQuery(query) {
+    static async Base_executeQuery(query) {
         try {
             const pool = await poolPromise;
             const result = await pool.request().query(query);
@@ -81,7 +110,7 @@ class SqlBase {
         }
     }
 
-    async executeStoredProcedure(name, params) {
+    static async Base_executeStoredProcedure(name, params) {
         try {
             const pool = await poolPromise;
             const result = await pool.request().execute(name, params);
@@ -91,7 +120,7 @@ class SqlBase {
         }
     }
 
-    async executeFunction(name, params) {
+    static async Base_executeFunction(name, params) {
         try {
             const pool = await poolPromise;
             const result = await pool.request().query(`SELECT ${name}(${params})`);
