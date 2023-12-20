@@ -1,59 +1,50 @@
-// components/ChartComponent.js
+// // components/ChartComponent.js
 
-import { useEffect, useRef } from "react";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+// import { useEffect, useRef } from "react";
+// import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from "chart.js";
+// import { Bar, Doughnut, Line, Pie, Bubble, PolarArea, Radar, Scatter } from "react-chartjs-2";
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-);
+// ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
-export const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: "top",
-        },
-        title: {
-            display: true,
-            text: "Chart.js Bar Chart",
-        },
-    },
-};
+// export const options = {
+//     indexAxis: "x", //x/y axis MOLTO FIGO
+//     responsive: true,
+//     plugins: {
+//         legend: {
+//             position: "top",
+//         },
+//         title: {
+//             display: true,
+//             text: "Chart.js Bar Chart",
+//         },
+//     },
+// };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+// const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
-export const data = {
-    labels,
-    datasets: [
-        {
-            label: "Dataset 1",
-            data: labels.map(() => 550),
-            backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-        {
-            label: "Dataset 2",
-            data: labels.map(() => 650),
-            backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-    ],
-};
+// export const data = {
+//     labels,
+//     datasets: [
+//         {
+//             label: "Dataset 1",
+//             data: labels.map(() => Math.floor(Math.random() * 100) - 65),
+//             backgroundColor: "rgba(255, 99, 132, 0.5)",
+//             borderColor: "rgba(255, 99, 132, 1)",
+//             borderWidth: 2,
+//             borderRadius: 10,
+//             borderSkipped: false,
+//         },
+//         {
+//             label: "Dataset 2",
+//             data: labels.map(() => Math.floor(Math.random() * 100) - 10),
+//             backgroundColor: "rgba(53, 162, 235, 0.5)",
+//         },
+//     ],
+// };
 
-function ChartComponent() {
-    return <Bar options={options} data={data} />;
-}
+// function ChartComponent() {
+//     //return <Bar options={options} data={data} />;
+//     return <Doughnut options={options} data={data} />;
+// }
 
-export default ChartComponent;
+// export default ChartComponent;

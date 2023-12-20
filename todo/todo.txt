@@ -1,0 +1,85 @@
+dividiamo i vari modelli dati nelle informazioni necessarie:
+visualizzatore dati (CAMPI VALORE):
+Label1
+Info
+IconName
+ValueInfo
+ReturnName
+
+Questo ora diventa una classe.
+
+la classe espone un metodo dal base che permette di andare ad ottenere un array delle sue propieta.
+l'idea è quella di associare ogni campo della select con un (CAMPO VALORE).
+per ogni riga che otteniamo quindi generiamo uno slot.
+
+INSERIRE LIMITAZIONE RISULTATI.
+
+Grafico:
+andiamo a permettere l'utilizzo dei seguenti grafici:
+https://www.chartjs.org/docs/latest/samples/bar/border-radius.html
+https://www.chartjs.org/docs/latest/samples/bar/floating.html
+https://www.chartjs.org/docs/latest/samples/bar/horizontal.html
+come deve funzionare?
+la configurazione rappresenta il grafico.
+il grafico può avere piu dataset.
+
+il dataset è legato al query editor.
+
+classe dataset:
+nome dataset (label)
+colore dataset
+colore bordo
+spessore bordo
+curva
+bordo si/no
+dati: [2,5,2,9,8]
+
+
+
+
+const DATA_COUNT = 7;
+const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
+
+
+const labels = Utils.months({count: 7});
+const data = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Fully Rounded',
+      data: Utils.numbers(NUMBER_CFG),
+      borderColor: Utils.CHART_COLORS.red,
+      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+      borderWidth: 2,
+      borderRadius: Number.MAX_VALUE,
+      borderSkipped: false,
+    },
+    {
+      label: 'Small Radius',
+      data: Utils.numbers(NUMBER_CFG),
+      borderColor: Utils.CHART_COLORS.blue,
+      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+      borderWidth: 2,
+      borderRadius: 5,
+      borderSkipped: false,
+    }
+  ]
+};
+
+
+https://www.chartjs.org/docs/latest/samples/line/line.html
+https://www.chartjs.org/docs/latest/samples/line/multi-axis.html
+https://www.chartjs.org/docs/latest/samples/line/point-styling.html
+https://www.chartjs.org/docs/latest/samples/line/stepped.html
+
+https://www.chartjs.org/docs/latest/samples/other-charts/bubble.html
+https://www.chartjs.org/docs/latest/samples/other-charts/doughnut.html
+https://www.chartjs.org/docs/latest/samples/other-charts/pie.html
+
+https://www.chartjs.org/docs/latest/samples/other-charts/polar-area.html
+https://www.chartjs.org/docs/latest/samples/other-charts/polar-area-center-labels.html
+https://www.chartjs.org/docs/latest/samples/other-charts/scatter.html
+https://www.chartjs.org/docs/latest/samples/other-charts/scatter-multi-axis.html
+
+
+SCATTER E BUBBLE SONO DEI TIPI SEPARATI

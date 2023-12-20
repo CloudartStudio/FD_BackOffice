@@ -18,8 +18,20 @@ header h1 {
 }
 
 ::-webkit-scrollbar {
-    width: 7px; /* width of vertical scrollbar */
-    border: 1px solid #d5d5d5;
+    width: 7px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f19f; /* Colore di sfondo */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #0354de5b; /* Colore della maniglia */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #021c48a1; /* Colore della maniglia quando si passa sopra con il mouse */
 }
 
 header h1 .Customer-Header-Section .Logo-Small {

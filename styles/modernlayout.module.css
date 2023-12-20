@@ -66,18 +66,25 @@ MAIN ELEMNT ARANCIO:
     font-weight: 600;
 }
 
+.menubase .CentralMenuContentFull {
+    display: inline-block;
+    width: 100vw;
+}
+
 .menubase .CentralMenuContent {
     display: inline-block;
     width: 80vw;
 }
 
-.menubase .CentralMenuContent .CentralTopSection {
+.menubase .CentralMenuContent .CentralTopSection,
+.menubase .CentralMenuContentFull .CentralTopSection {
     margin: 0px;
     text-align: center;
     min-height: 20px;
 }
 
-.menubase .CentralMenuContent .CentralTopSection div {
+.menubase .CentralMenuContent .CentralTopSection div,
+.menubase .CentralMenuContentFull .CentralTopSection div {
     background-color: #ffffff0f;
     display: inline-block;
     margin: auto;
@@ -88,7 +95,8 @@ MAIN ELEMNT ARANCIO:
     color: rgb(57, 57, 57);
 }
 
-.menubase .CentralMenuContent .CentralTopSection .LatBtn {
+.menubase .CentralMenuContent .CentralTopSection .LatBtn,
+.menubase .CentralMenuContentFull .CentralTopSection .LatBtn {
     background-color: #ffffff0f;
     margin: auto;
     padding: 10px 10px;
@@ -102,29 +110,35 @@ MAIN ELEMNT ARANCIO:
     transition: all 0.3s;
 }
 
-.menubase .CentralMenuContent .CentralTopSection .LatBtn:hover {
+.menubase .CentralMenuContent .CentralTopSection .LatBtn:hover,
+.menubase .CentralMenuContentFull .CentralTopSection .LatBtn:hover {
     background-color: #ffffff3f;
     transform: scale(1.1);
 }
 
 .menubase .CentralMenuContent .CentralTopSection h1,
 .menubase .CentralMenuContent .CentralTopSection h3,
-.menubase .CentralMenuContent .CentralTopSection i {
+.menubase .CentralMenuContent .CentralTopSection i,
+.menubase .CentralMenuContentFull .CentralTopSection h1,
+.menubase .CentralMenuContentFull .CentralTopSection h3,
+.menubase .CentralMenuContentFull .CentralTopSection i {
     margin: 0px;
     margin-left: 5px;
     display: inline-block;
 }
 
-.menubase .CentralMenuContent .CentralMidSection {
+.menubase .CentralMenuContent .CentralMidSection,
+.menubase .CentralMenuContentFull .CentralMidSection {
     height: 90vh;
 }
 
-.menubase .CentralMenuContent .CentralBottomSection {
+.menubase .CentralMenuContent .CentralBottomSection,
+.menubase .CentralMenuContentFull .CentralBottomSection {
     height: 3vh;
 }
 
 .mainbase {
-    background-color: #2222224f;
+    background-color: #aaaaaa2f;
     display: flex;
     position: fixed;
     top: 10vh;
@@ -144,7 +158,7 @@ MAIN ELEMNT ARANCIO:
     left: 1vw;
     width: 95.5vw;
     height: 96vh;
-    background-color: #2222227f;
+    background-color: #cccccc3f;
 }
 
 .IconMain {

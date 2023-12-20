@@ -23,6 +23,55 @@
     border-bottom: 2px solid #e67d3a;
 }
 
+.ModalFieldLogin {
+    width: 100%;
+    display: block;
+    text-align: center;
+    color: rgb(57, 57, 57);
+    font-weight: 600;
+    margin-top: 5vh;
+}
+
+.ModalFieldLogin i {
+    font-weight: 300;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    opacity: 0.8;
+    display: block;
+}
+
+.ModalFieldLogin input {
+    width: 90%;
+    background-color: #6dacff37;
+    border: none;
+    border-radius: 5px;
+    color: rgb(57, 57, 57);
+    font-weight: 600;
+    height: 4vh;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+.ModalFieldLogin button {
+    background-color: #6dacff37;
+    border: none;
+    color: rgb(57, 57, 57);
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    width: 50%;
+    margin: 0 auto;
+    transition: all 0.2s;
+}
+
+.ModalFieldLogin button:hover {
+    background-color: #6dacff;
+    color: white;
+    cursor: pointer;
+    scale: 1.02;
+}
+
 .SelectModern:focus {
     color: black;
 }
@@ -186,6 +235,14 @@
     width: 100%;
 }
 
+.ModalLogin {
+    border: none;
+    margin: auto;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
 .ModalHeader {
     font-size: 2rem;
     position: relative;
@@ -232,6 +289,12 @@
     overflow-y: scroll;
     height: 70vh;
     background-color: #00000000;
+}
+
+.ModalBodyLogin {
+    font-size: 1.3rem;
+    height: 70vh;
+    padding: 0px 10vw;
 }
 
 .ModalBodySplitted {

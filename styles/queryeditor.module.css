@@ -1,0 +1,236 @@
+.Modal {
+    border: none;
+    width: 100%;
+    padding: 10px 0px;
+}
+
+.ModalHeader {
+    font-size: 2rem;
+    position: relative;
+    background-color: transparent;
+    border-radius: 10px 10px 0px 0px;
+    color: white;
+}
+
+.ModalHeader h5 {
+    padding: 15px;
+    width: fit-content;
+    font-weight: 900;
+    margin: 0px;
+}
+
+.ModalHeader .closeBtnModal {
+    position: absolute;
+    right: 10px;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    transition: all 0.4s;
+    top: 5px;
+}
+
+.ModalHeader .closeBtnModal:hover {
+    position: absolute;
+    right: 10px;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.ModalBody h6 {
+    font-weight: 900;
+    font-size: 1rem;
+    margin-top: 25px;
+    margin: 0px;
+}
+
+.ModalBody {
+    font-size: 1.3rem;
+    overflow-y: auto;
+    background-color: #00000000;
+}
+
+.ToolTab,
+.ToolProp,
+.ToolTabAction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    width: 95%;
+    background-color: #0000003f;
+    border: 1px solid #00000000;
+    transition: all 0.4s;
+    overflow-y: hidden;
+    overflow-x: auto;
+    margin: 10px auto;
+}
+
+.ToolTabAction {
+    display: flex;
+    flex-direction: column;
+}
+
+.ToolTabAction ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.ToolTabAction ul li {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0px 5px;
+    background-color: #00000000;
+    transition: all 0.4s;
+    cursor: pointer;
+}
+
+.HeaderToolTabAction {
+    background-color: #dfdfdf4f;
+    border-radius: 5px;
+}
+
+.HeaderToolTabAction li.active {
+    background-color: rgb(102, 153, 240) !important;
+    border-radius: 5px;
+}
+
+.ToolTab div,
+.ToolProp div,
+.ToolPropButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(102, 153, 240);
+    margin: 2px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.ToolProp div,
+.ToolPropButton {
+    background-color: rgba(255, 115, 0, 0.5);
+}
+
+.ToolTab .active {
+    background-color: #f6ecec4f;
+    transform: scale(1.01);
+}
+
+.ToolTab div:hover {
+    background-color: #f6ecec4f;
+    transform: scale(1.01);
+}
+
+.ToolProp div:hover,
+.ToolPropButton:hover {
+    background-color: rgba(231, 183, 144, 0.5);
+    transform: scale(1.01);
+}
+
+.SelectField {
+    width: 60%;
+    margin: 5px auto;
+    display: block;
+    padding: 10px;
+    border-radius: 10px;
+    height: 30px;
+    background-color: #07070758;
+    border: 2px solid rgb(102, 153, 240);
+    transition: all 0.4s;
+}
+
+.Visualizer {
+    text-align: center;
+    margin: 5px;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.CommandPreview {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.Preview {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+}
+
+.ModalField {
+    text-align: center;
+    margin: 5px;
+    flex: 1;
+}
+
+.QueryVisualizer {
+    display: flex;
+    flex-direction: column;
+}
+
+.Modal button {
+    background-color: rgb(102, 153, 240);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgb(57, 57, 57);
+}
+
+.Modal .buttonBig {
+    background-color: rgb(102, 153, 240);
+    border: none;
+    border-radius: 10px;
+    padding: 15px 25px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(57, 57, 57);
+    margin: auto;
+    transition: all 0.2s;
+}
+
+.Modal .smallBtn {
+    padding: 3px 6px;
+    margin: 0px 5px;
+}
+
+.Modal .smallBtn:disabled {
+    opacity: 0.3;
+}
+
+.Modal button:hover {
+    background-color: #f6ecec4f;
+}
+
+.Select {
+    width: 92%;
+    text-align: center;
+    background-color: #6dacff37;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    height: 4vh;
+    margin: 20px;
+    font-size: 1rem;
+    border-bottom: 2px solid #004aad;
+}

@@ -6,22 +6,31 @@ import ModernMenu from "../../components/layout/modernMenu";
 import IconSelector from "../IconSelector";
 import NotificationContext from "../../context/notificationContext";
 import PopupSimple from "../misc/popup_simple";
+import LoginModal from "../../components/modal/LoginModal";
+import { useSession, signIn, signOut } from "next-auth/react";
+import QueryEditor from "../modal/QueryEditor/Editor";
 
 const ModernLayout = ({ children }) => {
     const [MenuData, setMenuData] = useState([]);
     const [IsFullScreen, setISFullScreen] = useState(false);
-
-    const handleLeftMenu = () => {
-        setIsOpenLeftMenu(isOpenLeftMenu ? false : true);
-    };
+    const [indexOfPage, SetIndexOfPage] = useState(1);
 
     const NotificationCtx = useContext(NotificationContext);
-
     const ActiveNotification = NotificationCtx.notification;
 
-    const handleRightMenu = () => {
-        setIsOpenRightMenu(isOpenRightMenu ? false : true);
-    };
+    const { data: _session } = useSession();
+
+    useEffect(() => {
+        if (_session) {
+            const session = _session.user.email;
+            console.log("session", session);
+            if (session.ID_ruolo === 1 || session.ID_ruolo === 2 || session.ID_ruolo === 3) {
+                SetIndexOfPage(0);
+            } else if (session.ID_ruolo === 4) {
+                SetIndexOfPage(2);
+            }
+        }
+    }, [_session]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,10 +57,23 @@ const ModernLayout = ({ children }) => {
             </Head>
 
             <main className={style.main}>
-                <ModernMenu MenuData={MenuData} IsFullScreen={IsFullScreen}></ModernMenu>
+                <ModernMenu indexOfPage={indexOfPage} MenuData={MenuData} IsFullScreen={IsFullScreen}></ModernMenu>
                 <div className={`${style.mainbase} ${IsFullScreen ? style.expanded : ""}`}>
-                    {ActiveNotification && <PopupSimple notification={ActiveNotification}></PopupSimple>}
-                    {children}
+                    {indexOfPage == 0 && (
+                        <>
+                            {ActiveNotification && <PopupSimple notification={ActiveNotification}></PopupSimple>}
+                            {children}
+                        </>
+                    )}
+                    {indexOfPage == 1 && (
+                        // <LoginModal
+                        //     onActionCloseModal={() => {
+                        //         SetIndexOfPage(0);
+                        //     }}
+                        // ></LoginModal>
+                        <QueryEditor></QueryEditor>
+                    )}
+                    {indexOfPage == 2 && <h1>TROPPO PRESTO, TORNA PIU AVANTI</h1>}
                 </div>
                 <div
                     className={style.IconMain}
