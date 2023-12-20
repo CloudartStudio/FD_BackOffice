@@ -7,6 +7,8 @@ import style from "../styles/home.module.css";
 import Tabs from "../components/Tabs/modernTabs";
 import ManagePages from "../components/PagesComponent/ManagePages";
 import Link from "next/link";
+import NewClientPartnerB2B from "../components/modal/NewClientPartnerB2B";
+import NewClientPartnerB2C from "../components/modal/NewClientPartnerB2C";
 
 const Home = () => {
     const [openModalNewClient, setOpenModalNewClient] = useState(false);
@@ -15,6 +17,33 @@ const Home = () => {
     const [indexData, setIndexData] = useState([]);
 
     const [indexOfPage, SetIndexOfPage] = useState(0);
+
+    // Inizio modifica provvisoria
+    // creo degli stati per l'apertura delle modali
+    const [openModalNewClientPartnerB2B, setOpenModalNewClientPartnerB2B] = useState(false);
+    const [openModalNewClientPartnerB2C, setOpenModalNewClientPartnerB2C] = useState(false);
+
+    // successivamente, creo degli handler per l'apertura e chiusura delle modali
+        const HandleOpenNewClientPartnerB2B = () => {
+            setOpenModalNewClientPartnerB2B(true);
+            SetIndexOfPage(3);
+        };
+
+        const HandleCloseNewClientPartnerB2B = () => {
+            setOpenModalNewClientPartnerB2B(true);
+            SetIndexOfPage(0);
+        };
+
+        const HandleOpenNewClientPartnerB2C = () => {
+            setOpenModalNewClientPartnerB2C(true);
+            SetIndexOfPage(4);
+        };
+
+        const HandleCloseNewClientPartnerB2C = () => {
+            setOpenModalNewClientPartnerB2C(true);
+            SetIndexOfPage(0);
+        };
+    // fine modifica provvisoria
 
     const HandleOpenNewPartner = () => {
         setOpenModalNewPartner(true);
@@ -83,6 +112,19 @@ const Home = () => {
                                 <h3>NUOVO COLLABORATORE</h3>
                             </button>
                         </div>
+
+                        {/* bottoni con modale */}
+                        <div className={style.BtnContainer}>
+                            <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2B}>
+                                <h3>NUOVO CLIENTE PARTNER B2B</h3>
+                            </button>
+
+                            <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2C}>
+                                <h3>NUOVO CLIENTE PARTNER B2C</h3>
+                            </button>
+                        </div>
+                        {/* fine bottoni con modale */}
+                        
                     </div>
                     <div className={style.HomeContent}>
                         <Tabs
@@ -112,6 +154,13 @@ const Home = () => {
             {indexOfPage === 1 && <NewClientModal isOpen={openModalNewClient} onActionCloseModal={HandleCloseNewClient}></NewClientModal>}
 
             {indexOfPage === 2 && <NewPartnerModal isOpen={openModalNewPartner} onActionCloseModal={HandleCloseNewPartner}></NewPartnerModal>}
+
+            {/* inizio gestione delle chiusure delle modali */}
+
+            {indexOfPage === 3 && <NewClientPartnerB2B isOpen={openModalNewClientPartnerB2B} onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>}
+            {indexOfPage === 4 && <NewClientPartnerB2C isOpen={openModalNewClientPartnerB2C} onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>}
+
+            {/* fine gestione */}
         </>
     );
 };
