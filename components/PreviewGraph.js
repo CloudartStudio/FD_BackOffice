@@ -17,7 +17,7 @@ import { useState } from "react";
 
 ChartJS.register(RadialLinearScale, ArcElement, LinearScale, BarElement, CategoryScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
-const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphData }) => {
+const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphDataContainer }) => {
     const [graphType, setGraphType] = useState(0);
     const options = {
         indexAxis: isXAxis ? "x" : "y", //x/y axis MOLTO FIGO
@@ -33,7 +33,7 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphData }
         },
     };
 
-    const labels = GraphData.find((el) => el.coordinate === "Labels").data;
+    const labels = GraphDataContainer[0].find((el) => el.coordinate === "Labels").data;
 
     //CAMPI PER QUERY MODEL
     // labelDataSet - string - static
@@ -44,8 +44,8 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphData }
 
     const data = {
         labels,
-        datasets: [
-            {
+        datasets: GraphDataContainer.map((GraphData) => {
+            return {
                 label: GraphData.find((el) => el.coordinate === "labelDataSet").data,
                 data: GraphData.find((el) => el.coordinate === "GraphData").data,
                 backgroundColor:
@@ -59,14 +59,12 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphData }
                 borderWidth: 1,
                 borderRadius: 3,
                 borderSkipped: false,
-            },
-            // {
-            //     label: "Dataset 2",
-            //     data: labels.map(() => Math.floor(Math.random() * 100) - 10),
-            //     backgroundColor: "rgba(53, 162, 235, 0.5)",
-            // },
-        ],
+            };
+        }),
     };
+
+    console.log("data", data);
+    //console.log("data1", data1);
 
     return (
         <>
@@ -97,21 +95,18 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphData }
 };
 
 function randomHexColor() {
-    const min = 50; // Limite inferiore per evitare il nero
-    const max = 205; // Limite superiore per evitare il bianco
+    const min = 50;
+    const max = 205;
 
-    // Funzione per convertire un singolo valore RGB in esadecimale
     function componenteEsadecimale(valore) {
         const esadecimale = valore.toString(16);
         return esadecimale.length == 1 ? "0" + esadecimale : esadecimale;
     }
 
-    // Genera i valori RGB
     const rosso = Math.floor(Math.random() * (max - min + 1)) + min;
     const verde = Math.floor(Math.random() * (max - min + 1)) + min;
     const blu = Math.floor(Math.random() * (max - min + 1)) + min;
 
-    // Ritorna il colore in formato esadecimale
     return componenteEsadecimale(rosso) + componenteEsadecimale(verde) + componenteEsadecimale(blu);
 }
 

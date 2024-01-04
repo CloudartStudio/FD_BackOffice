@@ -98,6 +98,18 @@
     border-radius: 5px;
 }
 
+.BodyToolTabAction li div {
+    border-radius: 5px;
+    padding: 5px;
+    color: rgb(57, 57, 57);
+    font-weight: 600;
+    transition: all 0.4s;
+}
+
+.BodyToolTabAction li div:hover {
+    transform: scale(1.05);
+}
+
 .HeaderToolTabAction li.active {
     background-color: rgb(102, 153, 240) !important;
     border-radius: 5px;
@@ -140,7 +152,7 @@
 }
 
 .SelectField {
-    width: 60%;
+    width: 92%;
     margin: 5px auto;
     display: block;
     padding: 10px;
@@ -149,14 +161,6 @@
     background-color: #07070758;
     border: 2px solid rgb(102, 153, 240);
     transition: all 0.4s;
-}
-
-.Visualizer {
-    text-align: center;
-    margin: 5px;
-    flex: 1;
-    display: flex;
-    flex-direction: row;
 }
 
 .CommandPreview {
@@ -172,8 +176,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 1;
-    width: 100%;
+    flex: 1 1;
+    width: 98%;
+    margin: auto;
 }
 
 .ModalField {
@@ -188,7 +193,6 @@
 }
 
 .Modal button {
-    background-color: rgb(102, 153, 240);
     border: none;
     border-radius: 5px;
     padding: 5px 15px;
@@ -207,6 +211,10 @@
     color: rgb(57, 57, 57);
     margin: auto;
     transition: all 0.2s;
+}
+
+.Modal .buttonBig:disabled {
+    opacity: 0.1;
 }
 
 .Modal .smallBtn {
@@ -233,4 +241,19 @@
     margin: 20px;
     font-size: 1rem;
     border-bottom: 2px solid #004aad;
+}
+
+.ModalFieldLabel {
+    display: flex;
+    flex-direction: column;
+}
+
+.VisualizerDataSet {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    width: 99%;
+    margin: auto;
 }

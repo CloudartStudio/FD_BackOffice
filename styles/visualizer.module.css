@@ -1,0 +1,59 @@
+.VisualizerContainer {
+    flex: 1;
+    background-color: #ffffff1f;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 15px 0px;
+    color: rgb(57, 57, 57);
+    display: flex;
+    flex-direction: row;
+}
+
+.VisualizerContainer .Visualizer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.Visualizer .Icon {
+    flex: 5;
+    text-align: center;
+    font-size: 10.5dvh;
+    height: 13vh;
+    align-items: center;
+    display: flex;
+}
+
+.Visualizer .Icon svg {
+    flex: 1;
+}
+
+.Visualizer .VisualizerBody {
+    flex: 9;
+    display: flex;
+    flex-direction: column;
+}
+
+.Visualizer .VisualizerBody .Title {
+    flex: 2;
+    font-size: 140%;
+    margin: 0.5vh 0vh;
+    font-weight: 700;
+}
+
+.Visualizer .VisualizerBody .Info {
+    flex: 1;
+    font-size: 60%;
+    font-weight: 500;
+    opacity: 0.6;
+    margin-bottom: 1.5vh;
+}
+
+.Visualizer .VisualizerBody .Value {
+    flex: 5;
+    font-size: 100%;
+    font-weight: 600;
+    opacity: 0.8;
+}
