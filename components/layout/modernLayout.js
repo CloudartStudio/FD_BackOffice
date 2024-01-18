@@ -29,6 +29,8 @@ const ModernLayout = ({ children }) => {
             } else if (session.ID_ruolo === 4) {
                 SetIndexOfPage(2);
             }
+        } else {
+            SetIndexOfPage(1);
         }
     }, [_session]);
 

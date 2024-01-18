@@ -11,7 +11,7 @@ import GraphLabelModel from "../../../models/dto/GraphDTO/DataModel_GraphLabel";
 import VisualizerModel from "../../../models/dto/GraphDTO/DataModel_Visualizer";
 import GraphBubbleModel from "../../../models/dto/GraphDTO/DataModel_GraphBubble";
 
-export default function QueryEditor({ dataType = 0 }) {
+export default function QueryEditor({ dataType = 1 }) {
     const [PreviewModel, setPreviewModel] = useState(null);
 
     let baseModel = [];
@@ -35,6 +35,7 @@ export default function QueryEditor({ dataType = 0 }) {
     const [QuarableTable, setQuarableTable] = useState([]);
     const [activeTable, setActiveTable] = useState(null);
     const [QuarableTableColumns, setQuarableTableColumns] = useState([]);
+    const [orderByFields, setOrderByFields] = useState([]);
 
     const [QueryModelContainer, SetQueryModelContainer] = useState([[...baseModel]]);
 
@@ -57,7 +58,6 @@ export default function QueryEditor({ dataType = 0 }) {
             return;
         }
 
-        alert("OK!");
         const QueryStructureContainer = [];
 
         QueryModelContainer.map((QueryModel) => {
@@ -91,10 +91,26 @@ export default function QueryEditor({ dataType = 0 }) {
                 if (q.isGroupingField) {
                     QueryStructure.group.push(q.valore_campo.columun.COLUMN_NAME);
                 }
+
+                if (q.having) {
+                    QueryStructure.having.push({
+                        ...q.havingCondition,
+                        column: q.valore_campo.columun.COLUMN_NAME,
+                    });
+                }
             });
 
             if (QueryStructure.select.length > 0) {
                 QueryStructure.from = activeTable.nome_tabella;
+            }
+
+            if (orderByFields.length > 0) {
+                QueryStructure.order = orderByFields.map((el) => {
+                    return {
+                        column: el.columun.COLUMN_NAME,
+                        direction: el.direction,
+                    };
+                });
             }
 
             QueryStructureContainer.push(QueryStructure);
@@ -241,7 +257,7 @@ export default function QueryEditor({ dataType = 0 }) {
                         setQuarableTableColumns={setQuarableTableColumns}
                         activeTable={activeTable}
                     ></TableTools>
-                    <ToolsView handleDragStart={handleDragStart}></ToolsView>
+                    <ToolsView orderByFields={orderByFields} setOrderByFields={setOrderByFields} handleDragStart={handleDragStart}></ToolsView>
                 </div>
                 <QuerySection
                     handleSetQueryModelContainer={handleSetQueryModelContainer}
@@ -327,7 +343,7 @@ const TableTools = ({ handleDragStart, setActiveTable, setQuarableTableColumns, 
     );
 };
 
-const ToolsView = ({ handleDragStart }) => {
+const ToolsView = ({ orderByFields, setOrderByFields, handleDragStart }) => {
     const [activeTab, setActiveTab] = useState(1);
     return (
         <div className={style.ToolTabAction}>
@@ -348,24 +364,9 @@ const ToolsView = ({ handleDragStart }) => {
                 >
                     ordinamento
                 </li>
-                <li
-                    onClick={() => {
-                        setActiveTab(3);
-                    }}
-                    className={activeTab == 3 ? style.active : ""}
-                >
-                    raggruppamento
-                </li>
-                <li
-                    onClick={() => {
-                        setActiveTab(4);
-                    }}
-                    className={activeTab == 4 ? style.active : ""}
-                >
-                    calcoli
-                </li>
             </ul>
             {activeTab == 1 && <FunctionButton handleDragStart={handleDragStart}></FunctionButton>}
+            {activeTab == 2 && <OrderTools orderByFields={orderByFields} setOrderByFields={setOrderByFields}></OrderTools>}
         </div>
     );
 };
@@ -406,6 +407,182 @@ const FunctionButton = ({ handleDragStart }) => {
     );
 };
 
+const OrderTools = ({ orderByFields, setOrderByFields }) => {
+    const handleDragOver = (event) => {
+        event.preventDefault();
+    };
+
+    const handleDrop = (event) => {
+        event.preventDefault();
+        const data = JSON.parse(event.dataTransfer.getData("text/plain"));
+
+        setOrderByFields((prev) => {
+            return [
+                ...prev,
+                {
+                    ...data,
+                    direction: "asc",
+                    index: prev.length,
+                },
+            ];
+        });
+    };
+
+    return (
+        <div
+            onDragOver={handleDragOver}
+            onDrop={(e) => {
+                handleDrop(e);
+            }}
+            style={{
+                backgroundColor: "#44444466",
+                height: "10vh",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5px",
+                border: "1px solid #44444466",
+                margin: "5px 0px",
+                flexDirection: "row",
+            }}
+            className={style.BodyToolTabAction}
+        >
+            {orderByFields &&
+                orderByFields
+                    .sort((a, b) => a.index - b.index)
+                    .map((field) => (
+                        <div
+                            style={{
+                                flex: 1,
+                                textAlign: "center",
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                        >
+                            <button
+                                onClick={() => {
+                                    setOrderByFields((prev) => {
+                                        const test = prev.map((el) => {
+                                            if (el.index == field.index)
+                                                return {
+                                                    ...el,
+                                                    index: el.index - 1,
+                                                };
+                                            else if (el.index == field.index - 1)
+                                                return {
+                                                    ...el,
+                                                    index: el.index + 1,
+                                                };
+                                            else return el;
+                                        });
+                                        return test;
+                                    });
+                                }}
+                                style={{ flex: 1, margin: "auto 10px" }}
+                            >
+                                ⬅️
+                            </button>
+                            <div
+                                style={{
+                                    backgroundColor: "#44444466",
+                                    width: "90%",
+                                    height: "8vh",
+                                    color: "white",
+                                    padding: "5px",
+                                    borderRadius: "5px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    margin: "0px auto",
+                                    flex: 8,
+                                }}
+                            >
+                                <div>{field.columun.COLUMN_NAME}</div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        flexDirection: "column",
+                                        margin: "0px 5px",
+                                        textAlign: "center",
+                                        fontSize: "1vh",
+                                    }}
+                                >
+                                    <button
+                                        onClick={() => {
+                                            setOrderByFields((prev) => {
+                                                const test = prev.map((el) => {
+                                                    if (el.index == field.index)
+                                                        return {
+                                                            ...el,
+                                                            direction: el.direction === "asc" ? "desc" : "asc",
+                                                        };
+                                                    else return el;
+                                                });
+                                                return test;
+                                            });
+                                        }}
+                                        style={{
+                                            flex: 1,
+                                            fontSize: "1vh",
+                                            padding: "5px",
+                                            margin: "1px 1px",
+                                            backgroundColor: field.direction === "asc" ? "#2363d2" : "",
+                                        }}
+                                    >
+                                        {field.direction === "asc" ? "asc" : "desc"}
+                                    </button>
+
+                                    <button
+                                        onClick={() => {
+                                            setOrderByFields((prev) => {
+                                                return prev.filter((el) => el.index != field.index);
+                                            });
+                                        }}
+                                        style={{
+                                            flex: 1,
+                                            fontSize: "1vh",
+                                            padding: "5px",
+                                            margin: "1px 1px",
+                                        }}
+                                    >
+                                        trash
+                                    </button>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    setOrderByFields((prev) => {
+                                        const test = prev.map((el) => {
+                                            if (el.index == field.index)
+                                                return {
+                                                    ...el,
+                                                    index: el.index + 1,
+                                                };
+                                            else if (el.index == field.index + 1)
+                                                return {
+                                                    ...el,
+                                                    index: el.index - 1,
+                                                };
+                                            else return el;
+                                        });
+                                        return test;
+                                    });
+                                }}
+                                style={{ flex: 1, margin: "auto 10px" }}
+                            >
+                                ➡️
+                            </button>
+                        </div>
+                    ))}
+        </div>
+    );
+};
+
 const QuerySection = ({
     activeTable,
     handleSetQueryModelContainer,
@@ -422,32 +599,34 @@ const QuerySection = ({
             <div className={style.Visualizer}>
                 {QueryModelContainer.map((QueryModel, DataSetIndex) => {
                     return (
-                        <div className={style.VisualizerDataSet}>
-                            {QueryModel.map((q) => {
-                                if (q.querable) {
-                                    return (
-                                        <QuerableField
-                                            SetQueryModelContainer={SetQueryModelContainer}
-                                            QueryModelContainer={QueryModelContainer}
-                                            handleDrop={handleDrop}
-                                            q={q}
-                                            handleSetQueryModelContainer={handleSetQueryModelContainer}
-                                            DataSetIndex={DataSetIndex}
-                                            handleDragOver={handleDragOver}
-                                        ></QuerableField>
-                                    );
-                                } else {
-                                    return (
-                                        <NonQuerableField
-                                            q={q}
-                                            handleSetQueryModelContainer={handleSetQueryModelContainer}
-                                            DataSetIndex={DataSetIndex}
-                                            activeTable={activeTable}
-                                        ></NonQuerableField>
-                                    );
-                                }
-                            })}
-                        </div>
+                        <>
+                            <div className={style.VisualizerDataSet}>
+                                {QueryModel.map((q) => {
+                                    if (q.querable) {
+                                        return (
+                                            <QuerableField
+                                                SetQueryModelContainer={SetQueryModelContainer}
+                                                QueryModelContainer={QueryModelContainer}
+                                                handleDrop={handleDrop}
+                                                q={q}
+                                                handleSetQueryModelContainer={handleSetQueryModelContainer}
+                                                DataSetIndex={DataSetIndex}
+                                                handleDragOver={handleDragOver}
+                                            ></QuerableField>
+                                        );
+                                    } else {
+                                        return (
+                                            <NonQuerableField
+                                                q={q}
+                                                handleSetQueryModelContainer={handleSetQueryModelContainer}
+                                                DataSetIndex={DataSetIndex}
+                                                activeTable={activeTable}
+                                            ></NonQuerableField>
+                                        );
+                                    }
+                                })}
+                            </div>
+                        </>
                     );
                 })}
             </div>

@@ -257,3 +257,16 @@
     width: 99%;
     margin: auto;
 }
+
+.VisualizerContainerMultiple {
+    background-color: #44444466;
+    height: 10vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #44444466;
+    margin: 5px 0px;
+    flex-direction: row;
+}

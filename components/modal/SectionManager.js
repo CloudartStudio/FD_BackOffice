@@ -111,8 +111,18 @@ export default function SectionManager({ isOpen, onActionCloseModal, startingSec
                                         name="VerticalOrder"
                                     ></input>
                                 </div>
-                                <RoleOptions></RoleOptions>
-                                <TypeOptions></TypeOptions>
+                                <RoleOptions
+                                    selectedRole={InfoPanel.Ruolo}
+                                    setSelectedRole={(value) => {
+                                        setInfoPanel((prev) => ({ ...prev, Ruolo: value }));
+                                    }}
+                                ></RoleOptions>
+                                <TypeOptions
+                                    selectedTypes={InfoPanel.Tipo}
+                                    setSelectedTypes={(value) => {
+                                        setInfoPanel((prev) => ({ ...prev, Tipo: value }));
+                                    }}
+                                ></TypeOptions>
                                 {InfoPanel && (
                                     <button
                                         style={{

@@ -20,6 +20,8 @@ export default function RoleOptions({ selectedRole, setSelectedRole }) {
 
     return (
         <div className={style.ModalField}>
+            <label>Ruolo</label>
+            <br />
             <select className={style.SelectModern} value={selectedRole} onChange={handleRoleChange}>
                 <option value="">Ruolo</option>
                 {roles.map((role) => (
