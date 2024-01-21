@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "debug": "cross-env NODE_OPTIONS='--inspect' next dev",
+        "debug": "next dev",
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
@@ -20,6 +20,7 @@
         "next-auth": "^4.24.5",
         "node-fetch": "^2.6.1",
         "nodemailer": "^6.9.7",
+        "pg": "^8.11.3",
         "react": "18.2.0",
         "react-chartjs-2": "^5.2.0",
         "react-dom": "18.2.0",

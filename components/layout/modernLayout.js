@@ -2,7 +2,7 @@ import Head from "next/head";
 import fetch from "node-fetch";
 import { useState, useEffect, useContext } from "react";
 import style from "../../styles/modernlayout.module.css";
-import ModernMenu from "../../components/layout/modernMenu";
+//import ModernMenu from "../../components/layout/modernMenu";
 import IconSelector from "../IconSelector";
 import NotificationContext from "../../context/notificationContext";
 import PopupSimple from "../misc/popup_simple";
@@ -59,7 +59,7 @@ const ModernLayout = ({ children }) => {
             </Head>
 
             <main className={style.main}>
-                <ModernMenu indexOfPage={indexOfPage} MenuData={MenuData} IsFullScreen={IsFullScreen}></ModernMenu>
+                {/*<ModernMenu indexOfPage={indexOfPage} MenuData={MenuData} IsFullScreen={IsFullScreen}></ModernMenu>*/}
                 <div className={`${style.mainbase} ${IsFullScreen ? style.expanded : ""}`}>
                     {indexOfPage == 0 && (
                         <>

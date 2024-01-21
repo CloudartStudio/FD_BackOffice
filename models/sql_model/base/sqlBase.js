@@ -1,4 +1,4 @@
-import { poolPromise } from "../../../helpers/database";
+import PG_databaseFactoryAsync from "../../../helpers/pgConnect";
 
 class SqlBase {
     constructor(tableName) {
@@ -11,9 +11,10 @@ class SqlBase {
 
     static async Base_fetchAll(tableName) {
         try {
-            const pool = await poolPromise;
-            const result = await pool.request().query(`SELECT * FROM ${tableName}`);
-            return result.recordset;
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
+            const result = await pool.query(`SELECT * FROM "${tableName}"`);
+            return result.rows;
         } catch (error) {
             throw error;
         }
@@ -21,9 +22,10 @@ class SqlBase {
 
     static async Base_fetchOne(id, tableName) {
         try {
-            const pool = await poolPromise;
-            const result = await pool.request().query(`SELECT * FROM ${tableName} WHERE ID = ${id}`);
-            return result.recordset[0];
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
+            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE ID = ${id}`);
+            return result.rows[0];
         } catch (error) {
             throw error;
         }
@@ -31,10 +33,11 @@ class SqlBase {
 
     static async Base_fetchOneByField(fieldName, fieldValue, tableName) {
         try {
-            const pool = await poolPromise;
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
             if (typeof fieldValue === "string") fieldValue = "'" + fieldValue + "'";
-            const result = await pool.request().query(`SELECT * FROM ${tableName} WHERE ${fieldName} = ${fieldValue}`);
-            return result.recordset[0];
+            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE ${fieldName} = ${fieldValue}`);
+            return result.rows[0];
         } catch (error) {
             throw error;
         }
@@ -42,9 +45,9 @@ class SqlBase {
 
     async deleteOne(id) {
         try {
-            const pool = await poolPromise;
-            const result = await pool.request().query(`DELETE FROM ${this.tableName} WHERE ID = ${id}`);
-            return result;
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
+            const result = await pool.query(`DELETE FROM "${this.tableName}" WHERE ID = ${id}`);
         } catch (error) {
             throw error;
         }
@@ -52,14 +55,15 @@ class SqlBase {
 
     async updateOne(id) {
         try {
-            const pool = await poolPromise;
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
             let updateString = "";
             for (const key in [...this]) {
                 if (key !== "tableName" && key !== "ID") updateString += `${key} = ${this[key]}, `;
             }
             updateString = updateString.slice(0, -2); // Remove the trailing comma and space
 
-            const result = await pool.request().query(`UPDATE ${this.tableName} SET ${updateString} WHERE ID = ${id}`);
+            const result = await pool.query(`UPDATE "${this.tableName}" SET ${updateString} WHERE ID = ${id}`);
             return result;
         } catch (error) {
             throw error;
@@ -68,14 +72,15 @@ class SqlBase {
 
     async insertOne() {
         try {
-            const pool = await poolPromise;
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
             let updateString = "";
             let keyString = "";
 
             const properties = Object.keys(this);
             for (const key of properties) {
                 if (key !== "tableName" && key !== "ID") {
-                    keyString += `${key}, `;
+                    keyString += `"${key}", `;
                     switch (typeof this[key]) {
                         case "string":
                             updateString += `'${this[key]}', `;
@@ -92,9 +97,9 @@ class SqlBase {
             updateString = updateString.slice(0, -2); // Remove the trailing comma and space
             keyString = keyString.slice(0, -2); // Remove the trailing comma and space
 
-            const q = `INSERT INTO ${this.tableName} (${keyString}) VALUES (${updateString} )`;
-            const result = await pool.request().query(q);
-            return result;
+            const q = `INSERT INTO "${this.tableName}" (${keyString}) VALUES (${updateString} )`;
+            const result = await pool.query(q);
+            return result.rows[0];
         } catch (error) {
             throw error;
         }
@@ -102,9 +107,9 @@ class SqlBase {
 
     static async Base_executeQuery(query) {
         try {
-            const pool = await poolPromise;
-            const result = await pool.request().query(query);
-            return result;
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
+            const result = await pool.query(query);
         } catch (error) {
             throw error;
         }
@@ -112,9 +117,9 @@ class SqlBase {
 
     static async Base_executeStoredProcedure(name, params) {
         try {
-            const pool = await poolPromise;
-            const result = await pool.request().execute(name, params);
-            return result;
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
+            const result = await pool.execute(name, params);
         } catch (error) {
             throw error;
         }
@@ -122,9 +127,9 @@ class SqlBase {
 
     static async Base_executeFunction(name, params) {
         try {
-            const pool = await poolPromise;
-            const result = await pool.request().query(`SELECT ${name}(${params})`);
-            return result;
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
+            const result = await pool.query(`SELECT ${name}(${params})`);
         } catch (error) {
             throw error;
         }

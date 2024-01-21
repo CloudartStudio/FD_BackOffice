@@ -33,7 +33,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-#Database file
-/helpers/database.js
-/helpers/mongoDBConnect.js
