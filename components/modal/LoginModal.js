@@ -5,6 +5,7 @@ import ContactUSModal from "./ContactUsModal";
 
 export default function SectionManager({ onActionCloseModal }) {
     const [openModalContactUs, setOpenModalContactUs] = useState(false);
+    const [pageIndex, setPageIndex] = useState(0);
 
     const [InfoPanel, setInfoPanel] = useState({ email: "", password: "", });
 
@@ -29,14 +30,17 @@ export default function SectionManager({ onActionCloseModal }) {
 
     const handleOpenContactUsModal = () => {
         setOpenModalContactUs(true);
+        setPageIndex(1);
     }
 
     const handleCloseContactUsModal = () => { 
         setOpenModalContactUs(false);
+        setPageIndex(0);
     }
     return (
         <div className={style.ModalLogin}>
-            <div className={style.ModalBodyLogin}>
+            { pageIndex == 0 && (
+                <div className={style.ModalBodyLogin}>
                 <div className="InfoPanel">
                     <div>
                         <div className={style.ModalFieldLogin}>
@@ -61,14 +65,18 @@ export default function SectionManager({ onActionCloseModal }) {
                     <div className={style.ModalFieldLogin}>
                         <i>hai dimenticato la password? vuoi creare un nuovo account?</i>
                         <button
-                            onClick={() => <ContactUSModal isOpen={handleOpenContactUsModal}
-                                                           onRequestClose={handleCloseContactUsModal}/>}
+                            onClick={() => handleOpenContactUsModal()}
                         >
                             CONTATTACI
                         </button>
                     </div>
                 </div>
             </div>
+
+            )}
+            { pageIndex == 1 &&(
+                <ContactUSModal  isOpen={openModalContactUs} onActionCloseModal={handleCloseContactUsModal} />
+            )}
         </div>
     );
 }
