@@ -1,12 +1,12 @@
 import style from "../../styles/modal.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import ContactUSModal from "./ContactUsModal";
 
 export default function SectionManager({ onActionCloseModal }) {
-    const [InfoPanel, setInfoPanel] = useState({
-        email: "",
-        password: "",
-    });
+    const [openModalContactUs, setOpenModalContactUs] = useState(false);
+
+    const [InfoPanel, setInfoPanel] = useState({ email: "", password: "", });
 
     const [loginError, setLoginError] = useState(undefined);
 
@@ -27,6 +27,13 @@ export default function SectionManager({ onActionCloseModal }) {
         setInfoPanel({ ...InfoPanel, [e.target.name]: e.target.value });
     };
 
+    const handleOpenContactUsModal = () => {
+        setOpenModalContactUs(true);
+    }
+
+    const handleCloseContactUsModal = () => { 
+        setOpenModalContactUs(false);
+    }
     return (
         <div className={style.ModalLogin}>
             <div className={style.ModalBodyLogin}>
@@ -54,9 +61,8 @@ export default function SectionManager({ onActionCloseModal }) {
                     <div className={style.ModalFieldLogin}>
                         <i>hai dimenticato la password? vuoi creare un nuovo account?</i>
                         <button
-                            onClick={() => {
-                                alert("404");
-                            }}
+                            onClick={() => <ContactUSModal isOpen={handleOpenContactUsModal}
+                                                           onRequestClose={handleCloseContactUsModal}/>}
                         >
                             CONTATTACI
                         </button>
