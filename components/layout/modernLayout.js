@@ -8,7 +8,6 @@ import NotificationContext from "../../context/notificationContext";
 import PopupSimple from "../misc/popup_simple";
 import LoginModal from "../../components/modal/LoginModal";
 import { useSession, signIn, signOut } from "next-auth/react";
-import QueryEditor from "../modal/QueryEditor/Editor";
 
 const ModernLayout = ({ children }) => {
     const [MenuData, setMenuData] = useState([]);
@@ -68,12 +67,11 @@ const ModernLayout = ({ children }) => {
                         </>
                     )}
                     {indexOfPage == 1 && (
-                        // <LoginModal
-                        //     onActionCloseModal={() => {
-                        //         SetIndexOfPage(0);
-                        //     }}
-                        // ></LoginModal>
-                        <QueryEditor></QueryEditor>
+                        <LoginModal
+                            onActionCloseModal={() => {
+                                SetIndexOfPage(0);
+                            }}
+                        ></LoginModal>
                     )}
                     {indexOfPage == 2 && <h1>TROPPO PRESTO, TORNA PIU AVANTI</h1>}
                 </div>
