@@ -1,5 +1,5 @@
 import style from "../../styles/graph.module.css";
-import CustomBarChart from "./CustomBarChart";
+import CustomBarChart from "../data_component/customBarChart";
 
 export default function Datacharts({ ConfigData }) {
     return (
