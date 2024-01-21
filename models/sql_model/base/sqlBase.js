@@ -24,7 +24,7 @@ class SqlBase {
         try {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
-            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE ID = ${id}`);
+            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE "ID" = ${id}`);
             return result.rows[0];
         } catch (error) {
             throw error;
@@ -36,7 +36,7 @@ class SqlBase {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
             if (typeof fieldValue === "string") fieldValue = "'" + fieldValue + "'";
-            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE ${fieldName} = ${fieldValue}`);
+            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE "${fieldName}" = ${fieldValue}`);
             return result.rows[0];
         } catch (error) {
             throw error;
@@ -47,7 +47,7 @@ class SqlBase {
         try {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
-            const result = await pool.query(`DELETE FROM "${this.tableName}" WHERE ID = ${id}`);
+            const result = await pool.query(`DELETE FROM "${this.tableName}" WHERE "ID" = ${id}`);
         } catch (error) {
             throw error;
         }
@@ -63,7 +63,7 @@ class SqlBase {
             }
             updateString = updateString.slice(0, -2); // Remove the trailing comma and space
 
-            const result = await pool.query(`UPDATE "${this.tableName}" SET ${updateString} WHERE ID = ${id}`);
+            const result = await pool.query(`UPDATE "${this.tableName}" SET ${updateString} WHERE "ID" = ${id}`);
             return result;
         } catch (error) {
             throw error;
