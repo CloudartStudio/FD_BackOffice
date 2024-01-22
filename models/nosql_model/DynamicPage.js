@@ -2,7 +2,7 @@ import { getDB } from "../../helpers/mongoDBConnect";
 import DynamicBase from "../../models/nosql_model/base/DynamicBase";
 
 class DynamicPage extends DynamicBase {
-    constructor(Nome, Link, MinRole, RelatedSections) {
+    constructor(Nome, Link, MinRole, RelatedSections, IsAgenzia) {
         super("Pages");
 
         this.IsActive = false;
@@ -11,6 +11,7 @@ class DynamicPage extends DynamicBase {
         this.Link = Link;
         this.MinRole = MinRole;
         this.RelatedSections = RelatedSections;
+        this.IsAgenzia = IsAgenzia;
     }
 
     static async FetchAll() {

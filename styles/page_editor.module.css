@@ -70,6 +70,23 @@
     overflow-y: scroll;
 }
 
+.PageEditor .PageEditorBody .PageEditorPlaceHolder h3 {
+    font-size: 3rem;
+    opacity: 0.8;
+}
+
+.PageEditor .PageEditorBody .PageEditorPlaceHolder p {
+    margin-top: 10vh;
+}
+
+.PageEditor .PageEditorBody .PageEditorPlaceHolder {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.45);
+    border-radius: 10px;
+    text-align: center;
+}
+
 .PageEditor .PageEditorBody .PageEditorBodySection {
     display: flex;
     flex-direction: column;

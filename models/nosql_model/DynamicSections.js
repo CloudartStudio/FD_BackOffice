@@ -1,18 +1,19 @@
 import DynamicBase from "../../models/nosql_model/base/DynamicBase";
 
 class DynamicSections extends DynamicBase {
-    constructor(NomeSezione, VerticalOrder, Tipo) {
+    constructor(Data, VerticalOrder) {
         super("Sections");
 
-        this.NomeSezione = NomeSezione;
         this.VerticalOrder = VerticalOrder;
-        this.Tipo = Tipo;
-
-        this.RelatedConfigData = [];
-        this.MinRole = 0;
-        this.IsConfigured = false;
         this.IsActive = false;
         this.CreationDate = Date.now;
+
+        this.Data = Data.map((d) => {
+            return {
+                ...d,
+                IsSaved: true,
+            };
+        });
     }
 
     static async FetchAll() {

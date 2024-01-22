@@ -153,6 +153,22 @@ MAIN ELEMNT ARANCIO:
     overflow-y: auto;
 }
 
+.particleLayer {
+    background-color: #aaaaaa2f;
+    display: flex;
+    position: fixed;
+    top: 10vh;
+    left: 10vw;
+    width: 80vw;
+    height: 87vh;
+    border-radius: 10px;
+    z-index: 90;
+    transition: all 0.3s;
+    justify-content: center; /* allinea orizzontalmente */
+    align-items: start; /* allinea verticalmente */
+    overflow-y: auto;
+}
+
 .expanded {
     top: 2vh;
     left: 1vw;

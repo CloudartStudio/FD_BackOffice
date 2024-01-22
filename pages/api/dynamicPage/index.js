@@ -5,9 +5,10 @@ import { ObjectId } from "mongodb";
 const postReq = async (req, res) => {
     const newSections = [];
 
-    if (req.body.PageObj.RelatedSections) {
-        for (const s of req.body.PageObj.RelatedSections) {
-            const dynSectionRequest = new DynamicSections(s.NomeSezione, s.VerticalOrder, s.Tipo);
+    console.log("Pagina e sezioni", req.body.Page);
+    if (req.body.Page.Sections) {
+        for (var s of req.body.Page.Sections) {
+            const dynSectionRequest = new DynamicSections(s.data, s.VerticalOrder);
 
             const dynSection = await dynSectionRequest.save();
 
@@ -15,7 +16,7 @@ const postReq = async (req, res) => {
         }
     }
 
-    const dynPageRequest = new DynamicPage(req.body.PageObj.Nome, req.body.PageObj.Link, req.body.PageObj.MinRole, newSections);
+    const dynPageRequest = new DynamicPage(req.body.Page.PageName, req.body.Page.Link, req.body.Page.MinRole, newSections, req.body.Page.IsAgenzia);
 
     const dynPage = await dynPageRequest.save();
 
@@ -28,18 +29,35 @@ const postReq = async (req, res) => {
 };
 
 const putReq = async (req, res) => {
-    var RelatedSections = [];
-    req.body.PageObj.RelatedSections.map((section) => {
-        RelatedSections.push(new ObjectId(section._id));
-    });
+    const EditedSections = [];
+    console.log("Pagina e sezioni", req.body.Page);
+    if (req.body.Page.Sections) {
+        for (var s of req.body.Page.Sections) {
+            if (s.data.find((d) => !d.IsSaved)) {
+                const dynSectionRequest = new DynamicSections(s.data, s.VerticalOrder);
+                if (s.data.find((d) => d.IsSaved === true)) {
+                    // se entra qui allora la sezione è stata modificata
+                    const dynSection = await dynSectionRequest.Update(s._id);
+                    EditedSections.push(s._id);
+                } else {
+                    //se entra qui allora la sezione è stata aggiunta in modifica
+                    const dynSection = await dynSectionRequest.save();
+                    EditedSections.push(dynSection.insertedId);
+                }
+            } else {
+                //se entra qui allora non è stata modificata, aggiungo l'id per non perderla
+                EditedSections.push(new ObjectId(s.ID));
+            }
+        }
+    }
 
-    const PageToUpdate = new DynamicPage(req.body.PageObj.Nome, req.body.PageObj.Link, req.body.PageObj.MinRole, RelatedSections); // = await DynamicPage.GetOne(req.body.PageObj.ID);
+    const PageToUpdate = new DynamicPage(req.body.Page.PageName, req.body.Page.Link, req.body.Page.MinRole, EditedSections, req.body.Page.IsAgenzia);
 
-    const dynPage = await PageToUpdate.Update(req.body.PageObj.ID);
+    const dynPage = await PageToUpdate.Update(req.body.Page.ID);
 
     const returnObj = {
         page: dynPage,
-        newSections: [],
+        EditedSections: [],
     };
 
     res.status(201).json(returnObj);

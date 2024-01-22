@@ -5,6 +5,7 @@ import axios from "axios";
 import NotificationContext from "../../context/notificationContext";
 import RoleOptions from "../misc/role_options";
 import { BsGraphUp } from "react-icons/bs";
+import { MdAddChart } from "react-icons/md";
 
 export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null }) {
     const [pageIndex, setPageIndex] = useState(0);
@@ -14,6 +15,7 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
         Link: "",
         MinRole: "",
         Sections: [],
+        IsAgenzia: false,
     });
 
     const [pageSections, setPageSections] = useState([]);
@@ -103,19 +105,26 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
     useEffect(() => {
         const fetch = async () => {
             if (id && isOpen) {
+                alert(id);
                 setIsInEdit(true);
                 const resposePage = await axios.get("http://localhost:3000/api/dynamicPage/" + id);
-                const { Nome, Link, RelatedSections, MinRole } = resposePage.data;
-
-                PageName_input.current.value = Nome;
-                Link_input.current.value = Link;
+                const { Nome, Link, RelatedSections, IsActive, IsAgenzia, MinRole } = resposePage.data;
                 //MinRole_input.current.value = MinRole;
+
+                setPage({
+                    PageName: Nome,
+                    Link: Link,
+                    MinRole: MinRole,
+                    IsAgenzia: IsAgenzia,
+                    Sections: RelatedSections,
+                });
 
                 let sections = [];
                 for (const element of RelatedSections) {
                     const responseSection = await axios.get("http://localhost:3000/api/dynamicSections/" + element);
-                    const { NomeSezione, VerticalOrder, Tipo, _id } = responseSection.data;
-                    sections.push({ NomeSezione, VerticalOrder, Tipo, _id });
+                    console.log("CIAO", responseSection.data);
+                    const { collectionName, Data, IsActive, VerticalOrder, _id } = responseSection.data;
+                    sections.push({ collectionName: collectionName, data: Data, IsActive: IsActive, VerticalOrder: VerticalOrder, _id: _id });
                 }
                 setPageSections(sections);
             }
@@ -125,36 +134,35 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
     }, [isOpen, id]);
 
     const handleSavePage = async () => {
-        const PageName = PageName_input.current.value;
-        const Link = Link_input.current.value;
-        //const MinRole = MinRole_input.current.value;
-
-        if (PageName && Link && MinRole) {
-            const PageObj = {
-                ID: id,
-                Nome: PageName_input.current.value,
-                Link: Link_input.current.value,
-                //MinRole: MinRole_input.current.value,
-                RelatedSections: pageSections,
-            };
-
-            if (isInEdit) {
-                PageObj["id"] = id;
-                const response = await axios.put("http://localhost:3000/api/dynamicPage", {
-                    PageObj: PageObj,
-                });
-            } else {
-                const response = await axios.post("http://localhost:3000/api/dynamicPage", {
-                    PageObj: PageObj,
-                });
-            }
-            NotificationCtx.showNotification({
-                title: "Salvataggio",
-                message: "Il salvataggio è andato a buon fine",
-                status: "success",
+        if (isInEdit) {
+            Page["id"] = id;
+            const response = await axios.put("http://localhost:3000/api/dynamicPage", {
+                Page: {
+                    PageName: Page.PageName,
+                    Link: Page.Link,
+                    MinRole: Page.MinRole,
+                    Sections: pageSections,
+                    IsAgenzia: Page.IsAgenzia,
+                    ID: id,
+                },
             });
-            onActionCloseModal();
+        } else {
+            const response = await axios.post("http://localhost:3000/api/dynamicPage", {
+                Page: {
+                    PageName: Page.PageName,
+                    Link: Page.Link,
+                    MinRole: Page.MinRole,
+                    Sections: pageSections,
+                    IsAgenzia: Page.IsAgenzia,
+                },
+            });
         }
+        NotificationCtx.showNotification({
+            title: "Salvataggio",
+            message: "Il salvataggio è andato a buon fine",
+            status: "success",
+        });
+        onActionCloseModal();
     };
 
     return (
@@ -168,7 +176,7 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
                                 {isInEdit && (
                                     <h5>
                                         MODIFICA PAGINA
-                                        {Page.PageName}
+                                        {" - " + Page.PageName}
                                     </h5>
                                 )}
                                 <span onClick={onActionCloseModal} className={style.closeBtnModal}>
@@ -218,35 +226,25 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
                                             });
                                         }}
                                     ></RoleOptions>
+                                    <div className={style.ModalField}>
+                                        <label htmlFor="IsAgenzia">Pagina agenzia</label>
+                                        <br />
+                                        <input
+                                            value={Page.IsAgenzia}
+                                            onChange={(e) => {
+                                                setPage({
+                                                    ...Page,
+                                                    IsAgenzia: e.target.value,
+                                                });
+                                            }}
+                                            type={"checkbox"}
+                                            name="IsAgenzia"
+                                        ></input>
+                                    </div>
                                 </div>
                                 <div className={PageEditorStyle.PageEditor}>
                                     <div className={PageEditorStyle.PageEditorHeader}>
-                                        <div className={PageEditorStyle.PageEditorHeadeButtonContainer}>
-                                            <div className={PageEditorStyle.PageEditorHeaderDiv}>
-                                                <button
-                                                    draggable
-                                                    onDragStart={(event) => handleDragStart(event, { type: 0, name: "graph" })}
-                                                    className={PageEditorStyle.PageEditorHeaderButton}
-                                                >
-                                                    graph
-                                                </button>
-                                            </div>
-                                            <div className={PageEditorStyle.PageEditorHeaderDiv}>
-                                                <button draggable className={PageEditorStyle.PageEditorHeaderButton}>
-                                                    graph
-                                                </button>
-                                            </div>
-                                            <div className={PageEditorStyle.PageEditorHeaderDiv}>
-                                                <button draggable className={PageEditorStyle.PageEditorHeaderButton}>
-                                                    graph
-                                                </button>
-                                            </div>
-                                            <div className={PageEditorStyle.PageEditorHeaderDiv}>
-                                                <button draggable className={PageEditorStyle.PageEditorHeaderButton}>
-                                                    graph
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <DraggableTypesOfConfig handleDragStart={handleDragStart}></DraggableTypesOfConfig>
                                     </div>
                                     <div className={PageEditorStyle.PageEditorBody}>
                                         {pageSections.length == 0 && (
@@ -255,18 +253,21 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
                                                     handleDrop(e);
                                                 }}
                                                 onDragOver={handleDragOver}
-                                                style={{
-                                                    width: "100%",
-                                                    height: "100%",
-                                                    backgroundColor: "white",
-                                                    border: "1px solid black",
-                                                }}
-                                            ></div>
+                                                className={PageEditorStyle.PageEditorPlaceHolder}
+                                            >
+                                                <p>
+                                                    Trascina qui gli elementi per creare la pagina
+                                                    <h3>
+                                                        <MdAddChart></MdAddChart>
+                                                    </h3>
+                                                </p>
+                                            </div>
                                         )}
                                         {pageSections.length != 0 && (
                                             <div className={PageEditorStyle.PageEditorBodyContainer}>
                                                 {pageSections &&
                                                     pageSections.map((section, index) => {
+                                                        console.log("section" + index, section);
                                                         return (
                                                             <div className={PageEditorStyle.PreviewSection}>
                                                                 {section.data.map((element) => {
@@ -287,13 +288,21 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
                                                                                     onDragOver={handleDragOver}
                                                                                     className={PageEditorStyle.DestraSinistra}
                                                                                 ></div>
-                                                                                <div className={PageEditorStyle.Icon}>
-                                                                                    {element.Tipo == 0 && <BsGraphUp></BsGraphUp>}
-                                                                                    {element.Tipo == 1 && <div>view</div>}
-                                                                                </div>
+                                                                                {element.IsSaved && (
+                                                                                    <div className={PageEditorStyle.Icon}>
+                                                                                        {element.IsActive && <button>Edit</button>}
+                                                                                        {!element.IsActive == 1 && <button>Configure</button>}
+                                                                                    </div>
+                                                                                )}
+                                                                                {!element.IsSaved && (
+                                                                                    <div className={PageEditorStyle.Icon}>
+                                                                                        {element.Tipo == 0 && <BsGraphUp></BsGraphUp>}
+                                                                                        {element.Tipo == 1 && <div>view</div>}
+                                                                                    </div>
+                                                                                )}
+
                                                                                 <div
                                                                                     onDrop={(e) => {
-                                                                                        alert("cazzo");
                                                                                         handleDropDirection(e, 3, section.VerticalOrder);
                                                                                     }}
                                                                                     onDragOver={handleDragOver}
@@ -330,3 +339,39 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
         </>
     );
 }
+
+const DraggableTypesOfConfig = ({ handleDragStart }) => {
+    const [draggableTypes, setDraggableTypes] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:3000/api/types")
+            .then((res) => {
+                console.log("result", res);
+                setDraggableTypes((prev) => {
+                    return [...res.data];
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    return (
+        <div className={PageEditorStyle.PageEditorHeadeButtonContainer}>
+            <div className={PageEditorStyle.PageEditorHeaderDiv}>
+                {draggableTypes.map((element) => {
+                    return (
+                        <button
+                            draggable
+                            onDragStart={(event) => handleDragStart(event, { type: element.typeID, name: element.typeName })}
+                            className={PageEditorStyle.PageEditorHeaderButton}
+                        >
+                            {element.typeName}
+                        </button>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
