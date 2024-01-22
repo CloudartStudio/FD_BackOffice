@@ -9,7 +9,7 @@ export default function SectionManager({ onActionCloseModal }) {
 
     const [InfoPanel, setInfoPanel] = useState({ email: "", password: "", });
 
-    const [loginError, setLoginError] = useState(undefined);
+    const [loginError, setLoginError] = useState({message: "", });
 
     const handleLoginAction = async () => {
         const result = await signIn("credentials", {
@@ -20,7 +20,7 @@ export default function SectionManager({ onActionCloseModal }) {
         });
 
         if (result.error) {
-            setLoginError(result.error);
+            setLoginError({message : "Credenziali non valide"});
         }
     };
 
@@ -54,9 +54,9 @@ export default function SectionManager({ onActionCloseModal }) {
                             <input value={InfoPanel.password} onChange={handleOnChangeForm} type={"password"} placeholder="Password..." name="password"></input>
                         </div>
                     </div>
-                    {loginError && (
+                    {loginError.message && (
                         <div style={{ color: "#dd22225f" }} className={style.ModalFieldLogin}>
-                            {loginError}
+                            {loginError.message}
                         </div>
                     )}
                     <div className={style.ModalFieldLogin}>

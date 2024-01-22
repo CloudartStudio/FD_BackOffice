@@ -134,7 +134,7 @@ export default function Table1({ setUpdate, head_data, body_data, footer_action,
                                     );
                                 })}
                             </div>
-                            {footer_action && (
+                            {!isPreview && footer_action && (
                                 <div className={style.TableEndRow}>
                                     <button className={style.buttonAdd} onClick={footer_action}>
                                         Aggiungi
