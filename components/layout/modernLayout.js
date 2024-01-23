@@ -2,7 +2,8 @@ import Head from "next/head";
 import fetch from "node-fetch";
 import { useState, useEffect, useContext } from "react";
 import style from "../../styles/modernlayout.module.css";
-//import ModernMenu from "../../components/layout/modernMenu";
+import ModernMenu from "../../components/layout/modernMenu";
+import ParticleLayer from "./particleLayer";
 import IconSelector from "../IconSelector";
 import NotificationContext from "../../context/notificationContext";
 import PopupSimple from "../misc/popup_simple";
@@ -58,7 +59,17 @@ const ModernLayout = ({ children }) => {
             </Head>
 
             <main className={style.main}>
-                {/*<ModernMenu indexOfPage={indexOfPage} MenuData={MenuData} IsFullScreen={IsFullScreen}></ModernMenu>*/}
+                <ModernMenu indexOfPage={indexOfPage} MenuData={MenuData} IsFullScreen={IsFullScreen}></ModernMenu>
+                <ParticleLayer></ParticleLayer>
+                <div
+                    className={style.IconMain}
+                    onClick={() => {
+                        setISFullScreen(!IsFullScreen);
+                    }}
+                >
+                    {IsFullScreen && <IconSelector IconSelector="SmallScreen"></IconSelector>}
+                    {!IsFullScreen && <IconSelector IconSelector="FullScreen"></IconSelector>}
+                </div>
                 <div className={`${style.mainbase} ${IsFullScreen ? style.expanded : ""}`}>
                     {indexOfPage == 0 && (
                         <>
@@ -74,15 +85,6 @@ const ModernLayout = ({ children }) => {
                         ></LoginModal>
                     )}
                     {indexOfPage == 2 && <h1>TROPPO PRESTO, TORNA PIU AVANTI</h1>}
-                </div>
-                <div
-                    className={style.IconMain}
-                    onClick={() => {
-                        setISFullScreen(!IsFullScreen);
-                    }}
-                >
-                    {IsFullScreen && <IconSelector IconSelector="SmallScreen"></IconSelector>}
-                    {!IsFullScreen && <IconSelector IconSelector="FullScreen"></IconSelector>}
                 </div>
             </main>
         </>
