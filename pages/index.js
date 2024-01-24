@@ -10,6 +10,7 @@ import Link from "next/link";
 import NewClientPartnerB2B from "../components/modal/NewClientPartnerB2B";
 import NewClientPartnerB2C from "../components/modal/NewClientPartnerB2C";
 import SingleSellModal from "../components/modal/SingleSellModal";
+import DailySellModal from "../components/modal/DailySellModal";
 import { useSession } from "next-auth/react";
 
 const Home = () => {
@@ -24,6 +25,7 @@ const Home = () => {
     const [openModalNewClientPartnerB2B, setOpenModalNewClientPartnerB2B] = useState(false);
     const [openModalNewClientPartnerB2C, setOpenModalNewClientPartnerB2C] = useState(false);
     const [openModalSingleSell, setOpenModalSingleSell] = useState(false);
+    const [openModalDailySell, setOpenModalDailySell] = useState(false);
 
     const HandleOpenNewClientPartnerB2B = () => {
         setOpenModalNewClientPartnerB2B(true);
@@ -75,6 +77,16 @@ const Home = () => {
         SetIndexOfPage(0);
     }
     
+    const HandleOpenDailySell = () => {
+        setOpenModalDailySell(true);
+        SetIndexOfPage(6);
+    }
+
+    const HandleCloseDailySell = () => {
+        setOpenModalDailySell(false);
+        SetIndexOfPage(0);
+    }
+    
 
     useEffect(() => {
         const _fetch = async () => {
@@ -123,7 +135,11 @@ const Home = () => {
                                 </button>
                             )}
 
-
+                            { _session.user.email.ID_ruolo === 3 && (
+                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenDailySell}>
+                                    <h3>VENDITA GIORNALIERA</h3>
+                                </button>
+                            )}
                         </div>
 
                         
@@ -185,7 +201,7 @@ const Home = () => {
             {indexOfPage === 3 && <NewClientPartnerB2B isOpen={openModalNewClientPartnerB2B} onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>}
             {indexOfPage === 4 && <NewClientPartnerB2C isOpen={openModalNewClientPartnerB2C} onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>}
             {indexOfPage === 5 && <SingleSellModal isOpen={openModalSingleSell} onActionCloseModal={HandleCloseSingleSell}></SingleSellModal>}
-
+            {indexOfPage === 6 && <DailySellModal isOpen={openModalDailySell} onActionCloseModal={HandleCloseDailySell}></DailySellModal>}
         </>
     );
 };
