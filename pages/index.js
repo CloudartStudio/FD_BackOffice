@@ -9,6 +9,7 @@ import ManagePages from "../components/PagesComponent/ManagePages";
 import Link from "next/link";
 import NewClientPartnerB2B from "../components/modal/NewClientPartnerB2B";
 import NewClientPartnerB2C from "../components/modal/NewClientPartnerB2C";
+import SingleSellModal from "../components/modal/SingleSellModal";
 import { useSession } from "next-auth/react";
 
 const Home = () => {
@@ -20,32 +21,29 @@ const Home = () => {
     const [indexOfPage, SetIndexOfPage] = useState(0);
     const { data: _session } = useSession();
 
-    // Inizio modifica provvisoria
-    // creo degli stati per l'apertura delle modali
     const [openModalNewClientPartnerB2B, setOpenModalNewClientPartnerB2B] = useState(false);
     const [openModalNewClientPartnerB2C, setOpenModalNewClientPartnerB2C] = useState(false);
+    const [openModalSingleSell, setOpenModalSingleSell] = useState(false);
 
-    // successivamente, creo degli handler per l'apertura e chiusura delle modali
-        const HandleOpenNewClientPartnerB2B = () => {
-            setOpenModalNewClientPartnerB2B(true);
-            SetIndexOfPage(3);
-        };
+    const HandleOpenNewClientPartnerB2B = () => {
+        setOpenModalNewClientPartnerB2B(true);
+        SetIndexOfPage(3);
+    };
 
-        const HandleCloseNewClientPartnerB2B = () => {
-            setOpenModalNewClientPartnerB2B(true);
-            SetIndexOfPage(0);
-        };
+    const HandleCloseNewClientPartnerB2B = () => {
+        setOpenModalNewClientPartnerB2B(true);
+        SetIndexOfPage(0);
+    };
 
-        const HandleOpenNewClientPartnerB2C = () => {
-            setOpenModalNewClientPartnerB2C(true);
-            SetIndexOfPage(4);
-        };
+    const HandleOpenNewClientPartnerB2C = () => {
+        setOpenModalNewClientPartnerB2C(true);
+        SetIndexOfPage(4);
+    };
 
-        const HandleCloseNewClientPartnerB2C = () => {
-            setOpenModalNewClientPartnerB2C(true);
-            SetIndexOfPage(0);
-        };
-    // fine modifica provvisoria
+    const HandleCloseNewClientPartnerB2C = () => {
+        setOpenModalNewClientPartnerB2C(true);
+        SetIndexOfPage(0);
+    };
 
     const HandleOpenNewPartner = () => {
         setOpenModalNewPartner(true);
@@ -66,6 +64,17 @@ const Home = () => {
         setOpenModalNewClient(false);
         SetIndexOfPage(0);
     };
+
+    const HandleOpenSingleSell = () => {
+        setOpenModalSingleSell(true);
+        SetIndexOfPage(5);
+    }
+
+    const HandleCloseSingleSell = () => {
+        setOpenModalSingleSell(false);
+        SetIndexOfPage(0);
+    }
+    
 
     useEffect(() => {
         const _fetch = async () => {
@@ -106,6 +115,19 @@ const Home = () => {
                                     </div>
                                 ))}
                         </div>
+
+                        <div className={style.BtnContainer}>
+                            { _session.user.email.ID_ruolo === 3 && (
+                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenSingleSell}>
+                                    <h3>VENDITA SINGOLA</h3>
+                                </button>
+                            )}
+
+
+                        </div>
+
+                        
+
                         <div className={style.BtnContainer}>
                             { _session.user.email.ID_ruolo === 3 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClient}>
@@ -159,15 +181,11 @@ const Home = () => {
             )}
 
             {indexOfPage === 1 && <NewClientModal isOpen={openModalNewClient} onActionCloseModal={HandleCloseNewClient}></NewClientModal>}
-
             {indexOfPage === 2 && <NewPartnerModal isOpen={openModalNewPartner} onActionCloseModal={HandleCloseNewPartner}></NewPartnerModal>}
-
-            {/* inizio gestione delle chiusure delle modali */}
-
             {indexOfPage === 3 && <NewClientPartnerB2B isOpen={openModalNewClientPartnerB2B} onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>}
             {indexOfPage === 4 && <NewClientPartnerB2C isOpen={openModalNewClientPartnerB2C} onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>}
+            {indexOfPage === 5 && <SingleSellModal isOpen={openModalSingleSell} onActionCloseModal={HandleCloseSingleSell}></SingleSellModal>}
 
-            {/* fine gestione */}
         </>
     );
 };
