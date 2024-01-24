@@ -85,9 +85,6 @@ class SqlBase {
                         case "string":
                             updateString += `'${this[key]}', `;
                             break;
-                        case "boolean":
-                            this[key] ? (updateString += `1, `) : (updateString += `0, `);
-                            break;
                         default:
                             updateString += `${this[key]}, `;
                             break;
