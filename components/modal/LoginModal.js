@@ -5,10 +5,11 @@ import ContactUSModal from "./ContactUsModal";
 
 export default function SectionManager({ onActionCloseModal }) {
     const [openModalContactUs, setOpenModalContactUs] = useState(false);
+    const [pageIndex, setPageIndex] = useState(0);
 
     const [InfoPanel, setInfoPanel] = useState({ email: "", password: "", });
 
-    const [loginError, setLoginError] = useState(undefined);
+    const [loginError, setLoginError] = useState({message: "", });
 
     const handleLoginAction = async () => {
         const result = await signIn("credentials", {
@@ -19,7 +20,7 @@ export default function SectionManager({ onActionCloseModal }) {
         });
 
         if (result.error) {
-            setLoginError(result.error);
+            setLoginError({message : "Credenziali non valide"});
         }
     };
 
@@ -29,14 +30,17 @@ export default function SectionManager({ onActionCloseModal }) {
 
     const handleOpenContactUsModal = () => {
         setOpenModalContactUs(true);
+        setPageIndex(1);
     }
 
     const handleCloseContactUsModal = () => { 
         setOpenModalContactUs(false);
+        setPageIndex(0);
     }
     return (
         <div className={style.ModalLogin}>
-            <div className={style.ModalBodyLogin}>
+            { pageIndex == 0 && (
+                <div className={style.ModalBodyLogin}>
                 <div className="InfoPanel">
                     <div>
                         <div className={style.ModalFieldLogin}>
@@ -50,9 +54,9 @@ export default function SectionManager({ onActionCloseModal }) {
                             <input value={InfoPanel.password} onChange={handleOnChangeForm} type={"password"} placeholder="Password..." name="password"></input>
                         </div>
                     </div>
-                    {loginError && (
+                    {loginError.message && (
                         <div style={{ color: "#dd22225f" }} className={style.ModalFieldLogin}>
-                            {loginError}
+                            {loginError.message}
                         </div>
                     )}
                     <div className={style.ModalFieldLogin}>
@@ -61,14 +65,18 @@ export default function SectionManager({ onActionCloseModal }) {
                     <div className={style.ModalFieldLogin}>
                         <i>hai dimenticato la password? vuoi creare un nuovo account?</i>
                         <button
-                            onClick={() => <ContactUSModal isOpen={handleOpenContactUsModal}
-                                                           onRequestClose={handleCloseContactUsModal}/>}
+                            onClick={() => handleOpenContactUsModal()}
                         >
                             CONTATTACI
                         </button>
                     </div>
                 </div>
             </div>
+
+            )}
+            { pageIndex == 1 &&(
+                <ContactUSModal  isOpen={openModalContactUs} onActionCloseModal={handleCloseContactUsModal} />
+            )}
         </div>
     );
 }

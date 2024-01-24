@@ -9,6 +9,7 @@ import ManagePages from "../components/PagesComponent/ManagePages";
 import Link from "next/link";
 import NewClientPartnerB2B from "../components/modal/NewClientPartnerB2B";
 import NewClientPartnerB2C from "../components/modal/NewClientPartnerB2C";
+import { useSession } from "next-auth/react";
 
 const Home = () => {
     const [openModalNewClient, setOpenModalNewClient] = useState(false);
@@ -17,6 +18,7 @@ const Home = () => {
     const [indexData, setIndexData] = useState([]);
 
     const [indexOfPage, SetIndexOfPage] = useState(0);
+    const { data: _session } = useSession();
 
     // Inizio modifica provvisoria
     // creo degli stati per l'apertura delle modali
@@ -87,6 +89,7 @@ const Home = () => {
             })
             .catch((error) => {});
     }, []);
+    console.log( "_session",_session);
 
     return (
         <>
@@ -104,26 +107,30 @@ const Home = () => {
                                 ))}
                         </div>
                         <div className={style.BtnContainer}>
-                            <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClient}>
-                                <h3>NUOVO CLIENTE</h3>
-                            </button>
+                            { _session.user.email.ID_ruolo === 3 && (
+                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClient}>
+                                    <h3>NUOVO CLIENTE</h3>
+                                </button>
+                            )}
 
-                            <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewPartner}>
-                                <h3>NUOVO COLLABORATORE</h3>
-                            </button>
+                            { _session.user.email.ID_ruolo === 1 && (
+                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewPartner}>
+                                    <h3>NUOVO COLLABORATORE</h3>
+                                </button>
+                            )}
                         </div>
 
-                        {/* bottoni con modale */}
-                        <div className={style.BtnContainer}>
-                            <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2B}>
-                                <h3>NUOVO CLIENTE PARTNER B2B</h3>
-                            </button>
+                        {( _session.user.email.ID_ruolo === 1 || _session.user.email.ID_ruolo === 2) && (
+                            <div className={style.BtnContainer}>
+                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2B}>
+                                    <h3>NUOVO CLIENTE PARTNER B2B</h3>
+                                </button>
 
-                            <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2C}>
-                                <h3>NUOVO CLIENTE PARTNER B2C</h3>
-                            </button>
-                        </div>
-                        {/* fine bottoni con modale */}
+                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2C}>
+                                    <h3>NUOVO CLIENTE PARTNER B2C</h3>
+                                </button>
+                            </div>
+                        )}
                         
                     </div>
                     <div className={style.HomeContent}>
