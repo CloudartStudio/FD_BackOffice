@@ -1,5 +1,6 @@
 import DynamicPage from "../../../models/nosql_model/DynamicPage";
 import DynamicSections from "../../../models/nosql_model/DynamicSections";
+import Configuration from "../../../models/nosql_model/Configuration";
 import { ObjectId } from "mongodb";
 
 const postReq = async (req, res) => {
@@ -8,6 +9,14 @@ const postReq = async (req, res) => {
     console.log("Pagina e sezioni", req.body.Page);
     if (req.body.Page.Sections) {
         for (var s of req.body.Page.Sections) {
+            await Promise.all(
+                s.data.map(async (d) => {
+                    const conf = new Configuration(d, s.Type);
+                    const res = await conf.save();
+                    d.ConfigurationID = res.insertedId;
+                })
+            );
+
             const dynSectionRequest = new DynamicSections(s.data, s.VerticalOrder);
 
             const dynSection = await dynSectionRequest.save();

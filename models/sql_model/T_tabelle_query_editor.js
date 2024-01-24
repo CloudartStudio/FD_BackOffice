@@ -34,4 +34,4 @@ class T_tabelle_query_editor extends SqlBase {
     }
 }
 
-module.exports = T_tabelle_query_editor;
+export default T_tabelle_query_editor;

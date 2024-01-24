@@ -1,6 +1,7 @@
 import style from "../../styles/modal.module.css";
 import PageEditorStyle from "../../styles/page_editor.module.css";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import NotificationContext from "../../context/notificationContext";
 import RoleOptions from "../misc/role_options";
@@ -8,6 +9,8 @@ import { BsGraphUp } from "react-icons/bs";
 import { MdAddChart } from "react-icons/md";
 
 export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null }) {
+    const router = useRouter();
+
     const [pageIndex, setPageIndex] = useState(0);
     const [isInEdit, setIsInEdit] = useState(false);
     const [Page, setPage] = useState({
@@ -105,7 +108,6 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
     useEffect(() => {
         const fetch = async () => {
             if (id && isOpen) {
-                alert(id);
                 setIsInEdit(true);
                 const resposePage = await axios.get("http://localhost:3000/api/dynamicPage/" + id);
                 const { Nome, Link, RelatedSections, IsActive, IsAgenzia, MinRole } = resposePage.data;
@@ -291,7 +293,21 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal, id = null 
                                                                                 {element.IsSaved && (
                                                                                     <div className={PageEditorStyle.Icon}>
                                                                                         {element.IsActive && <button>Edit</button>}
-                                                                                        {!element.IsActive == 1 && <button>Configure</button>}
+                                                                                        {!element.IsActive == 1 && (
+                                                                                            <button
+                                                                                                onClick={() => {
+                                                                                                    router.push(
+                                                                                                        "/editor/config/" +
+                                                                                                            element.ConfigurationID +
+                                                                                                            "/" +
+                                                                                                            element.Tipo
+                                                                                                    );
+                                                                                                    //ConfigurationID;
+                                                                                                }}
+                                                                                            >
+                                                                                                Configure
+                                                                                            </button>
+                                                                                        )}
                                                                                     </div>
                                                                                 )}
                                                                                 {!element.IsSaved && (

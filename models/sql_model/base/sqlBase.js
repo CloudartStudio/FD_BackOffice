@@ -13,7 +13,9 @@ class SqlBase {
         try {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
+
             const result = await pool.query(`SELECT * FROM "${tableName}"`);
+            pool.release();
             return result.rows;
         } catch (error) {
             throw error;
@@ -25,6 +27,7 @@ class SqlBase {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
             const result = await pool.query(`SELECT * FROM "${tableName}" WHERE "ID" = ${id}`);
+            pool.release();
             return result.rows[0];
         } catch (error) {
             throw error;
@@ -37,6 +40,7 @@ class SqlBase {
             if (pool === undefined) throw new Error("pool is undefined");
             if (typeof fieldValue === "string") fieldValue = "'" + fieldValue + "'";
             const result = await pool.query(`SELECT * FROM "${tableName}" WHERE "${fieldName}" = ${fieldValue}`);
+            pool.release();
             return result.rows[0];
         } catch (error) {
             throw error;
@@ -48,6 +52,7 @@ class SqlBase {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
             const result = await pool.query(`DELETE FROM "${this.tableName}" WHERE "ID" = ${id}`);
+            pool.release();
         } catch (error) {
             throw error;
         }
@@ -64,6 +69,7 @@ class SqlBase {
             updateString = updateString.slice(0, -2); // Remove the trailing comma and space
 
             const result = await pool.query(`UPDATE "${this.tableName}" SET ${updateString} WHERE "ID" = ${id}`);
+            pool.release();
             return result;
         } catch (error) {
             throw error;
@@ -85,9 +91,6 @@ class SqlBase {
                         case "string":
                             updateString += `'${this[key]}', `;
                             break;
-                        case "boolean":
-                            this[key] ? (updateString += `1, `) : (updateString += `0, `);
-                            break;
                         default:
                             updateString += `${this[key]}, `;
                             break;
@@ -99,6 +102,7 @@ class SqlBase {
 
             const q = `INSERT INTO "${this.tableName}" (${keyString}) VALUES (${updateString} )`;
             const result = await pool.query(q);
+            pool.release();
             return result.rows[0];
         } catch (error) {
             throw error;
@@ -110,6 +114,7 @@ class SqlBase {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
             const result = await pool.query(query);
+            pool.release();
         } catch (error) {
             throw error;
         }
@@ -120,6 +125,7 @@ class SqlBase {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
             const result = await pool.execute(name, params);
+            pool.release();
         } catch (error) {
             throw error;
         }
@@ -130,6 +136,7 @@ class SqlBase {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
             const result = await pool.query(`SELECT ${name}(${params})`);
+            pool.release();
         } catch (error) {
             throw error;
         }
