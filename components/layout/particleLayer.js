@@ -88,7 +88,7 @@ const ParticleLayer = () => {
     };
 
     return (
-        <div id="particles-js" className={style.particleLayer}>
+        <div id="particles-js">
             <Particles init={particlesInit} options={options}></Particles>
         </div>
     );

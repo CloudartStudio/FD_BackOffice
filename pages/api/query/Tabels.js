@@ -12,6 +12,7 @@ const getReq = async (req, res) => {
                 console.log(element.nome_tabella, "NOME TABELLA");
                 const q = `SELECT COLUMN_NAME,DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${element.nome_tabella}';`;
                 const QueryRes = await pool.query(q);
+
                 element.colonne = QueryRes.rows.map((el) => {
                     return { COLUMN_NAME: el.column_name, DATA_TYPE: el.data_type };
                 });
@@ -20,7 +21,7 @@ const getReq = async (req, res) => {
 
                 tabellaConColonne.push(element);
             });
-
+            pool.release();
             await Promise.all(queries);
             res.status(200).json(tabellaConColonne);
         }

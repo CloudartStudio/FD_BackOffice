@@ -45,16 +45,7 @@ const RenderData = () => {
         event.preventDefault();
     };
 
-    const HandlePreviewButton = () => {
-        if (QueryModelContainer.some((dataset) => dataset.find((q) => q.Error))) {
-            alert("campo con errore");
-            return;
-        }
-        if (QueryModelContainer.some((dataset) => dataset.find((q) => q.querable && !q.valore_campo))) {
-            alert("campo querable senza valore");
-            return;
-        }
-
+    const QueryStructureContainerFactory = (QueryModelContainer) => {
         const QueryStructureContainer = [];
 
         QueryModelContainer.map((QueryModel) => {
@@ -76,9 +67,11 @@ const RenderData = () => {
                                 "(" +
                                 q.valore_campo.columun.COLUMN_NAME +
                                 ") as " +
+                                '"' +
                                 q.funzioni_campo.command +
                                 "_" +
-                                q.valore_campo.columun.COLUMN_NAME
+                                q.valore_campo.columun.COLUMN_NAME +
+                                '"'
                         );
                     } else {
                         QueryStructure.select.push(q.valore_campo.columun.COLUMN_NAME);
@@ -113,6 +106,21 @@ const RenderData = () => {
             QueryStructureContainer.push(QueryStructure);
         });
 
+        return QueryStructureContainer;
+    };
+
+    const HandlePreviewButton = () => {
+        if (QueryModelContainer.some((dataset) => dataset.find((q) => q.Error))) {
+            alert("campo con errore");
+            return;
+        }
+        if (QueryModelContainer.some((dataset) => dataset.find((q) => q.querable && !q.valore_campo))) {
+            alert("campo querable senza valore");
+            return;
+        }
+
+        const QueryStructureContainer = QueryStructureContainerFactory(QueryModelContainer);
+
         if (QueryStructureContainer.length > 0) {
             axios
                 .post("http://localhost:3000/api/query/SimpleSelect", { QueryStructureContainer })
@@ -141,6 +149,32 @@ const RenderData = () => {
                     });
 
                     setPreviewModel(finalQueryModelContainer);
+                })
+                .catch((error) => {
+                    alert("ERROR");
+                });
+        } else {
+            alert("seleziona almeno un campo");
+        }
+    };
+
+    const HandleSaveButton = () => {
+        if (QueryModelContainer.some((dataset) => dataset.find((q) => q.Error))) {
+            alert("campo con errore");
+            return;
+        }
+        if (QueryModelContainer.some((dataset) => dataset.find((q) => q.querable && !q.valore_campo))) {
+            alert("campo querable senza valore");
+            return;
+        }
+
+        const QueryStructureContainer = QueryStructureContainerFactory(QueryModelContainer);
+
+        if (QueryStructureContainer.length > 0) {
+            axios
+                .post("http://localhost:3000/api/query/SaveQuery", { QueryStructureContainer, configID })
+                .then((result) => {
+                    alert("salvato");
                 })
                 .catch((error) => {
                     alert("ERROR");
@@ -262,6 +296,7 @@ const RenderData = () => {
                     SetQueryModelContainer={SetQueryModelContainer}
                     baseModel={baseModel}
                     HandlePreviewButton={HandlePreviewButton}
+                    HandleSaveButton={HandleSaveButton}
                     PreviewComponent={PreviewComponent}
                     activeTable={activeTable}
                     handleDragOver={handleDragOver}
@@ -588,6 +623,7 @@ const QuerySection = ({
     SetQueryModelContainer,
     baseModel,
     HandlePreviewButton,
+    HandleSaveButton,
     PreviewComponent,
     handleDragOver,
     handleDrop,
@@ -637,10 +673,13 @@ const QuerySection = ({
                         });
                     }}
                 >
-                    aggiungi dataset
+                    DATASET
+                </button>
+                <button className={style.buttonBig} onClick={HandleSaveButton}>
+                    SALVA
                 </button>
                 <button className={style.buttonBig} onClick={HandlePreviewButton}>
-                    anteprima
+                    ANTEPRIMA
                 </button>
             </div>
             {PreviewComponent}
