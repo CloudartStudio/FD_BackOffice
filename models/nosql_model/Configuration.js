@@ -3,8 +3,12 @@ import DynamicBase from "./base/DynamicBase";
 class Configuration extends DynamicBase {
     constructor(data, type) {
         super("Configurations");
-        this.Data = data;
+        this.Data = { ...data, active: false };
         this.Type = type;
+    }
+
+    setActive() {
+        this.Data.active = true;
     }
 
     static async FetchAll() {

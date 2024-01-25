@@ -5,7 +5,6 @@ class DynamicSections extends DynamicBase {
         super("Sections");
 
         this.VerticalOrder = VerticalOrder;
-        this.IsActive = false;
         this.CreationDate = Date.now;
 
         this.Data = Data.map((d) => {
