@@ -1,5 +1,22 @@
 .ModalField {
     flex: 1;
+    margin-bottom: 10px;
+}
+
+.ModalField button {
+    padding: 10px 15px;
+    background-color: #6dacff37;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.5rem;
+    width: 100%;
+    transition: all 0.4s;
+}
+
+.ModalField button:hover {
+    background-color: #0063e537;
 }
 
 .ModalField input[type="text"],

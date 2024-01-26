@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import NewPageModal from "../../components/modal/NewPageModal";
-import TablePages from "../../components/table/TablePages";
+import NewSubPageModal from "../../../../components/modal/NewSubPageModal";
+import TableSubPage from "../../../../components/table/TableSubPage";
 import fetch from "node-fetch";
-import style from "../../styles/table.module.css";
+import style from "../../../../styles/table.module.css";
+import { useRouter } from "next/router";
 
-export default function ManagePages({ isPreview = false }) {
+export default function ManageSubPages({ isPreview = false }) {
     const [openModalNewPage, setOpenModalNewPage] = useState(false);
     const [TableData, setTableData] = useState({});
     const [update, setUpdate] = useState(false);
-
     const [indexOfPage, SetIndexOfPage] = useState(0);
+    const router = useRouter();
+
+    const { ID } = router.query;
 
     const HandleCloseNewPage = () => {
         setOpenModalNewPage(false);
@@ -24,7 +27,7 @@ export default function ManagePages({ isPreview = false }) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch("http://localhost:3000/api/manage/dpage");
+            const response = await fetch("http://localhost:3000/api/manage/dpage/subpage/" + ID);
             const data = await response.json();
             const tempData = {
                 head_data: [
@@ -71,10 +74,11 @@ export default function ManagePages({ isPreview = false }) {
                     </Head>
                     <div>
                         {TableData && (
-                            <TablePages
+                            <TableSubPage
                                 setUpdate={() => {
                                     setUpdate(!update);
                                 }}
+                                MainPageId={ID}
                                 head_data={TableData.head_data}
                                 body_data={TableData.body_data}
                                 isPreview={isPreview}
@@ -84,9 +88,9 @@ export default function ManagePages({ isPreview = false }) {
                                     },
                                 ]}
                                 footer_action={HandleOpenNewPage}
-                                Title={"Manage Page"}
-                                Description={"Use this page to create and Manage the page"}
-                            ></TablePages>
+                                Title={"SubPages - " + ID}
+                                Description={"Manage the subpages of the page "}
+                            ></TableSubPage>
                         )}
                     </div>
                 </div>
@@ -96,7 +100,7 @@ export default function ManagePages({ isPreview = false }) {
                     <Head>
                         <title>Manage Page - New page</title>
                     </Head>
-                    <NewPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage}></NewPageModal>
+                    <NewSubPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage}></NewSubPageModal>
                 </>
             )}
         </>

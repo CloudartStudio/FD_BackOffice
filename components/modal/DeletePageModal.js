@@ -6,7 +6,7 @@ import axios from "axios";
 export default function DeletePageModal({ isOpen, onActionCloseModal, id, name }) {
     const handleSubmit = () => {
         axios
-            .delete(`http://localhost:3000/api/dynamicPage/${id}`)
+            .delete(`http://localhost:3000/api/manage/dpage/subpage/${id}`)
             .then((res) => {
                 onActionCloseModal();
             })

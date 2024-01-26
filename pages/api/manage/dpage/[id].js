@@ -1,5 +1,5 @@
-import DynamicPage from "../../../models/nosql_model/DynamicPage";
-import DynamicSections from "../../../models/nosql_model/DynamicSections";
+import DynamicPage from "../../../../models/nosql_model/DynamicPage";
+import DynamicSections from "../../../../models/nosql_model/DynamicSections";
 
 const getReq = async (req, res) => {
     const { id } = req.query;

@@ -8,17 +8,17 @@ import RoleOptions from "../misc/role_options";
 import { BsGraphUp } from "react-icons/bs";
 import { MdAddChart } from "react-icons/md";
 
-export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) {
+export default function NewSubPageModal({ isOpen, onActionCloseModal, id = null }) {
     const router = useRouter();
+
+    const { ID: test } = router.query;
 
     const [pageIndex, setPageIndex] = useState(0);
     const [isInEdit, setIsInEdit] = useState(false);
     const [Page, setPage] = useState({
         PageName: "",
         Link: "",
-        MinRole: "",
         Sections: [],
-        IsAgenzia: false,
     });
 
     const [pageSections, setPageSections] = useState([]);
@@ -110,14 +110,12 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
             if (id && isOpen) {
                 setIsInEdit(true);
                 const resposePage = await axios.get("http://localhost:3000/api/manage/dpage/" + id);
-                const { Nome, Link, RelatedSections, IsActive, IsAgenzia, MinRole } = resposePage.data;
+                const { Nome, Link, RelatedSections, IsActive } = resposePage.data;
                 //MinRole_input.current.value = MinRole;
 
                 setPage({
                     PageName: Nome,
                     Link: Link,
-                    MinRole: MinRole,
-                    IsAgenzia: IsAgenzia,
                     Sections: RelatedSections,
                 });
 
@@ -137,25 +135,22 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
 
     const handleSavePage = async () => {
         if (isInEdit) {
-            Page["id"] = id;
-            const response = await axios.put("http://localhost:3000/api/manage/dpage", {
+            const response = await axios.put("http://localhost:3000/api/manage/dpage/subpage", {
                 Page: {
                     PageName: Page.PageName,
                     Link: Page.Link,
-                    MinRole: Page.MinRole,
                     Sections: pageSections,
-                    IsAgenzia: Page.IsAgenzia,
                     ID: id,
                 },
             });
         } else {
-            const response = await axios.post("http://localhost:3000/api/manage/dpage", {
+            alert(test);
+            const response = await axios.post("http://localhost:3000/api/manage/dpage/subpage", {
                 Page: {
                     PageName: Page.PageName,
                     Link: Page.Link,
-                    MinRole: Page.MinRole,
                     Sections: pageSections,
-                    IsAgenzia: Page.IsAgenzia,
+                    MainPageId: test,
                 },
             });
         }
@@ -174,10 +169,10 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
                     {isOpen && (
                         <div className={style.Modal}>
                             <div className={style.ModalHeader}>
-                                {!isInEdit && <h5>NUOVA PAGINA</h5>}
+                                {!isInEdit && <h5>NUOVA SOTTO PAGINA test {test}</h5>}
                                 {isInEdit && (
                                     <h5>
-                                        MODIFICA PAGINA
+                                        MODIFICA SOTTO PAGINA
                                         {" - " + Page.PageName}
                                     </h5>
                                 )}
@@ -219,42 +214,6 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
                                             name="Link"
                                         ></input>
                                     </div>
-                                    <RoleOptions
-                                        selectedRole={Page.MinRole}
-                                        setSelectedRole={(newRole) => {
-                                            setPage({
-                                                ...Page,
-                                                MinRole: newRole,
-                                            });
-                                        }}
-                                    ></RoleOptions>
-                                    <div className={style.ModalField}>
-                                        <label htmlFor="IsAgenzia">Pagina agenzia</label>
-                                        <br />
-                                        <input
-                                            checked={Page.IsAgenzia}
-                                            onClick={(e) => {
-                                                setPage({
-                                                    ...Page,
-                                                    IsAgenzia: !Page.IsAgenzia,
-                                                });
-                                            }}
-                                            type={"checkbox"}
-                                            name="IsAgenzia"
-                                        ></input>
-                                    </div>
-                                    <div className={style.ModalField}>
-                                        <button
-                                            onClick={(e) => {
-                                                router.push("/manage/dpage/subpages/" + id);
-                                            }}
-                                            type={"checkbox"}
-                                            name="IsAgenzia"
-                                        >
-                                            sotto pagine
-                                        </button>
-                                    </div>
-                                    {/*isInEdit*/}
                                 </div>
                                 <div className={PageEditorStyle.PageEditor}>
                                     <div className={PageEditorStyle.PageEditorHeader}>

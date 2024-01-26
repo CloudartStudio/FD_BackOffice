@@ -3,12 +3,12 @@ import { BsFillPencilFill } from "react-icons/bs";
 import { MdPreview } from "react-icons/md";
 import { useRouter } from "next/dist/client/router";
 import { FaRegTrashAlt } from "react-icons/fa";
-import NewPageModal from "../../components/modal/NewPageModal";
+import NewSubPageModal from "../../components/modal/NewSubPageModal";
 import DeletePageModal from "../../components/modal/DeletePageModal";
 import React, { useState, useContext } from "react";
 import EditPageContext from "../../context/editPageContext";
 
-export default function Table1({ setUpdate, head_data, body_data, footer_action, row_actions, isPreview, Title = null, Description = null }) {
+export default function TableSubPage({ MainPageId, setUpdate, head_data, body_data, footer_action, row_actions, isPreview, Title = null, Description = null }) {
     const [openModalNewPage, setOpenModalNewPage] = useState(false);
     const [openModalDeletePage, setOpenModalDeletePage] = useState(false);
     const [IndexOfThePage, SetIndexOfThePage] = useState(0); // 0 = table 1 = new page 2 = edit page
@@ -80,7 +80,7 @@ export default function Table1({ setUpdate, head_data, body_data, footer_action,
 
                             <div className={style.TableBodyBox}>
                                 {body_data.map((tr, index) => {
-                                    const cellTd = [tr._id, tr.Nome, tr.Link, tr.MinRole, tr.RelatedSections];
+                                    const cellTd = [tr._id, tr.Nome, tr.Link, tr.MinRole];
                                     return (
                                         <div className={index % 2 == 0 ? style.TableBaseRowWhite : style.TableBaseRowBlue}>
                                             {cellTd.map((td) => {
@@ -145,7 +145,9 @@ export default function Table1({ setUpdate, head_data, body_data, footer_action,
                     )}
                 </>
             )}
-            {IndexOfThePage === 1 && <NewPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage} id={editPageId}></NewPageModal>}
+            {IndexOfThePage === 1 && (
+                <NewSubPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage} test={"tuo padre"} id={editPageId}></NewSubPageModal>
+            )}
             {IndexOfThePage === 2 && (
                 <DeletePageModal isOpen={openModalDeletePage} onActionCloseModal={HandleCloseDeletePage} id={editPageId} name={activeName}></DeletePageModal>
             )}

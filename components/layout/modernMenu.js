@@ -3,17 +3,33 @@ import MenuSection from "../../components/menu/MenuSection";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import BreadCrumbContext from "../../context/breadcrumbContext";
 
-const ModernMenu = ({ indexOfPage, MenuData, IsFullScreen }) => {
+const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
     const Router = useRouter();
     const BreadCrumbCtx = useContext(BreadCrumbContext);
+    const [MenuData, setMenuData] = useState([]);
 
     useEffect(() => {
         Router.events.on("routeChangeComplete", (url, { shallow }) => {
             BreadCrumbCtx.addToBreadCrumb(url);
         });
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch("http://localhost:3000/api/menu")
+                .then((result) => {
+                    return result;
+                })
+                .catch((error) => {
+                    return [];
+                });
+            const data = await response.json();
+            setMenuData(data);
+        };
+        fetchData();
     }, []);
 
     return (
@@ -23,7 +39,7 @@ const ModernMenu = ({ indexOfPage, MenuData, IsFullScreen }) => {
                     {indexOfPage == 0 && (
                         <nav>
                             <ul>
-                                {MenuData.filter((item) => item.IsLeft).map((item, index) => (
+                                {MenuData.filter((item) => !item.IsAgenzia).map((item, index) => (
                                     <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
                                 ))}
                             </ul>
@@ -87,7 +103,7 @@ const ModernMenu = ({ indexOfPage, MenuData, IsFullScreen }) => {
                         <div>
                             <nav>
                                 <ul>
-                                    {MenuData.filter((item) => !item.IsLeft).map((item, index) => (
+                                    {MenuData.filter((item) => item.IsAgenzia).map((item, index) => (
                                         <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
                                     ))}
                                 </ul>

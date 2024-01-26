@@ -70,23 +70,22 @@ const Home = () => {
     const HandleOpenSingleSell = () => {
         setOpenModalSingleSell(true);
         SetIndexOfPage(5);
-    }
+    };
 
     const HandleCloseSingleSell = () => {
         setOpenModalSingleSell(false);
         SetIndexOfPage(0);
-    }
-    
+    };
+
     const HandleOpenDailySell = () => {
         setOpenModalDailySell(true);
         SetIndexOfPage(6);
-    }
+    };
 
     const HandleCloseDailySell = () => {
         setOpenModalDailySell(false);
         SetIndexOfPage(0);
-    }
-    
+    };
 
     useEffect(() => {
         const _fetch = async () => {
@@ -110,7 +109,7 @@ const Home = () => {
             })
             .catch((error) => {});
     }, []);
-    console.log( "_session",_session);
+    console.log("_session", _session);
 
     return (
         <>
@@ -129,36 +128,34 @@ const Home = () => {
                         </div>
 
                         <div className={style.BtnContainer}>
-                            { _session.user.email.ID_ruolo === 3 && (
+                            {_session.user.email.ID_ruolo === 3 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenSingleSell}>
                                     <h3>VENDITA SINGOLA</h3>
                                 </button>
                             )}
 
-                            { _session.user.email.ID_ruolo === 3 && (
+                            {_session.user.email.ID_ruolo === 3 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenDailySell}>
                                     <h3>VENDITA GIORNALIERA</h3>
                                 </button>
                             )}
                         </div>
 
-                        
-
                         <div className={style.BtnContainer}>
-                            { _session.user.email.ID_ruolo === 3 && (
+                            {_session.user.email.ID_ruolo === 3 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClient}>
                                     <h3>NUOVO CLIENTE</h3>
                                 </button>
                             )}
 
-                            { _session.user.email.ID_ruolo === 1 && (
+                            {_session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewPartner}>
                                     <h3>NUOVO COLLABORATORE</h3>
                                 </button>
                             )}
                         </div>
 
-                        {( _session.user.email.ID_ruolo === 1 || _session.user.email.ID_ruolo === 2) && (
+                        {(_session.user.email.ID_ruolo === 1 || _session.user.email.ID_ruolo === 2) && (
                             <div className={style.BtnContainer}>
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2B}>
                                     <h3>NUOVO CLIENTE PARTNER B2B</h3>
@@ -169,7 +166,6 @@ const Home = () => {
                                 </button>
                             </div>
                         )}
-                        
                     </div>
                     <div className={style.HomeContent}>
                         <Tabs
@@ -179,7 +175,7 @@ const Home = () => {
                                     content: (
                                         <>
                                             <br></br>
-                                            <Link className={style.GoToPageBtn} href={"/manage_pages"}>
+                                            <Link className={style.GoToPageBtn} href={"/manage/dpage"}>
                                                 Vai alla pagina
                                             </Link>
                                             <ManagePages isPreview={true}></ManagePages>
@@ -198,8 +194,12 @@ const Home = () => {
 
             {indexOfPage === 1 && <NewClientModal isOpen={openModalNewClient} onActionCloseModal={HandleCloseNewClient}></NewClientModal>}
             {indexOfPage === 2 && <NewPartnerModal isOpen={openModalNewPartner} onActionCloseModal={HandleCloseNewPartner}></NewPartnerModal>}
-            {indexOfPage === 3 && <NewClientPartnerB2B isOpen={openModalNewClientPartnerB2B} onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>}
-            {indexOfPage === 4 && <NewClientPartnerB2C isOpen={openModalNewClientPartnerB2C} onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>}
+            {indexOfPage === 3 && (
+                <NewClientPartnerB2B isOpen={openModalNewClientPartnerB2B} onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>
+            )}
+            {indexOfPage === 4 && (
+                <NewClientPartnerB2C isOpen={openModalNewClientPartnerB2C} onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>
+            )}
             {indexOfPage === 5 && <SingleSellModal isOpen={openModalSingleSell} onActionCloseModal={HandleCloseSingleSell}></SingleSellModal>}
             {indexOfPage === 6 && <DailySellModal isOpen={openModalDailySell} onActionCloseModal={HandleCloseDailySell}></DailySellModal>}
         </>

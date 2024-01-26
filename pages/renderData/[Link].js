@@ -14,7 +14,7 @@ const RenderData = () => {
         const fetchData = async () => {
             if (Link) {
                 //CHIAMATA AL API PER LE CONFIGURAZIONI PASSANDO IL LINK
-                const PageConfigResponse = await fetch("http://localhost:3000/api/dynPageConfig/" + Link);
+                const PageConfigResponse = await fetch("http://localhost:3000/api/manage/dpage/" + Link);
 
                 const cfg = await PageConfigResponse.json();
 

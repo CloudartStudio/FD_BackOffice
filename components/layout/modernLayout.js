@@ -11,7 +11,6 @@ import LoginModal from "../../components/modal/LoginModal";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 const ModernLayout = ({ children }) => {
-    const [MenuData, setMenuData] = useState([]);
     const [IsFullScreen, setISFullScreen] = useState(false);
     const [indexOfPage, SetIndexOfPage] = useState(1);
 
@@ -34,21 +33,6 @@ const ModernLayout = ({ children }) => {
         }
     }, [_session]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch("http://localhost:3000/api/getMenuData")
-                .then((result) => {
-                    return result;
-                })
-                .catch((error) => {
-                    return [];
-                });
-            const data = await response.json();
-            setMenuData(data);
-        };
-        fetchData();
-    }, []);
-
     return (
         <>
             <Head>
@@ -59,7 +43,7 @@ const ModernLayout = ({ children }) => {
             </Head>
 
             <main className={style.main}>
-                <ModernMenu indexOfPage={indexOfPage} MenuData={MenuData} IsFullScreen={IsFullScreen}></ModernMenu>
+                <ModernMenu indexOfPage={indexOfPage} IsFullScreen={IsFullScreen}></ModernMenu>
                 <ParticleLayer></ParticleLayer>
                 <div
                     className={style.IconMain}
