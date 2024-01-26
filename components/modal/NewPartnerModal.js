@@ -252,7 +252,7 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
             <button
               className={style.Success}
               onClick={() => {
-                submitForm();
+                submitForm()
               }}
             >
               INVIA
