@@ -1,11 +1,35 @@
 import DynamicPage from "../../../models/nosql_model/DynamicPage";
+import { ObjectId } from "mongodb";
 
 const getReq = async (req, res) => {
     let result = await DynamicPage.FetchAll();
-    result = result.filter((p) => {
+    const MainPage = result.filter((p) => {
         return p.mainPage === null;
     });
-    res.status(200).json(result);
+
+    const Menu = MainPage.map((p) => {
+        const { id } = p._id;
+        const subPages = [];
+        result.map((s) => {
+            if (s.mainPage) {
+                try {
+                    if (s.mainPage !== null && s.mainPage.id.equals(id)) {
+                        subPages.push(s);
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
+
+        console.log(subPages);
+
+        return {
+            page: p,
+            subPages: subPages,
+        };
+    });
+    res.status(200).json(Menu);
 };
 
 //DynamicPage

@@ -1,65 +1,92 @@
-import style from "../../styles/modal.module.css";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import MenuSquare from "../../components/menu/MenuSection";
 
 export default function MenuSection({ baseSection, PrevLevel, verticalOrder }) {
-    const [menuData, setMenuData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
-
     const router = useRouter();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch("http://localhost:3000/api/getMenuReferedItem/" + baseSection.ID);
-            const data = await response.json();
-            setMenuData(data);
-        };
-        fetchData();
-    }, []);
 
     const handleOpenSubMenu = () => {
         if (baseSection.HaveSubPage) {
             setIsOpen(isOpen ? false : true);
         } else {
-            router.push("/renderData/" + baseSection.Link);
+            router.push("/renderData/" + baseSection.page.Link);
         }
-
-        //{"/" + baseSection.Link}
     };
 
     return (
         <>
-            {!baseSection.IsAgenzia && (
-                <li
-                    style={{
-                        backgroundColor: `${isOpen ? "#f3c6fb" : "transparent"}`,
-                    }}
-                >
-                    <a onClick={handleOpenSubMenu} href={"renderData/" + baseSection.Link}>
-                        {baseSection.Nome}
-                    </a>
-                </li>
-            )}
-
-            {baseSection.IsAgenzia && (
-                <li
-                    style={{
-                        backgroundColor: `${isOpen ? "#53c6fb" : "transparent"}`,
-                    }}
-                >
-                    <a onClick={handleOpenSubMenu}>{baseSection.Nome}</a>
-                </li>
-            )}
-
-            {/* {isOpen && (
+            {baseSection.subPages && (
                 <>
-                    <div className={style.ModalContainer}></div>
-                    {menuData.map((m, index) => (
-                        <MenuSection verticalOrder={index + 1} baseSection={m} PrevLevel={parseInt(PrevLevel) + 1}></MenuSection>
-                    ))}
+                    {baseSection.subPages.length == 0 && (
+                        <li
+                            style={{
+                                backgroundColor: `#ffffff1f`,
+                            }}
+                        >
+                            <span onClick={handleOpenSubMenu}>{baseSection.page.Nome}</span>
+                        </li>
+                    )}
+                    {baseSection.subPages.length > 0 && (
+                        <>
+                            <SectionWithSubPages baseSection={baseSection} key={verticalOrder}></SectionWithSubPages>
+                        </>
+                    )}
                 </>
-            )} */}
+            )}
         </>
     );
 }
+
+const SectionWithSubPages = ({ baseSection }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
+
+    const handleWitchSubMenu = () => {
+        setIsOpen(isOpen ? false : true);
+    };
+
+    const handleRequest = (e, uri) => {
+        e.preventDefault();
+        router.push(uri);
+    };
+    return (
+        <>
+            <li
+                onClick={handleWitchSubMenu}
+                style={{
+                    backgroundColor: `#ffffff1f`,
+                }}
+            >
+                <span>{baseSection.page.Nome}</span>
+            </li>
+
+            {isOpen && baseSection.page.Link && (
+                <li
+                    onClick={(e) => {
+                        handleRequest(e, "/renderData/" + baseSection.page.Link);
+                    }}
+                    style={{
+                        opacity: "0.9",
+                        backgroundColor: `#ffffff9f`,
+                    }}
+                >
+                    <span>{baseSection.page.Nome}</span>
+                </li>
+            )}
+            {isOpen &&
+                baseSection.subPages.map((item, index) => (
+                    <li
+                        onClick={(e) => {
+                            handleRequest(e, "/renderData/" + baseSection.page.Link + "/" + item.Link);
+                        }}
+                        style={{
+                            opacity: "0.9",
+                            backgroundColor: `#ffffff9f`,
+                        }}
+                    >
+                        <a>{item.Nome}</a>
+                    </li>
+                ))}
+        </>
+    );
+};

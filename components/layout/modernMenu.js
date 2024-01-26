@@ -27,6 +27,7 @@ const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
                     return [];
                 });
             const data = await response.json();
+            console.log(data);
             setMenuData(data);
         };
         fetchData();
@@ -39,7 +40,7 @@ const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
                     {indexOfPage == 0 && (
                         <nav>
                             <ul>
-                                {MenuData.filter((item) => !item.IsAgenzia).map((item, index) => (
+                                {MenuData.filter((item) => !item.page.IsAgenzia).map((item, index) => (
                                     <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
                                 ))}
                             </ul>
@@ -103,7 +104,7 @@ const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
                         <div>
                             <nav>
                                 <ul>
-                                    {MenuData.filter((item) => item.IsAgenzia).map((item, index) => (
+                                    {MenuData.filter((item) => item.page.IsAgenzia).map((item, index) => (
                                         <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
                                     ))}
                                 </ul>

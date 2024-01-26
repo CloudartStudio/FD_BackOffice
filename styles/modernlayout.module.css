@@ -48,7 +48,6 @@ MAIN ELEMNT ARANCIO:
     padding-bottom: 10px;
     padding-left: 5px;
     text-align: center;
-    background-color: #ffffff0f !important;
     margin: 5px 7px;
     border-radius: 5px;
 }
@@ -58,7 +57,12 @@ MAIN ELEMNT ARANCIO:
     font-weight: 800;
 }
 
-.menubase nav a {
+.menubase nav a,
+.menubase nav a:visited,
+.menubase nav a:active,
+.menubase nav a:hover,
+.menubase nav a:focus,
+.menubase nav span {
     color: rgb(57, 57, 57);
     text-decoration: none;
     padding: 5px;
