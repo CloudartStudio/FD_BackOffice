@@ -153,7 +153,7 @@ const Home = () => {
 
                             { _session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewPartner}>
-                                    <h3>NUOVO COLLABORATORE</h3>
+                                    <h3>NUOVO PARTNER</h3>
                                 </button>
                             )}
                         </div>
