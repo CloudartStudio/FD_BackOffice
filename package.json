@@ -26,6 +26,7 @@
         "react-dom": "18.2.0",
         "react-fakers": "^1.0.3-rc1",
         "react-icons": "^4.10.1",
+        "react-loader-spinner": "^6.1.6",
         "react-tsparticles": "^2.12.2",
         "sass": "^1.69.0",
         "tsparticles": "^2.12.0"

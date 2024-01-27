@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { getDB } from "../../../helpers/mongoDBConnect";
+import { getDB, mongoDBDisconnect } from "../../../helpers/mongoDBConnect";
 
 class DynamicBase {
     constructor(collectionName) {
@@ -14,9 +14,12 @@ class DynamicBase {
         try {
             const db = await getDB();
             const result = await db.collection(this.collectionName).insertOne(this);
+
             return result;
         } catch (error) {
             throw error;
+        } finally {
+            await mongoDBDisconnect();
         }
     }
 
@@ -31,6 +34,8 @@ class DynamicBase {
             return result;
         } catch (error) {
             throw error;
+        } finally {
+            await mongoDBDisconnect();
         }
     }
 
@@ -45,6 +50,8 @@ class DynamicBase {
             return result;
         } catch (error) {
             throw error;
+        } finally {
+            await mongoDBDisconnect();
         }
     }
 
@@ -55,6 +62,8 @@ class DynamicBase {
             return result;
         } catch (error) {
             throw error;
+        } finally {
+            await mongoDBDisconnect();
         }
     }
 
@@ -66,6 +75,8 @@ class DynamicBase {
             return result;
         } catch (error) {
             throw error;
+        } finally {
+            await mongoDBDisconnect();
         }
     }
 
@@ -77,6 +88,8 @@ class DynamicBase {
             return result;
         } catch (error) {
             throw error;
+        } finally {
+            await mongoDBDisconnect();
         }
     }
 
@@ -88,6 +101,8 @@ class DynamicBase {
             return result[0];
         } catch (error) {
             throw error;
+        } finally {
+            await mongoDBDisconnect();
         }
     }
 }

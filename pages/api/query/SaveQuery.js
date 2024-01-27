@@ -1,13 +1,13 @@
 import Configuration from "../../../models/nosql_model/Configuration";
 
 const postReq = async (req, res) => {
-    const { QueryStructureContainer, configID } = req.body;
+    const { QueryModelContainer, metadata, configID } = req.body;
 
-    //const conf = new Configuration(d, s.Type);
     const conf = await Configuration.GetOne(configID);
     conf.Data = {
         ...conf.Data,
-        metadata: QueryStructureContainer,
+        metadata: metadata,
+        structure: QueryModelContainer,
     };
     const newConf = new Configuration(conf.Data, conf.Type);
     newConf.setActive();
@@ -15,8 +15,6 @@ const postReq = async (req, res) => {
 
     res.status(201).json(result);
 };
-
-//DynamicPage
 
 export default async (req, res) => {
     try {

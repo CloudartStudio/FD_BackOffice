@@ -243,18 +243,19 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
                                             name="IsAgenzia"
                                         ></input>
                                     </div>
-                                    <div className={style.ModalField}>
-                                        <button
-                                            onClick={(e) => {
-                                                router.push("/manage/dpage/subpages/" + id);
-                                            }}
-                                            type={"checkbox"}
-                                            name="IsAgenzia"
-                                        >
-                                            sotto pagine
-                                        </button>
-                                    </div>
-                                    {/*isInEdit*/}
+                                    {isInEdit && (
+                                        <div className={style.ModalField}>
+                                            <button
+                                                onClick={(e) => {
+                                                    router.push("/manage/dpage/subpages/" + id);
+                                                }}
+                                                type={"checkbox"}
+                                                name="IsAgenzia"
+                                            >
+                                                sotto pagine
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className={PageEditorStyle.PageEditor}>
                                     <div className={PageEditorStyle.PageEditorHeader}>

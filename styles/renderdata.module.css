@@ -1,0 +1,108 @@
+.PageEditor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex: 6;
+}
+
+.PageEditor .PageEditorBody {
+    flex: 5;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.PageEditor .PageEditorBody .PageEditorBodyContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-height: 87vh;
+    overflow-y: auto;
+}
+
+.PageEditor .PageEditorBody .PageEditorPlaceHolder h3 {
+    font-size: 3rem;
+    opacity: 0.8;
+}
+
+.PageEditor .PageEditorBody .PageEditorPlaceHolder p {
+    margin-top: 10vh;
+}
+
+.PageEditor .PageEditorBody .PageEditorPlaceHolder {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.45);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.LoaderContainer div {
+    display: block !important;
+}
+
+.PageEditor .PageEditorBody .PageEditorBodySection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: min-content;
+    background-color: #004aadbb;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.placeholder {
+    font-size: 1rem;
+    opacity: 0.6;
+    transition: all 0.5s ease;
+}
+
+.placeholder:hover {
+    opacity: 1;
+}
+
+.PreviewSection {
+    flex: 1 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.ConfigSection {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+    min-height: 6vh;
+    height: 90%;
+    background-color: #ffffff22;
+}
+
+.ConfigSection div {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.ConfigSection .Icon div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}

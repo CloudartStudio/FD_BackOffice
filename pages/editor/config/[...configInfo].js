@@ -46,7 +46,7 @@ const RenderData = () => {
     };
 
     const QueryStructureContainerFactory = (QueryModelContainer) => {
-        const QueryStructureContainer = [];
+        const metadata = [];
 
         QueryModelContainer.map((QueryModel) => {
             const QueryStructure = {
@@ -103,10 +103,10 @@ const RenderData = () => {
                 });
             }
 
-            QueryStructureContainer.push(QueryStructure);
+            metadata.push(QueryStructure);
         });
 
-        return QueryStructureContainer;
+        return metadata;
     };
 
     const HandlePreviewButton = () => {
@@ -119,11 +119,11 @@ const RenderData = () => {
             return;
         }
 
-        const QueryStructureContainer = QueryStructureContainerFactory(QueryModelContainer);
+        const metadata = QueryStructureContainerFactory(QueryModelContainer);
 
-        if (QueryStructureContainer.length > 0) {
+        if (metadata.length > 0) {
             axios
-                .post("http://localhost:3000/api/query/SimpleSelect", { QueryStructureContainer })
+                .post("http://localhost:3000/api/query/SimpleSelect", { metadata })
                 .then((result) => {
                     const { data } = result;
                     const finalQueryModelContainer = [];
@@ -168,11 +168,11 @@ const RenderData = () => {
             return;
         }
 
-        const QueryStructureContainer = QueryStructureContainerFactory(QueryModelContainer);
+        const metadata = QueryStructureContainerFactory(QueryModelContainer);
 
-        if (QueryStructureContainer.length > 0) {
+        if (metadata.length > 0) {
             axios
-                .post("http://localhost:3000/api/query/SaveQuery", { QueryStructureContainer, configID })
+                .post("http://localhost:3000/api/query/SaveQuery", { QueryModelContainer, metadata, configID })
                 .then((result) => {
                     alert("salvato");
                 })
