@@ -5,7 +5,17 @@ import T_utenti_login from "../../../../../../models/sql_model/T_utenti_login";
 
 const postReq = async (req, res) => {
     try {
-        const { ID_partner, nome, cognome, data_nascita, telefono, is_maschio, email, indirizzo, custom_data } = req.body;
+        const { 
+            ID_partner, 
+            nome, 
+            cognome, 
+            data_nascita, 
+            telefono, 
+            is_maschio, 
+            email, 
+            indirizzo, 
+            custom_data 
+        } = req.body;
 
         const mewTcliente_p_b2c = new T_cliente_partener_b2c(
             null,

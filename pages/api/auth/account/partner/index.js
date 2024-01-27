@@ -37,7 +37,7 @@ const postReq = async (req, res) => {
             email,
             parseInt(numero_dipendenti),
             Boolean(is_b2b),
-            Boolean(is_b2c)
+            Boolean(is_b2c)     
         );
 
         const returnObj = await newT_partner.insertOne();
