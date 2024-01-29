@@ -9,6 +9,7 @@ import NotificationContext from "../../context/notificationContext";
 import PopupSimple from "../misc/popup_simple";
 import LoginModal from "../../components/modal/LoginModal";
 import { useSession, signIn, signOut } from "next-auth/react";
+import TestModal from "../../components/modal/TestModal";
 
 const ModernLayout = ({ children }) => {
     const [IsFullScreen, setISFullScreen] = useState(false);
@@ -24,7 +25,7 @@ const ModernLayout = ({ children }) => {
             const session = _session.user.email;
             console.log("session", session);
             if (session.ID_ruolo === 1 || session.ID_ruolo === 2 || session.ID_ruolo === 3) {
-                SetIndexOfPage(0);
+                SetIndexOfPage(1);
             } else if (session.ID_ruolo === 4) {
                 SetIndexOfPage(2);
             }
@@ -62,11 +63,12 @@ const ModernLayout = ({ children }) => {
                         </>
                     )}
                     {indexOfPage == 1 && (
-                        <LoginModal
-                            onActionCloseModal={() => {
-                                SetIndexOfPage(0);
-                            }}
-                        ></LoginModal>
+                        // <LoginModal
+                        //     onActionCloseModal={() => {
+                        //         SetIndexOfPage(0);
+                        //     }}
+                        // ></LoginModal>
+                        <TestModal isOpen={true}></TestModal>
                     )}
                     {indexOfPage == 2 && <h1>TROPPO PRESTO, TORNA PIU AVANTI</h1>}
                 </div>
