@@ -192,16 +192,16 @@ const Home = () => {
                 </div>
             )}
 
-            {indexOfPage === 1 && <NewClientModal isOpen={openModalNewClient} onActionCloseModal={HandleCloseNewClient}></NewClientModal>}
-            {indexOfPage === 2 && <NewPartnerModal isOpen={openModalNewPartner} onActionCloseModal={HandleCloseNewPartner}></NewPartnerModal>}
+            {indexOfPage === 1 && <NewClientModal  onActionCloseModal={HandleCloseNewClient}></NewClientModal>}
+            {indexOfPage === 2 && <NewPartnerModal onActionCloseModal={HandleCloseNewPartner}></NewPartnerModal>}
             {indexOfPage === 3 && (
-                <NewClientPartnerB2B isOpen={openModalNewClientPartnerB2B} onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>
+                <NewClientPartnerB2B onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>
             )}
             {indexOfPage === 4 && (
-                <NewClientPartnerB2C isOpen={openModalNewClientPartnerB2C} onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>
+                <NewClientPartnerB2C onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>
             )}
-            {indexOfPage === 5 && <SingleSellModal isOpen={openModalSingleSell} onActionCloseModal={HandleCloseSingleSell}></SingleSellModal>}
-            {indexOfPage === 6 && <DailySellModal isOpen={openModalDailySell} onActionCloseModal={HandleCloseDailySell}></DailySellModal>}
+            {indexOfPage === 5 && <SingleSellModal onActionCloseModal={HandleCloseSingleSell}></SingleSellModal>}
+            {indexOfPage === 6 && <DailySellModal onActionCloseModal={HandleCloseDailySell}></DailySellModal>}
         </>
     );
 };

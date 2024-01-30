@@ -146,10 +146,10 @@ export default function TableSubPage({ MainPageId, setUpdate, head_data, body_da
                 </>
             )}
             {IndexOfThePage === 1 && (
-                <NewSubPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage} test={"tuo padre"} id={editPageId}></NewSubPageModal>
+                <NewSubPageModal onActionCloseModal={HandleCloseNewPage} test={"tuo padre"} id={editPageId}></NewSubPageModal>
             )}
             {IndexOfThePage === 2 && (
-                <DeletePageModal isOpen={openModalDeletePage} onActionCloseModal={HandleCloseDeletePage} id={editPageId} name={activeName}></DeletePageModal>
+                <DeletePageModal onActionCloseModal={HandleCloseDeletePage} id={editPageId} name={activeName}></DeletePageModal>
             )}
         </>
     );

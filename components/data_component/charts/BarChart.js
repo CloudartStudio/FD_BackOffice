@@ -4,7 +4,6 @@ import { Bar } from "react-chartjs-2";
 import { Chart, BarController, BarElement, CategoryScale, LinearScale } from "chart.js";
 
 // export default function RichiediPreventivoModale({
-//     isOpen,
 //     onActionCloseModal,
 // })
 

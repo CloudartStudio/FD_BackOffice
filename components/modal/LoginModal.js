@@ -75,7 +75,7 @@ export default function SectionManager({ onActionCloseModal }) {
 
             )}
             { pageIndex == 1 &&(
-                <ContactUSModal  isOpen={openModalContactUs} onActionCloseModal={handleCloseContactUsModal} />
+                <ContactUSModal onActionCloseModal={handleCloseContactUsModal} />
             )}
         </div>
     );

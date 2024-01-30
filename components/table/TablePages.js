@@ -145,11 +145,11 @@ export default function TablePages({ setUpdate, head_data, body_data, footer_act
                     )}
                 </>
             )}
-            {IndexOfThePage === 1 && <NewPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage} id={editPageId}></NewPageModal>}
+            {IndexOfThePage === 1 && <NewPageModal onActionCloseModal={HandleCloseNewPage} id={editPageId}></NewPageModal>}
             {IndexOfThePage === 2 && (
-                <DeletePageModal isOpen={openModalDeletePage} onActionCloseModal={HandleCloseDeletePage} id={editPageId} name={activeName}></DeletePageModal>
+                <DeletePageModal onActionCloseModal={HandleCloseDeletePage} id={editPageId} name={activeName}></DeletePageModal>
             )}
-            {IndexOfThePage === 3 && <NewPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage} id={editPageId}></NewPageModal>}
+            {IndexOfThePage === 3 && <NewPageModal  onActionCloseModal={HandleCloseNewPage} id={editPageId}></NewPageModal>}
         </>
     );
 }
