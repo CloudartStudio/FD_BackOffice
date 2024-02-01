@@ -12,6 +12,10 @@ class Role extends DynamicBase {
         return super._BaseFetchAll("Roles");
     }
 
+    static async BaseGetByQuery(query) {
+        return super._BaseGetByQuery(query, "Roles");
+    }
+
     static async GetOne(id) {
         return super._BaseGetOne(id, "Roles");
     }

@@ -20,7 +20,7 @@ const Home = () => {
     const [indexData, setIndexData] = useState([]);
 
     const [indexOfPage, SetIndexOfPage] = useState(0);
-    const { data: _session } = useSession();
+    const { data: _session, status } = useSession();
 
     const [openModalNewClientPartnerB2B, setOpenModalNewClientPartnerB2B] = useState(false);
     const [openModalNewClientPartnerB2C, setOpenModalNewClientPartnerB2C] = useState(false);
@@ -109,11 +109,10 @@ const Home = () => {
             })
             .catch((error) => {});
     }, []);
-    console.log("_session", _session);
 
     return (
         <>
-            {indexOfPage === 0 && (
+            {_session && indexOfPage === 0 && (
                 <div className={style.HomeContainer}>
                     <div className={style.BadgeAndButtonContainer}>
                         <div className={style.BadgeContainer}>

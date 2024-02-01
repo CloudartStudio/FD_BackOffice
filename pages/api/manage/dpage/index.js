@@ -1,6 +1,7 @@
 import DynamicPage from "../../../../models/nosql_model/DynamicPage";
 import DynamicSections from "../../../../models/nosql_model/DynamicSections";
 import Configuration from "../../../../models/nosql_model/Configuration";
+import CachedPage from "../../../../models/nosql_model/CachedPage";
 import { ObjectId } from "mongodb";
 
 const postReq = async (req, res) => {
@@ -28,6 +29,9 @@ const postReq = async (req, res) => {
     const dynPageRequest = new DynamicPage(req.body.Page.PageName, req.body.Page.Link, req.body.Page.MinRole, newSections, req.body.Page.IsAgenzia);
 
     const dynPage = await dynPageRequest.save();
+
+    const cachePage = new CachedPage(dynPage.Nome, dynPage.Link, dynPage.MinRole, [], dynPage._id);
+    await cachePage.save();
 
     const returnObj = {
         page: dynPage,

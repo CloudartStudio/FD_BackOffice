@@ -39,9 +39,22 @@ class SqlBase {
             const pool = await PG_databaseFactoryAsync();
             if (pool === undefined) throw new Error("pool is undefined");
             if (typeof fieldValue === "string") fieldValue = "'" + fieldValue + "'";
-            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE "${fieldName}" = ${fieldValue}`);
+            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE "${fieldName}" = ${fieldValue} LIMIT 1`);
             pool.release();
             return result.rows[0];
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async Base_fetchAllByField(fieldName, fieldValue, tableName) {
+        try {
+            const pool = await PG_databaseFactoryAsync();
+            if (pool === undefined) throw new Error("pool is undefined");
+            if (typeof fieldValue === "string") fieldValue = "'" + fieldValue + "'";
+            const result = await pool.query(`SELECT * FROM "${tableName}" WHERE "${fieldName}" = ${fieldValue}`);
+            pool.release();
+            return result.rows;
         } catch (error) {
             throw error;
         }

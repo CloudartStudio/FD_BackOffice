@@ -1,7 +1,6 @@
 import style from "../../styles/modernlayout.module.css";
 import MenuSection from "../../components/menu/MenuSection";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import BreadCrumbContext from "../../context/breadcrumbContext";
@@ -40,9 +39,11 @@ const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
                     {indexOfPage == 0 && (
                         <nav>
                             <ul>
-                                {MenuData.filter((item) => !item.page.IsAgenzia).map((item, index) => (
-                                    <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
-                                ))}
+                                {MenuData &&
+                                    MenuData.length > 0 &&
+                                    MenuData.filter((item) => !item.page.IsAgenzia).map((item, index) => (
+                                        <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
+                                    ))}
                             </ul>
                         </nav>
                     )}
@@ -104,9 +105,11 @@ const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
                         <div>
                             <nav>
                                 <ul>
-                                    {MenuData.filter((item) => item.page.IsAgenzia).map((item, index) => (
-                                        <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
-                                    ))}
+                                    {MenuData &&
+                                        MenuData.length > 0 &&
+                                        MenuData.filter((item) => item.page.IsAgenzia).map((item, index) => (
+                                            <MenuSection verticalOrder={index + 1} PrevLevel={0} baseSection={item}></MenuSection>
+                                        ))}
                                 </ul>
                             </nav>
                         </div>

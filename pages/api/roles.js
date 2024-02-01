@@ -1,4 +1,5 @@
 import Role from "../../models/nosql_model/Role";
+import { getSession } from "next-auth/react";
 
 export const getReq = async (req, res) => {
     try {
@@ -11,6 +12,12 @@ export const getReq = async (req, res) => {
 
 export default async (req, res) => {
     try {
+        const session = await getSession({ req });
+
+        if (!session) {
+            return res.status(401).json({ message: "Non autorizzato" });
+        }
+
         if (req.method === "GET") {
             const result = await getReq(req, res);
             return res.status(200).json(result);

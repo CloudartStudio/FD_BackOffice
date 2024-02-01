@@ -8,8 +8,8 @@ import T_cliente_partener_b2b from "../../../models/sql_model/T_cliente_partener
 import T_admin from "../../../models/sql_model/T_admin";
 import T_utenti_login from "../../../models/sql_model/T_utenti_login";
 
-const verifyCredentials = async (id_acc_data, supposedPassword) => {
-    const utenteLogin = await T_utenti_login.fetchOneByField("ID_partner", id_acc_data);
+const verifyCredentials = async (id_acc_data, supposedPassword, RoleID) => {
+    const utenteLogin = (await T_utenti_login.fetchAllByField("ID_utente", id_acc_data)).filter((item) => item.ID_ruolo === RoleID)[0];
     if (!utenteLogin) {
         return false;
     }
@@ -30,7 +30,7 @@ const formatJWT = (result, email) => {
         const obj = {
             ID_ruolo: result.utenteLogin.ID_ruolo,
             email: email,
-            ID_partener: result.utenteLogin.ID_partner,
+            ID_partner: result.utenteLogin.ID_utente,
             ID: result.utenteLogin.ID,
         };
         return {
@@ -48,19 +48,19 @@ export const authOptions = {
 
                 const admin = await T_admin.fetchOneByField("email", email);
                 if (admin) {
-                    result = await verifyCredentials(admin.ID, password);
+                    result = await verifyCredentials(admin.ID, password, 1);
                 } else {
                     const partener = await T_partener.fetchOneByField("email", email);
                     if (partener) {
-                        result = await verifyCredentials(partener.ID, password);
+                        result = await verifyCredentials(partener.ID, password, 2);
                     } else {
                         const cliente_partener_b2c = await T_cliente_partener_b2c.fetchOneByField("email", email);
                         if (cliente_partener_b2c) {
-                            result = await verifyCredentials(cliente_partener_b2c.ID, password);
+                            result = await verifyCredentials(cliente_partener_b2c.ID, password, 3);
                         } else {
                             const cliente_partener_b2b = await T_cliente_partener_b2b.fetchOneByField("email", email);
                             if (cliente_partener_b2b) {
-                                result = await verifyCredentials(cliente_partener_b2b.ID, password);
+                                result = await verifyCredentials(cliente_partener_b2b.ID, password, 4);
                             } else {
                                 throw new Error("Invalid email");
                             }

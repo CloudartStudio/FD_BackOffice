@@ -2,7 +2,7 @@
 
 | NOME UTENTE    | PASSWORD          | EMAIL                     |
 | -------------- | ----------------- | ------------------------- |
-| MICHELE LUNGHI | ^<36^I*ea%$8*>o?  | michelelunghi98@gmail.com |
+| MICHELE LUNGHI | Y+?d+7WknVQo>rYf  | michelelunghi98@gmail.com |
 | MORAD ROUFKI   | (dA\*(Oj!)(RK&+!0 | morad.roufki01@gmail.com  |
 
 # PARTNER
