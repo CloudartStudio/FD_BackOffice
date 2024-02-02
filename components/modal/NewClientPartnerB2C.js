@@ -16,27 +16,126 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
     custom_data: "",
   });
 
+  const conf = [
+    {
+      nome: "ID_Partner",
+      expression: /^[0-9]+$/,
+    },
+    {
+      nome: "nome",
+      expression: /^[a-zA-Z]+$/,
+    },
+    {
+      nome: "cognome",
+      expression: /^[a-zA-Z]+$/,
+    },
+    {
+      nome: "data_nascita",
+      expression: /^.+$/,
+    },
+    {
+      nome: "telefono",
+      expression: /^[a-zA-Z]+$/,
+    },
+    {
+      nome: "is_maschio",
+      expression: /^[a-zA-Z]+$/,
+    },
+    {
+      nome: "email",
+      expression: /^[a-zA-Z]+$/,
+    },
+    {
+      nome: "indirizzo",
+      expression: /^[a-zA-Z]+$/,
+    },
+    {
+      nome: "custom_data",
+      expression: /^[a-zA-Z]+$/,
+    },
+  ];
+
+  const [errors, setErrors] = useState({});
+
+  const handleErrors = (name, error) => {
+    setErrors({ ...errors, [name]: error });
+  };
+
+  const checkSimpleValidation = (name, value, isFinal) => {
+    const c = conf.findIndex((conf) => conf.nome === name);
+    if (c != -1) {
+      if (value == " " || value === null || value === undefined) {
+        //IL VALORE è NULLO QUINDI NON CE IL VALORE ,LUTENTE DEVE INSRIRLO
+        handleErrors(name, `Il Campo ${name} è obbligatorio!`);
+        if (isFinal) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        //VALORE CE FARE IL CONTROLLO CON L'ESPRESSIONE
+        if (!conf[c].expression.test(value)) {
+          handleErrors(name, `Il valore inserito in ${name} non è corretto`);
+          if (isFinal) {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          handleErrors(name, null);
+          return true;
+        }
+      }
+    } else {
+      handleErrors(name, null);
+      return true;
+    }
+  };
+
+  function handleValidationOnChange(target, isFinal = false) {
+    const { name, value } = target;
+
+    const result = checkSimpleValidation(name, value, isFinal);
+
+    return result;
+  }
+
   const handleOnChangeForm = (e) => {
-    setClientB2c({ ...clientB2c, [e.target.name]: e.target.value });
+    if (handleValidationOnChange(e.target)) {
+      setClientB2c({ ...clientB2c, [e.target.name]: e.target.value });
+    }
   };
 
   const submitForm = () => {
     try {
-      axios
-        .post("http://localhost:3000/api/auth/account/cliente/b2c", {
-          ID_partner: clientB2c.ID_partner,
-          nome: clientB2c.nome,
-          cognome: clientB2c.cognome,
-          data_nascita: clientB2c.data_nascita,
-          telefono: clientB2c.telefono,
-          is_maschio: clientB2c.is_maschio,
-          email: clientB2c.email,
-          indirizzo: clientB2c.indirizzo,
-          custom_data: clientB2c.custom_data,
-        })
-        .then((result) => {
-          alert("oke");
-        });
+      let isValid = true;
+      Object.keys(clientB2c).forEach((item) => {
+        if (
+          !handleValidationOnChange(
+            { name: item, value: clientB2c[item] },
+            true
+          )
+        ) {
+          isValid = false;
+        }
+      });
+      if (isValid) {
+        axios
+          .post("http://localhost:3000/api/auth/account/cliente/b2c", {
+            ID_partner: clientB2c.ID_partner,
+            nome: clientB2c.nome,
+            cognome: clientB2c.cognome,
+            data_nascita: clientB2c.data_nascita,
+            telefono: clientB2c.telefono,
+            is_maschio: clientB2c.is_maschio,
+            email: clientB2c.email,
+            indirizzo: clientB2c.indirizzo,
+            custom_data: clientB2c.custom_data,
+          })
+          .then((result) => {
+            alert("oke");
+          });
+      }
     } catch (err) {
       console.log(err);
       alert("erroe: sei tu!");
@@ -66,20 +165,26 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 onChange={handleOnChangeForm}
                 value={clientB2c.ID_partner}
               ></input>
+              {/* visualizzatore dell'errore */}
+              {errors.ID_partner && (
+                <p className={style.error}>{errors.ID_partner}</p>
+              )}
             </div>
 
             {/* nome */}
             <div className={style.ModalField}>
               <label>Nome</label>
               <br />
-              <input 
-                type={"text"} 
-                placeholder="Nome..." 
+              <input
+                type={"text"}
+                placeholder="Nome..."
                 name="nome"
                 onChange={handleOnChangeForm}
                 value={clientB2c.nome}
               ></input>
             </div>
+            {/* visualizzatore dell'errore */}
+            {errors.nome && <p className={style.error}>{errors.nome}</p>}
 
             {/* cognome */}
             <div className={style.ModalField}>
@@ -93,6 +198,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 value={clientB2c.cognome}
               ></input>
             </div>
+            {errors.cognome && <p className={style.error}>{errors.cognome}</p>}
 
             {/* data_nascita */}
             <div className={style.ModalField}>
@@ -106,6 +212,9 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 value={clientB2c.data_nascita}
               ></input>
             </div>
+            {errors.data_nascita && (
+              <p className={style.error}>{errors.data_nascita}</p>
+            )}
 
             {/* telefono */}
             <div className={style.ModalField}>
@@ -119,6 +228,9 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 value={clientB2c.telefono}
               ></input>
             </div>
+            {errors.telefono && (
+              <p className={style.error}>{errors.telefono}</p>
+            )}
 
             {/* sesso */}
             <div className={style.ModalField}>
@@ -132,19 +244,21 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 value={clientB2c.sesso}
               ></input>
             </div>
+            {errors.sesso && <p className={style.error}>{errors.sesso}</p>}
 
             {/* email */}
             <div className={style.ModalField}>
               <label>Email</label>
               <br />
-              <input 
-                type={"text"} 
-                placeholder="Email..." 
+              <input
+                type={"text"}
+                placeholder="Email..."
                 name="email"
                 onChange={handleOnChangeForm}
                 value={clientB2c.email}
               ></input>
             </div>
+            {errors.email && <p className={style.error}>{errors.email}</p>}
 
             {/* indirizzo */}
             <div className={style.ModalField}>
@@ -158,6 +272,9 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 value={clientB2c.indirizzo}
               ></input>
             </div>
+            {errors.indirizzo && (
+              <p className={style.error}>{errors.indirizzo}</p>
+            )}
 
             {/* custom_data */}
             <div className={style.ModalField}>
@@ -171,18 +288,19 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 value={clientB2c.custom_data}
               ></input>
             </div>
-
-            
+            {errors.custom_data && (
+              <p className={style.error}>{errors.custom_data}</p>
+            )}
           </div>
 
           <div className={style.ModalFoot}>
-            <button 
+            <button
               className={style.Success}
               onClick={() => {
-                submitForm()
+                submitForm();
               }}
-              >
-                INVIA
+            >
+              INVIA
             </button>
           </div>
         </div>
