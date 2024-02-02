@@ -5,6 +5,7 @@ export default function RoleOptions({ selectedRole, setSelectedRole }) {
     const [roles, setRoles] = useState([]);
 
     const handleRoleChange = (e) => {
+        alert(e.target.value);
         setSelectedRole(e.target.value);
     };
 
@@ -12,6 +13,7 @@ export default function RoleOptions({ selectedRole, setSelectedRole }) {
         async function fetchRoles() {
             const response = await fetch("http://localhost:3000/api/roles");
             const roles = await response.json();
+            console.log("roles", roles);
             setRoles(roles);
         }
 
@@ -23,9 +25,8 @@ export default function RoleOptions({ selectedRole, setSelectedRole }) {
             <label>Ruolo</label>
             <br />
             <select className={style.SelectModern} value={selectedRole} onChange={handleRoleChange}>
-                <option value="">Ruolo</option>
                 {roles.map((role) => (
-                    <option key={role.roleID} value={role.roleName}>
+                    <option key={role.roleID} value={role.roleID}>
                         {role.roleName}
                     </option>
                 ))}

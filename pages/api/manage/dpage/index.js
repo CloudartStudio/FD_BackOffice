@@ -30,7 +30,7 @@ const postReq = async (req, res) => {
 
     const dynPage = await dynPageRequest.save();
 
-    const cachePage = new CachedPage(dynPage.Nome, dynPage.Link, dynPage.MinRole, [], dynPage._id);
+    const cachePage = new CachedPage(req.body.Page.PageName, req.body.Page.Link, req.body.Page.MinRole, [], dynPage.insertedId);
     await cachePage.save();
 
     const returnObj = {

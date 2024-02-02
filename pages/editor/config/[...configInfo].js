@@ -14,6 +14,7 @@ const RenderData = () => {
     const router = useRouter();
     const configID = router.query.configInfo[0];
     const configType = parseInt(router.query.configInfo[1]);
+    const pageID = router.query.configInfo[2];
     const [PreviewModel, setPreviewModel] = useState(null);
     let baseModel = ModelProvider(configType);
     let PreviewComponent = <></>;
@@ -172,7 +173,7 @@ const RenderData = () => {
 
         if (metadata.length > 0) {
             axios
-                .post("http://localhost:3000/api/query/SaveQuery", { QueryModelContainer, metadata, configID })
+                .post("http://localhost:3000/api/query/SaveQuery", { pageID, QueryModelContainer, metadata, configID })
                 .then((result) => {
                     alert("salvato");
                 })

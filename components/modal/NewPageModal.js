@@ -16,7 +16,7 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
     const [Page, setPage] = useState({
         PageName: "",
         Link: "",
-        MinRole: "",
+        MinRole: "1",
         Sections: [],
         IsAgenzia: false,
     });
@@ -138,6 +138,7 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
     const handleSavePage = async () => {
         if (isInEdit) {
             Page["id"] = id;
+            alert("min role " + Page.MinRole);
             const response = await axios.put("http://localhost:3000/api/manage/dpage", {
                 Page: {
                     PageName: Page.PageName,
@@ -313,7 +314,9 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
                                                                                                         "/editor/config/" +
                                                                                                             element.ConfigurationID +
                                                                                                             "/" +
-                                                                                                            element.Tipo
+                                                                                                            element.Tipo +
+                                                                                                            "/" +
+                                                                                                            id
                                                                                                     );
                                                                                                     //ConfigurationID;
                                                                                                 }}

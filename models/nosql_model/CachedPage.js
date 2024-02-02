@@ -3,7 +3,7 @@ import DynamicBase from "./base/DynamicBase";
 
 class CachedPage extends DynamicBase {
     constructor(Nome, Link, MinRole, Sections, PageID) {
-        super("Pages");
+        super("CachedPage");
 
         this.CreationDate = Date.now;
         this.Nome = Nome;

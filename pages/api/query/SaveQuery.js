@@ -1,14 +1,13 @@
 import Configuration from "../../../models/nosql_model/Configuration";
 import DynamicPage from "../../../models/nosql_model/DynamicPage";
 import DynamicSections from "../../../models/nosql_model/DynamicSections";
-import Configuration from "../../../models/nosql_model/Configuration";
 import CachedPage from "../../../models/nosql_model/CachedPage";
 
 //Configuration.GetOne(ID)
 //
 
 const postReq = async (req, res) => {
-    const { PageID, QueryModelContainer: model, metadata, configID } = req.body;
+    const { pageID: PageID, QueryModelContainer: model, metadata, configID } = req.body;
 
     const conf = await Configuration.GetOne(configID);
     conf.Data = {
@@ -20,7 +19,7 @@ const postReq = async (req, res) => {
     newConf.setActive();
     const result = await newConf.Update(configID);
 
-    const page = await DynamicPage.GetOne(id);
+    const page = await DynamicPage.GetOne(PageID);
     const { Nome: PageName, Link, RelatedSections: SectionsIDs, IsActive, MinRole } = page;
     let sections = []; // -> pageSections
     for (const sectionID of SectionsIDs) {
