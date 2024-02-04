@@ -344,6 +344,18 @@
     flex: 1;
 }
 
+.ModalBodyLabelContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.error {
+    color: rgb(182, 0, 0);
+    font-size: 1.3rem;
+}
+
 .SectionSelector {
     background-color: #ffffff0f;
     margin: 5px;

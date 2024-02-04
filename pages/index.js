@@ -128,13 +128,13 @@ const Home = () => {
                         </div>
 
                         <div className={style.BtnContainer}>
-                            {_session.user.email.ID_ruolo === 3 && (
+                            {_session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenSingleSell}>
                                     <h3>VENDITA SINGOLA</h3>
                                 </button>
                             )}
 
-                            {_session.user.email.ID_ruolo === 3 && (
+                            {_session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenDailySell}>
                                     <h3>VENDITA GIORNALIERA</h3>
                                 </button>
@@ -142,7 +142,7 @@ const Home = () => {
                         </div>
 
                         <div className={style.BtnContainer}>
-                            {_session.user.email.ID_ruolo === 3 && (
+                            {_session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClient}>
                                     <h3>NUOVO CLIENTE</h3>
                                 </button>
