@@ -47,7 +47,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "indirizzo",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-zA-Z0-9]+$/,
     },
     {
       nome: "custom_data",
@@ -98,7 +98,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
     const result = checkSimpleValidation(name, value, isFinal);
 
     return result;
-  }
+  };
 
   const handleOnChangeForm = (e) => {
     if (handleValidationOnChange(e.target)) {
@@ -239,20 +239,6 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 )}
               </div>
 
-              {/* sesso */}
-              <div className={style.ModalField}>
-                <label>Sesso</label>
-                <br />
-                <input
-                  type={"checkbox"}
-                  placeholder="Sesso..."
-                  name="is_maschio"
-                  onChange={handleOnChangeForm}
-                  value={clientB2c.sesso}
-                ></input>
-                {errors.sesso && <p className={style.error}>{errors.sesso}</p>}
-              </div>
-
               {/* email */}
               <div className={style.ModalField}>
                 <label>Email</label>
@@ -301,6 +287,20 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 )}
               </div>
             </div>
+
+            {/* sesso */}
+            <div className={style.ModalField}>
+                <label>Sesso</label>
+                <br />
+                <input
+                  type={"checkbox"}
+                  placeholder="Sesso..."
+                  name="is_maschio"
+                  onChange={handleOnChangeForm}
+                  value={clientB2c.sesso}
+                ></input>
+                {errors.sesso && <p className={style.error}>{errors.sesso}</p>}
+              </div>
           </div>
 
           <div className={style.ModalFoot}>
