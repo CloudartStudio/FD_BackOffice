@@ -5,7 +5,7 @@ import axios from "axios";
 export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
   const HaveMoreLocationsRef = useRef(null);
   const [clientB2b, setClientB2b] = useState({
-    ID_partner: 0,
+    ID_partner: null,
     ragione_sociale: "",
     partita_iva: "",
     codice_sdi: "",
@@ -26,15 +26,15 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "ragione_sociale",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
     {
       nome: "partita_iva",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[0-9]+$/,
     },
     {
       nome: "codice_sdi",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-z0-9]+$/i,
     },
     {
       nome: "telefono",
@@ -46,19 +46,19 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "indirizzo",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
     {
       nome: "nome",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-z ]+$/i,
     },
     {
       nome: "pec",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
     },
     {
       nome: "email",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
     },
     {
       nome: "indirizzo_sede_fisica",

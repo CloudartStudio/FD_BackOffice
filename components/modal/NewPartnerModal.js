@@ -24,15 +24,15 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
   const conf = [
     {
       nome: "ragione_sociale",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
     {
       nome: "partita_iva",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9]+$/i,
     },
     {
       nome: "codice_sdi",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9]+$/i,
     },
     {
       nome: "telefono",
@@ -44,39 +44,31 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "indirizzo_sede_fisica",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
     {
       nome: "indirizzo_sede_legale",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
     {
       nome: "settore_merceologico",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
     {
       nome: "pec",
-      expression: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      expression: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
     },
     {
       nome: "email",
-      expression: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      expression: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
     },
     {
       nome: "numero_dipendenti",
-      expression: /^[a-zA-Z0-9]+$/,
-    },
-    {
-      nome: "is_b2b",
-      expression: /^(true|false)+$/,
-    },
-    {
-      nome: "is_b2c",
-      expression: /^(true|false)+$/,
+      expression: /^[0-9]+$/,
     },
     {
       nome: "nome",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-z ]+$/i,
     },
   ];
 
@@ -133,6 +125,7 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
 
   const submitForm = () => {
     try {
+      alert("1");
       let isValid = true;
       Object.keys(newPartner).forEach((item) => {
         if (
@@ -141,9 +134,12 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
             true
           )
         ) {
+          alert(item)
           isValid = false;
         }
       });
+      alert("1");
+      alert(isValid);
       if (isValid) {
         axios
           .post("http://localhost:3000/api/auth/account/partner", {

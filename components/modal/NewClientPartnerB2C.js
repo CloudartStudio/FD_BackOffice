@@ -5,7 +5,7 @@ import axios from "axios";
 export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
   const HaveMoreLocationsRef = useRef(null);
   const [clientB2c, setClientB2c] = useState({
-    ID_partner: 0,
+    ID_partner: null,
     nome: "",
     cognome: "",
     data_nascita: "",
@@ -23,11 +23,11 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "nome",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-z ]+$/i,
     },
     {
       nome: "cognome",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-z ]+$/i,
     },
     {
       nome: "data_nascita",
@@ -38,20 +38,16 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
       expression: /^[0-9]+$/,
     },
     {
-      nome: "is_maschio",
-      expression: /^(true|false)+$/,
-    },
-    {
       nome: "email",
-      expression: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      expression: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
     },
     {
       nome: "indirizzo",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
     {
       nome: "custom_data",
-      expression: /^[a-zA-Z]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
   ];
 
@@ -116,9 +112,11 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
             true
           )
         ) {
+          alert(item)
           isValid = false;
         }
       });
+      alert(isValid)
       if (isValid) {
         axios
           .post("http://localhost:3000/api/auth/account/cliente/b2c", {
