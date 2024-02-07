@@ -135,12 +135,14 @@ export default function NewSubPageModal({ isOpen, onActionCloseModal, id = null 
 
     const handleSavePage = async () => {
         if (isInEdit) {
+            alert(test);
             const response = await axios.put("http://localhost:3000/api/manage/dpage/subpage", {
                 Page: {
                     PageName: Page.PageName,
                     Link: Page.Link,
                     Sections: pageSections,
                     ID: id,
+                    MainPageId: test,
                 },
             });
         } else {
@@ -169,7 +171,7 @@ export default function NewSubPageModal({ isOpen, onActionCloseModal, id = null 
                     {isOpen && (
                         <div className={style.Modal}>
                             <div className={style.ModalHeader}>
-                                {!isInEdit && <h5>NUOVA SOTTO PAGINA test {test}</h5>}
+                                {!isInEdit && <h5>NUOVA SOTTO PAGINA {test}</h5>}
                                 {isInEdit && (
                                     <h5>
                                         MODIFICA SOTTO PAGINA
@@ -269,6 +271,8 @@ export default function NewSubPageModal({ isOpen, onActionCloseModal, id = null 
                                                                                                 onClick={() => {
                                                                                                     router.push(
                                                                                                         "/editor/config/" +
+                                                                                                            id +
+                                                                                                            "/" +
                                                                                                             element.ConfigurationID +
                                                                                                             "/" +
                                                                                                             element.Tipo

@@ -4,6 +4,8 @@ import NewPageModal from "../../components/modal/NewPageModal";
 import TablePages from "../../components/table/TablePages";
 import fetch from "node-fetch";
 import style from "../../styles/table.module.css";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function ManagePages({ isPreview = false }) {
     const [openModalNewPage, setOpenModalNewPage] = useState(false);
@@ -11,6 +13,10 @@ export default function ManagePages({ isPreview = false }) {
     const [update, setUpdate] = useState(false);
 
     const [indexOfPage, SetIndexOfPage] = useState(0);
+
+    const router = useRouter();
+
+    const { data: _session, status } = useSession();
 
     const HandleCloseNewPage = () => {
         setOpenModalNewPage(false);
@@ -23,6 +29,10 @@ export default function ManagePages({ isPreview = false }) {
     };
 
     useEffect(() => {
+        if (_session.user.email.ID_ruolo != 1 && isPreview === false) {
+            router.push("/404");
+        }
+
         const fetchData = async () => {
             const response = await fetch("http://localhost:3000/api/manage/dpage");
             const data = await response.json();
@@ -64,7 +74,7 @@ export default function ManagePages({ isPreview = false }) {
 
     return (
         <>
-            {indexOfPage === 0 && (
+            {_session.user.email.ID_ruolo == 1 && indexOfPage === 0 && (
                 <div className={isPreview ? "" : style.PageContainer}>
                     <Head>
                         <title>Manage Page</title>

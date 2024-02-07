@@ -312,13 +312,12 @@ export default function NewPageModal({ isOpen, onActionCloseModal, id = null }) 
                                                                                                 onClick={() => {
                                                                                                     router.push(
                                                                                                         "/editor/config/" +
+                                                                                                            id +
+                                                                                                            "/" +
                                                                                                             element.ConfigurationID +
                                                                                                             "/" +
-                                                                                                            element.Tipo +
-                                                                                                            "/" +
-                                                                                                            id
+                                                                                                            element.Tipo
                                                                                                     );
-                                                                                                    //ConfigurationID;
                                                                                                 }}
                                                                                             >
                                                                                                 Configure

@@ -40,6 +40,7 @@ const formatJWT = (result, email) => {
 };
 
 export const authOptions = {
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
             async authorize(credentials, req) {
@@ -52,11 +53,11 @@ export const authOptions = {
                 } else {
                     const partener = await T_partener.fetchOneByField("email", email);
                     if (partener) {
-                        result = await verifyCredentials(partener.ID, password, 2);
+                        result = await verifyCredentials(partener.ID, password, 3);
                     } else {
                         const cliente_partener_b2c = await T_cliente_partener_b2c.fetchOneByField("email", email);
                         if (cliente_partener_b2c) {
-                            result = await verifyCredentials(cliente_partener_b2c.ID, password, 3);
+                            result = await verifyCredentials(cliente_partener_b2c.ID, password, 4);
                         } else {
                             const cliente_partener_b2b = await T_cliente_partener_b2b.fetchOneByField("email", email);
                             if (cliente_partener_b2b) {
@@ -81,7 +82,7 @@ export const authOptions = {
         //maxAge: 10 * 60, // 30 secondi
     },
     jwt: {
-        maxAge: 30,
+        maxAge: 30 * 24 * 60 * 60,
         // async encode() {},
         // async decode() {},
     },

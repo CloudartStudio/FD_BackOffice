@@ -5,7 +5,6 @@ export default function RoleOptions({ selectedRole, setSelectedRole }) {
     const [roles, setRoles] = useState([]);
 
     const handleRoleChange = (e) => {
-        alert(e.target.value);
         setSelectedRole(e.target.value);
     };
 
@@ -25,11 +24,13 @@ export default function RoleOptions({ selectedRole, setSelectedRole }) {
             <label>Ruolo</label>
             <br />
             <select className={style.SelectModern} value={selectedRole} onChange={handleRoleChange}>
-                {roles.map((role) => (
-                    <option key={role.roleID} value={role.roleID}>
-                        {role.roleName}
-                    </option>
-                ))}
+                {roles &&
+                    roles.length > 0 &&
+                    roles.map((role) => (
+                        <option key={role.roleID} value={role.roleID}>
+                            {role.roleName}
+                        </option>
+                    ))}
             </select>
         </div>
     );

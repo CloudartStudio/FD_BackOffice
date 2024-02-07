@@ -2,6 +2,7 @@ import T_cliente_partener_b2b from "../../../../../../models/sql_model/T_cliente
 import { hashPassword, generateRandomPassword } from "../../../../../../helpers/auth";
 import MailSender from "../../../../../../helpers/mailSender";
 import T_utenti_login from "../../../../../../models/sql_model/T_utenti_login";
+import { getSession } from "next-auth/react";
 
 const postReq = async (req, res) => {
     try {
@@ -66,6 +67,12 @@ const getReq = async (req, res) => {
 };
 
 export default async (req, res) => {
+    const session = await getSession({ req });
+
+    //collab ok
+    if (!session || session.user.email.ID_ruolo != 3) {
+        return res.status(401).json({ message: "Non autorizzato" });
+    }
     try {
         if (req.method === "POST") {
             await postReq(req, res);

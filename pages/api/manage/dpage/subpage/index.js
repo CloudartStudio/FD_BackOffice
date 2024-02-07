@@ -1,7 +1,10 @@
 import DynamicPage from "../../../../../models/nosql_model/DynamicPage";
 import DynamicSections from "../../../../../models/nosql_model/DynamicSections";
 import Configuration from "../../../../../models/nosql_model/Configuration";
+import CachedPage from "../../../../../models/nosql_model/CachedPage";
 import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "pages/api/auth/[...nextauth]";
 
 const postReq = async (req, res) => {
     const newSections = [];
@@ -29,9 +32,11 @@ const postReq = async (req, res) => {
         }
     }
 
+    const Link = mainPage.Link + "/" + req.body.Page.Link;
+
     const dynPageRequest = new DynamicPage(
         req.body.Page.PageName,
-        req.body.Page.Link,
+        Link,
         mainPage.MinRole,
         newSections,
         mainPage.IsAgenzia,
@@ -39,6 +44,9 @@ const postReq = async (req, res) => {
     );
 
     const dynPage = await dynPageRequest.save();
+
+    const cachePage = new CachedPage(req.body.Page.PageName, Link, req.body.Page.MinRole, [], dynPage.insertedId);
+    await cachePage.save();
 
     const returnObj = {
         page: dynPage,
@@ -49,16 +57,33 @@ const postReq = async (req, res) => {
 };
 
 const putReq = async (req, res) => {
+    const session = await getServerSession(req, res, authOptions);
+
+    if (!session && session.user.email.ID_ruolo == 1) {
+        return res.status(401).json({ message: "Non autorizzato" });
+    }
+
     const EditedSections = [];
     console.log("Pagina e sezioni", req.body.Page);
     if (req.body.Page.Sections) {
         for (var s of req.body.Page.Sections) {
-            if (s.data.find((d) => !d.IsSaved)) {
+            if (s.data && s.data.find((d) => !d.IsSaved)) {
+                await Promise.all(
+                    s.data.map(async (d) => {
+                        if (!d.IsSaved) {
+                            const conf = new Configuration(d, s.Type);
+                            const res = await conf.save();
+                            d.ConfigurationID = res.insertedId;
+                        }
+                    })
+                );
+
                 const dynSectionRequest = new DynamicSections(s.data, s.VerticalOrder);
+                dynSectionRequest.data = s.data;
                 if (s.data.find((d) => d.IsSaved === true)) {
                     // se entra qui allora la sezione è stata modificata
-                    const dynSection = await dynSectionRequest.Update(s._id);
-                    EditedSections.push(s._id);
+                    await dynSectionRequest.Update(s._id);
+                    EditedSections.push(new ObjectId(s._id));
                 } else {
                     //se entra qui allora la sezione è stata aggiunta in modifica
                     const dynSection = await dynSectionRequest.save();
@@ -66,12 +91,19 @@ const putReq = async (req, res) => {
                 }
             } else {
                 //se entra qui allora non è stata modificata, aggiungo l'id per non perderla
-                EditedSections.push(new ObjectId(s.ID));
+                EditedSections.push(new ObjectId(s._id));
             }
         }
     }
 
-    const PageToUpdate = new DynamicPage(req.body.Page.PageName, req.body.Page.Link, req.body.Page.MinRole, EditedSections, req.body.Page.IsAgenzia);
+    const PageToUpdate = new DynamicPage(
+        req.body.Page.PageName,
+        req.body.Page.Link,
+        mainPage.MinRole,
+        newSections,
+        mainPage.IsAgenzia,
+        new ObjectId(req.body.Page.MainPageId)
+    );
 
     const dynPage = await PageToUpdate.Update(req.body.Page.ID);
 
@@ -86,6 +118,12 @@ const putReq = async (req, res) => {
 //DynamicPage
 
 export default async (req, res) => {
+    const session = await getServerSession(req, res, authOptions);
+
+    if (!session && session.user.email.ID_ruolo != 1) {
+        return res.status(401).json({ message: "Non autorizzato" });
+    }
+
     try {
         if (req.method === "POST") {
             postReq(req, res);

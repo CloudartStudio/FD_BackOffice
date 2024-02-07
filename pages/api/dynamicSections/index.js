@@ -1,4 +1,5 @@
 import DynamicSections from "../../../models/nosql_model/DynamicSections";
+import { getSession } from "next-auth/react";
 
 export const getReq = async (req, res) => {
     try {
@@ -10,6 +11,11 @@ export const getReq = async (req, res) => {
 };
 
 export default async (req, res) => {
+    const session = await getSession({ req });
+
+    if (!session) {
+        return res.status(401).json({ message: "Non autorizzato" });
+    }
     try {
         if (req.method === "GET") {
             const result = await getReq(req, res);

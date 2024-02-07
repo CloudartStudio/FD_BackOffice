@@ -77,7 +77,7 @@ const SectionWithSubPages = ({ baseSection }) => {
                 baseSection.subPages.map((item, index) => (
                     <li
                         onClick={(e) => {
-                            handleRequest(e, "/renderData/" + baseSection.page.Link + "/" + item.Link);
+                            handleRequest(e, "/renderData/" + item.Link);
                         }}
                         style={{
                             opacity: "0.9",

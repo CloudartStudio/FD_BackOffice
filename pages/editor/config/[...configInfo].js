@@ -12,9 +12,9 @@ import ModelProvider from "../../../models/dto/GraphDTO/ModelProvider";
 
 const RenderData = () => {
     const router = useRouter();
-    const configID = router.query.configInfo[0];
-    const configType = parseInt(router.query.configInfo[1]);
-    const pageID = router.query.configInfo[2];
+    const configID = router.query.configInfo[1];
+    const configType = parseInt(router.query.configInfo[2]);
+    const pageID = router.query.configInfo[0];
     const [PreviewModel, setPreviewModel] = useState(null);
     let baseModel = ModelProvider(configType);
     let PreviewComponent = <></>;

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import fetch from "node-fetch";
-import NewClientModal from "../components/modal/NewClientModal";
 import NewPartnerModal from "../components/modal/NewPartnerModal";
 import { useEffect, useState } from "react";
 import style from "../styles/home.module.css";
@@ -141,12 +140,11 @@ const Home = () => {
                         </div>
 
                         <div className={style.BtnContainer}>
-                            {_session.user.email.ID_ruolo === 3 && (
-                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClient}>
-                                    <h3>NUOVO CLIENTE</h3>
+                            {_session.user.email.ID_ruolo === 1 && (
+                                <button id="add-customer" class="SimpleCard Clickable">
+                                    <h3>NUOVO COLLABORATORE</h3>
                                 </button>
                             )}
-
                             {_session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewPartner}>
                                     <h3>NUOVO PARTNER</h3>
@@ -154,39 +152,51 @@ const Home = () => {
                             )}
                         </div>
 
-                        {(_session.user.email.ID_ruolo === 1 || _session.user.email.ID_ruolo === 2) && (
+                        {_session.user.email.ID_ruolo === 3 && (
                             <div className={style.BtnContainer}>
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2B}>
-                                    <h3>NUOVO CLIENTE PARTNER B2B</h3>
+                                    <h3>NUOVO CLIENTE B2B</h3>
                                 </button>
 
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClientPartnerB2C}>
-                                    <h3>NUOVO CLIENTE PARTNER B2C</h3>
+                                    <h3>NUOVO CLIENTE B2C</h3>
                                 </button>
                             </div>
                         )}
                     </div>
                     <div className={style.HomeContent}>
-                        <Tabs
-                            data={[
-                                {
-                                    label: "PAGES",
-                                    content: (
-                                        <>
-                                            <br></br>
-                                            <Link className={style.GoToPageBtn} href={"/manage/dpage"}>
-                                                Vai alla pagina
-                                            </Link>
-                                            <ManagePages isPreview={true}></ManagePages>
-                                        </>
-                                    ),
-                                },
-                                {
-                                    label: "USERS",
-                                    content: "Users",
-                                },
-                            ]}
-                        ></Tabs>
+                        {_session.user.email.ID_ruolo === 1 && (
+                            <Tabs
+                                data={[
+                                    {
+                                        label: "PAGES",
+                                        content: (
+                                            <>
+                                                <br></br>
+                                                <Link className={style.GoToPageBtn} href={"/manage/dpage"}>
+                                                    Vai alla pagina
+                                                </Link>
+                                                <ManagePages isPreview={true}></ManagePages>
+                                            </>
+                                        ),
+                                    },
+                                    {
+                                        label: "USERS",
+                                        content: "Users",
+                                    },
+                                ]}
+                            ></Tabs>
+                        )}
+                        {_session.user.email.ID_ruolo === 3 && (
+                            <Tabs
+                                data={[
+                                    {
+                                        label: "LISTA CLIENTI",
+                                        content: "CLIENTI",
+                                    },
+                                ]}
+                            ></Tabs>
+                        )}
                     </div>
                 </div>
             )}

@@ -19,7 +19,7 @@ class DynamicBase {
         } catch (error) {
             throw error;
         } finally {
-            await mongoDBDisconnect();
+            //await mongoDBDisconnect();
         }
     }
 
@@ -35,7 +35,7 @@ class DynamicBase {
         } catch (error) {
             throw error;
         } finally {
-            await mongoDBDisconnect();
+            //await mongoDBDisconnect();
         }
     }
 
@@ -51,7 +51,7 @@ class DynamicBase {
         } catch (error) {
             throw error;
         } finally {
-            await mongoDBDisconnect();
+            //await mongoDBDisconnect();
         }
     }
 
@@ -63,7 +63,7 @@ class DynamicBase {
         } catch (error) {
             throw error;
         } finally {
-            await mongoDBDisconnect();
+            //await mongoDBDisconnect();
         }
     }
 
@@ -76,7 +76,7 @@ class DynamicBase {
         } catch (error) {
             throw error;
         } finally {
-            await mongoDBDisconnect();
+            //await mongoDBDisconnect();
         }
     }
 
@@ -89,7 +89,7 @@ class DynamicBase {
         } catch (error) {
             throw error;
         } finally {
-            await mongoDBDisconnect();
+            //await mongoDBDisconnect();
         }
     }
 
@@ -102,7 +102,7 @@ class DynamicBase {
         } catch (error) {
             throw error;
         } finally {
-            await mongoDBDisconnect();
+            //await mongoDBDisconnect();
         }
     }
 }

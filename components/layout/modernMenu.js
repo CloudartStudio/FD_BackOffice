@@ -4,8 +4,10 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import BreadCrumbContext from "../../context/breadcrumbContext";
+import { useSession } from "next-auth/react";
 
-const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
+const ModernMenu = ({ IsFullScreen }) => {
+    const { data: _session, status } = useSession();
     const Router = useRouter();
     const BreadCrumbCtx = useContext(BreadCrumbContext);
     const [MenuData, setMenuData] = useState([]);
@@ -36,7 +38,7 @@ const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
         <div id="particles-js" className={style.menubase}>
             {!IsFullScreen && (
                 <>
-                    {indexOfPage == 0 && (
+                    {status && status === "authenticated" && (
                         <nav>
                             <ul>
                                 {MenuData &&
@@ -47,7 +49,7 @@ const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
                             </ul>
                         </nav>
                     )}
-                    {indexOfPage == 0 && (
+                    {status && status === "authenticated" && (
                         <div className={style.CentralMenuContent}>
                             <div className={style.CentralTopSection}>
                                 <div
@@ -81,27 +83,29 @@ const ModernMenu = ({ indexOfPage, IsFullScreen }) => {
                         </div>
                     )}
 
-                    {indexOfPage == 1 && (
-                        <>
-                            <div className={style.CentralMenuContentFull}>
-                                <div className={style.CentralTopSection}>
-                                    <div
-                                        style={{ cursor: "pointer" }}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            Router.push("/");
-                                        }}
-                                    >
-                                        <h1>FIRST DATA</h1>
+                    {!status ||
+                        status === "loading" ||
+                        (status === "unauthenticated" && (
+                            <>
+                                <div className={style.CentralMenuContentFull}>
+                                    <div className={style.CentralTopSection}>
+                                        <div
+                                            style={{ cursor: "pointer" }}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                Router.push("/");
+                                            }}
+                                        >
+                                            <h1>FIRST DATA</h1>
+                                        </div>
                                     </div>
+                                    <div className={style.CentralMidSection}></div>
+                                    <div className={style.CentralBottomSection}></div>
                                 </div>
-                                <div className={style.CentralMidSection}></div>
-                                <div className={style.CentralBottomSection}></div>
-                            </div>
-                        </>
-                    )}
+                            </>
+                        ))}
 
-                    {indexOfPage == 0 && (
+                    {status && status === "authenticated" && (
                         <div>
                             <nav>
                                 <ul>

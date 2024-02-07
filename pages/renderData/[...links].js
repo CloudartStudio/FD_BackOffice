@@ -7,51 +7,20 @@ import { ThreeCircles } from "react-loader-spinner";
 import PreviewGraph from "../../components/PreviewGraph";
 import ModelProvider from "../../models/dto/GraphDTO/ModelProvider";
 
-export default function NewPageModal() {
+export default function render_data() {
     const router = useRouter();
     const Links = router.query.links;
-    let ID = null;
 
-    const [Page, setPage] = useState({
-        PageName: "",
-        Link: "",
-        MinRole: "",
-        Sections: [],
-        IsAgenzia: false,
-    });
-
-    const [pageSections, setPageSections] = useState([]);
-
-    const fetch = async () => {
-        if (ID) {
-            const resposePage = await axios.get("http://localhost:3000/api/manage/dpage/" + ID);
-            const { Nome, Link, RelatedSections, IsActive, IsAgenzia, MinRole } = resposePage.data;
-            setPage({
-                PageName: Nome,
-                Link: Link,
-                MinRole: MinRole,
-                IsAgenzia: IsAgenzia,
-                Sections: RelatedSections,
-            });
-            let sections = [];
-            for (const element of RelatedSections) {
-                const responseSection = await axios.get("http://localhost:3000/api/dynamicSections/" + element);
-                const { collectionName, Data, IsActive, VerticalOrder, _id } = responseSection.data;
-                sections.push({ collectionName: collectionName, data: Data, IsActive: IsActive, VerticalOrder: VerticalOrder, _id: _id });
-            }
-            setPageSections(sections);
-        }
-    };
+    const [PageData, setPageData] = useState(null);
 
     useEffect(() => {
         let linkUrl = Links[0];
         const secondPiece = Links[1] ? "/" + Links[1] : "";
         linkUrl = linkUrl + secondPiece;
         if (Links) {
-            axios.get("http://localhost:3000/api/manage/dpage/links/" + linkUrl).then((res) => {
-                const { _id } = res.data;
-                ID = _id;
-                fetch();
+            axios.get("http://localhost:3000/api/cachedpage/" + linkUrl).then((res) => {
+                console.log("res", res);
+                setPageData(res.data);
             });
         }
     }, [Links]);
@@ -61,7 +30,7 @@ export default function NewPageModal() {
             <div className={style.ModalBody} style={{ width: "100%", paddingLeft: "0px" }}>
                 <div className={PageEditorStyle.PageEditor}>
                     <div className={PageEditorStyle.PageEditorBody}>
-                        {pageSections.length == 0 && (
+                        {!PageData && (
                             <div className={PageEditorStyle.PageEditorPlaceHolder}>
                                 <p>
                                     Caricamento in corso...
@@ -86,18 +55,16 @@ export default function NewPageModal() {
                             </div>
                         )}
 
-                        {pageSections.length != 0 && (
+                        {PageData && (
                             <div className={PageEditorStyle.PageEditorBodyContainer}>
-                                {pageSections &&
-                                    pageSections.map((section, index) => {
+                                {PageData.Sections &&
+                                    PageData.Sections.sort((a, b) => a.VerticalOrder - b.VerticalOrder).map((section, index) => {
                                         return (
                                             <div key={index} className={PageEditorStyle.PreviewSection}>
-                                                {section.data.map((element, indexdue) => {
+                                                {section.Configurations.sort((a, b) => a.LateralOrder - b.LateralOrder).map((element, indexdue) => {
                                                     return (
                                                         <div key={indexdue} className={PageEditorStyle.ConfigSection}>
-                                                            {element.IsSaved && !element.IsActive && (
-                                                                <ConfigVisualizer ConfigurationID={element.ConfigurationID} />
-                                                            )}
+                                                            {element.active && <ConfigVisualizer Metadata={element.metadata} Structure={element.structure} />}
                                                         </div>
                                                     );
                                                 })}
@@ -113,48 +80,47 @@ export default function NewPageModal() {
     );
 }
 
-const ConfigVisualizer = ({ ConfigurationID }) => {
+const ConfigVisualizer = ({ Metadata, Structure }) => {
     const [PreviewModel, setPreviewModel] = useState(null);
+    const metadata = Metadata;
+    const structure = Structure;
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/manage/dconfig/" + ConfigurationID).then((res) => {
-            const { metadata, structure } = res.data.Data;
-            if (metadata && metadata.length > 0)
-                axios.post("http://localhost:3000/api/query/DynamicSelection", { metadata }).then((result) => {
-                    const { data } = result;
-                    const finalQueryModelContainer = [];
-                    structure.map((substructure, index) => {
-                        const finalQueryModel = [];
-                        substructure.map((q) => {
-                            const tempObj = {};
-                            if (!q.funzioni_campo) {
-                                if (q.querable) {
-                                    tempObj.coordinate = q.nome_campo;
-                                    tempObj.data = data[index].map((el) => el[q.valore_campo.columun.COLUMN_NAME]);
-                                } else {
-                                    tempObj.coordinate = q.nome_campo;
-                                    tempObj.data = q.valore_campo;
-                                }
+        if (metadata && structure)
+            axios.post("http://localhost:3000/api/query/DynamicSelection", { metadata }).then((result) => {
+                const { data } = result;
+                const finalQueryModelContainer = [];
+                structure.map((substructure, index) => {
+                    const finalQueryModel = [];
+                    substructure.map((q) => {
+                        const tempObj = {};
+                        if (!q.funzioni_campo) {
+                            if (q.querable) {
+                                tempObj.coordinate = q.nome_campo;
+                                tempObj.data = data[index].map((el) => el[q.valore_campo.columun.COLUMN_NAME]);
                             } else {
                                 tempObj.coordinate = q.nome_campo;
-                                tempObj.data = data[index].map((el) => el[q.funzioni_campo.command + "_" + q.valore_campo.columun.COLUMN_NAME]);
+                                tempObj.data = q.valore_campo;
                             }
-                            finalQueryModel.push(tempObj);
-                        });
-                        finalQueryModelContainer.push(finalQueryModel);
+                        } else {
+                            tempObj.coordinate = q.nome_campo;
+                            tempObj.data = data[index].map((el) => el[q.funzioni_campo.command + "_" + q.valore_campo.columun.COLUMN_NAME]);
+                        }
+                        finalQueryModel.push(tempObj);
                     });
-
-                    console.log("finalQueryModelContainer", finalQueryModelContainer);
-                    setPreviewModel(finalQueryModelContainer);
+                    finalQueryModelContainer.push(finalQueryModel);
                 });
-        });
+
+                console.log("finalQueryModelContainer", finalQueryModelContainer);
+                setPreviewModel(finalQueryModelContainer);
+            });
     }, []);
 
     return (
-        <div className={style.Preview}>
+        <>
             {PreviewModel && (
                 <PreviewGraph graphName={"grafico di prova"} isXAxis={true} key={1} legendTop={true} GraphDataContainer={PreviewModel}></PreviewGraph>
             )}
-        </div>
+        </>
     );
 };
