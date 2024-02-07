@@ -10,6 +10,8 @@ export default function PopupSimple({ notification }) {
         classForStatus = style.PopUp_Container_Error;
     } else if (notification.status == "warning") {
         classForStatus = style.PopUp_Container_Warning;
+    }else if (notification.status == "waiting") {
+        classForStatus = style.PopUp_Container_Waiting;
     } else {
         classForStatus = style.PopUp_Container;
     }

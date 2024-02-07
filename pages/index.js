@@ -126,13 +126,13 @@ const Home = () => {
                         </div>
 
                         <div className={style.BtnContainer}>
-                            {_session.user.email.ID_ruolo === 3 && (
+                            {_session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenSingleSell}>
                                     <h3>VENDITA SINGOLA</h3>
                                 </button>
                             )}
 
-                            {_session.user.email.ID_ruolo === 3 && (
+                            {_session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenDailySell}>
                                     <h3>VENDITA GIORNALIERA</h3>
                                 </button>
@@ -201,14 +201,10 @@ const Home = () => {
                 </div>
             )}
 
-            {indexOfPage === 1 && <NewClientModal  onActionCloseModal={HandleCloseNewClient}></NewClientModal>}
+            {indexOfPage === 1 && <NewClientModal onActionCloseModal={HandleCloseNewClient}></NewClientModal>}
             {indexOfPage === 2 && <NewPartnerModal onActionCloseModal={HandleCloseNewPartner}></NewPartnerModal>}
-            {indexOfPage === 3 && (
-                <NewClientPartnerB2B onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>
-            )}
-            {indexOfPage === 4 && (
-                <NewClientPartnerB2C onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>
-            )}
+            {indexOfPage === 3 && <NewClientPartnerB2B onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>}
+            {indexOfPage === 4 && <NewClientPartnerB2C onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>}
             {indexOfPage === 5 && <SingleSellModal onActionCloseModal={HandleCloseSingleSell}></SingleSellModal>}
             {indexOfPage === 6 && <DailySellModal onActionCloseModal={HandleCloseDailySell}></DailySellModal>}
         </>
