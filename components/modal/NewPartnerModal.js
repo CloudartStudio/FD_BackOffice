@@ -1,9 +1,8 @@
 import style from "../../styles/modal.module.css";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
-  const HaveMoreLocationsRef = useRef(null);
   const [newPartner, setNewPartner] = useState({
     ragione_sociale: "",
     partita_iva: "",

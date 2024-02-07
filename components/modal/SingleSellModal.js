@@ -1,9 +1,8 @@
 import style from "../../styles/modal.module.css";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 export default function SingleSellModal({ isOpen, onActionCloseModal }) {
-  const HaveMoreLocationsRef = useRef(null);
   const [singleSell, setSingleSell] = useState({
     ID_cliente: null,
     data_vendita: "",

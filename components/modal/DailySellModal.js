@@ -1,9 +1,8 @@
 import style from "../../styles/modal.module.css";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 export default function DailySellModal({ isOpen, onActionCloseModal }) {
-  const HaveMoreLocationsRef = useRef(null);
   const [dailySell, setDailySell] = useState({
     data: "",
     totale_incasso: "",

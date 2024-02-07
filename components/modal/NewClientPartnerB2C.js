@@ -1,9 +1,8 @@
 import style from "../../styles/modal.module.css";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
-  const HaveMoreLocationsRef = useRef(null);
   const [clientB2c, setClientB2c] = useState({
     ID_partner: null,
     nome: "",
