@@ -380,7 +380,6 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
                     </button>
                 </div>
             </div>
-            )}
         </>
     );
 }

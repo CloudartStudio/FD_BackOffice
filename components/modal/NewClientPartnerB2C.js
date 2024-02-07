@@ -289,7 +289,6 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                     </button>
                 </div>
             </div>
-            )}
         </>
     );
 }
