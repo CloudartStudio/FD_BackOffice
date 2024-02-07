@@ -38,7 +38,7 @@ export default function DailySellModal({ isOpen, onActionCloseModal }) {
   const checkSimpleValidation = (name, value, isFinal) => {
     const c = conf.findIndex((conf) => conf.nome === name);
     if (c != -1) {
-      if (value == " " || value === null || value === undefined) {
+      if (value == "" || value === null || value === undefined) {
         //IL VALORE è NULLO QUINDI NON CE IL VALORE ,LUTENTE DEVE INSRIRLO
         handleErrors(name, `Il Campo ${name} è obbligatorio!`);
         if (isFinal) {

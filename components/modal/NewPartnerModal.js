@@ -28,18 +28,22 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
     {
       nome: "partita_iva",
       expression: /^[a-z0-9]+$/i,
+      MaxLen: 11,
     },
     {
       nome: "codice_sdi",
       expression: /^[a-z0-9]+$/i,
+      MaxLen: 7,
     },
     {
       nome: "telefono",
       expression: /^[0-9]+$/,
+      MaxLen: 9,
     },
     {
       nome: "cellulare",
       expression: /^[0-9]+$/,
+      MaxLen: 10,
     },
     {
       nome: "indirizzo_sede_fisica",
@@ -80,7 +84,7 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
   const checkSimpleValidation = (name, value, isFinal) => {
     const c = conf.findIndex((conf) => conf.nome === name);
     if (c != -1) {
-      if (value == " " || value === null || value === undefined) {
+      if (value == "" || value === null || value === undefined) {
         handleErrors(name, `Il Campo ${name} è obbligatorio!`);
         if (isFinal) {
           //IL VALORE É NULLO QUINDI NON CE IL VALORE, L'UTENTE DEVE INSERIRLO
@@ -89,6 +93,21 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
           return true;
         }
       } else {
+
+        if (conf[c].MaxLen) {
+          if (value.length > conf[c].MaxLen) {
+            handleErrors(
+              name,
+              `la lunghezza di ${name} supera la lunghezza consentita`
+            ); //numeri di telefono,codice sdi,p iva
+            if (isFinal) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+
         //VALORE CE FARE IL CONTROLLO CON L'ESPRESSIONE
         if (!conf[c].expression.test(value)) {
           handleErrors(name, `Il valore inserito in ${name} non è corretto`);

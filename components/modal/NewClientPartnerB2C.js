@@ -35,6 +35,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
     {
       nome: "telefono",
       expression: /^[0-9]+$/,
+      MaxLen: 9,
     },
     {
       nome: "email",
@@ -59,7 +60,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
   const checkSimpleValidation = (name, value, isFinal) => {
     const c = conf.findIndex((conf) => conf.nome === name);
     if (c != -1) {
-      if (value == " " || value === null || value === undefined) {
+      if (value == "" || value === null || value === undefined) {
         //IL VALORE è NULLO QUINDI NON CE IL VALORE ,LUTENTE DEVE INSRIRLO
         handleErrors(name, `Il Campo ${name} è obbligatorio!`);
         if (isFinal) {
@@ -68,6 +69,21 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
           return true;
         }
       } else {
+
+        if (conf[c].MaxLen) {
+          if (value.length > conf[c].MaxLen) {
+            handleErrors(
+              name,
+              `la lunghezza di ${name} supera la lunghezza consentita`
+            ); //numeri di telefono,codice sdi,p iva
+            if (isFinal) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+
         //VALORE CE FARE IL CONTROLLO CON L'ESPRESSIONE
         if (!conf[c].expression.test(value)) {
           handleErrors(name, `Il valore inserito in ${name} non è corretto`);
