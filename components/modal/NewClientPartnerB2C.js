@@ -104,6 +104,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
 
   const submitForm = () => {
     try {
+      alert('1');
       let isValid = true;
       Object.keys(clientB2c).forEach((item) => {
         if (
@@ -116,6 +117,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
           isValid = false;
         }
       });
+      alert('2');
       alert(isValid)
       if (isValid) {
         axios
@@ -286,7 +288,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
               </div>
             </div>
 
-            {/* sesso */}
+            {/* is_maschio */}
             <div className={style.ModalField}>
                 <label>Sesso</label>
                 <br />
@@ -295,10 +297,10 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                   placeholder="Sesso..."
                   name="is_maschio"
                   onChange={handleOnChangeForm}
-                  value={clientB2c.sesso}
+                  value={clientB2c.is_maschio}
                 ></input>
-                {errors.sesso && <p className={style.error}>{errors.sesso}</p>}
-              </div>
+                {errors.is_maschio && <p className={style.error}>{errors.is_maschio}</p>}
+            </div>
           </div>
 
           <div className={style.ModalFoot}>

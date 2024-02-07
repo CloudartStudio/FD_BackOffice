@@ -1,6 +1,5 @@
 import Head from "next/head";
 import fetch from "node-fetch";
-import NewClientModal from "../components/modal/NewClientModal";
 import NewPartnerModal from "../components/modal/NewPartnerModal";
 import { useEffect, useState } from "react";
 import style from "../styles/home.module.css";
@@ -142,12 +141,6 @@ const Home = () => {
                         </div>
 
                         <div className={style.BtnContainer}>
-                            {_session.user.email.ID_ruolo === 1 && (
-                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewClient}>
-                                    <h3>NUOVO CLIENTE</h3>
-                                </button>
-                            )}
-
                             {_session.user.email.ID_ruolo === 1 && (
                                 <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewPartner}>
                                     <h3>NUOVO PARTNER</h3>

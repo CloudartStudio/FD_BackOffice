@@ -44,15 +44,15 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "indirizzo_sede_fisica",
-      expression: /^[a-z0-9 ]+$/i,
+      expression: /^[a-z0-9,. ]+$/i,
     },
     {
       nome: "indirizzo_sede_legale",
-      expression: /^[a-z0-9 ]+$/i,
+      expression: /^[a-z0-9,. ]+$/i,
     },
     {
       nome: "settore_merceologico",
-      expression: /^[a-z0-9 ]+$/i,
+      expression: /^[0-9]+$/,
     },
     {
       nome: "pec",
@@ -342,8 +342,8 @@ export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
                   onChange={handleOnChangeForm}
                   value={newPartner.pec}
                 ></input>
-                {errors.settore_merceologico && (
-                  <p className={style.error}>{errors.settore_merceologico}</p>
+                {errors.pec && (
+                  <p className={style.error}>{errors.pec}</p>
                 )}
               </div>
 

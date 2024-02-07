@@ -46,7 +46,7 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "indirizzo",
-      expression: /^[a-z0-9 ]+$/i,
+      expression: /^[a-z0-9. ]+$/i,
     },
     {
       nome: "nome",
@@ -62,11 +62,11 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "indirizzo_sede_fisica",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9., ]+$/i,
     },
     {
       nome: "indirizzo_sede_legale",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9., ]+$/i,
     },
   ];
 
@@ -123,6 +123,7 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
 
   const submitForm = () => {
     try {
+      alert('1');
       let isValid = true;
       Object.keys(clientB2b).forEach((item) => {
         if (
@@ -134,6 +135,8 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
           isValid = false;
         }
       });
+      alert('2');
+      alert(isValid);
       if (isValid) {
         axios
           .post("http://localhost:3000/api/auth/account/cliente/b2b", {

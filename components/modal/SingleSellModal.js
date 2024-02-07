@@ -2,7 +2,7 @@ import style from "../../styles/modal.module.css";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
-export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
+export default function SingleSellModal({ isOpen, onActionCloseModal }) {
   const HaveMoreLocationsRef = useRef(null);
   const [singleSell, setSingleSell] = useState({
     ID_cliente: null,
@@ -27,7 +27,7 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
     },
     {
       nome: "note",
-      expression: /^[a-zA-Z0-9]+$/,
+      expression: /^[a-z0-9 ]+$/i,
     },
   ];
 
@@ -95,7 +95,7 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
           isValid = false;
         }
       });
-      alert(isValid)
+      alert(isValid);
       if (isValid) {
         axios
           .post("http://localhost:3000/api/vendite/singola", {
@@ -108,13 +108,13 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
           })
           .then((result) => {
             // TODO: Chiamare notification context
-            alert("ok")
-          }).catch(error => {
-            alert("error")
-            console.log("error",error);
+            alert("oke");
+          })
+          .catch((error) => {
+            alert("error");
+            console.log("error", error);
           });
       }
-
     } catch (err) {
       //TODO: LOGGER
       console.log(err);
@@ -133,14 +133,14 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
           </div>
 
           <div className={style.ModalBody}>
-            <div className={style.ModalBodyLabelContainer}>              
+            <div className={style.ModalBodyLabelContainer}>
               {/* ID_cliente */}
               <div className={style.ModalField}>
                 <label>ID Cliente</label>
                 <br />
                 <input
                   type={"text"}
-                  placeholder="Data Vendita..."
+                  placeholder="ID Cliente..."
                   name="ID_cliente"
                   onChange={handleOnChangeForm}
                   value={singleSell.ID_cliente}
@@ -194,9 +194,7 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
                   onChange={handleOnChangeForm}
                   value={singleSell.note}
                 ></input>
-                {errors.note && (
-                  <p className={style.error}>{errors.note}</p>
-                )}
+                {errors.note && <p className={style.error}>{errors.note}</p>}
               </div>
             </div>
 
@@ -211,9 +209,7 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
                 onChange={handleOnChangeForm}
                 value={singleSell.is_b2b}
               ></input>
-              {errors.is_b2b && (
-                  <p className={style.error}>{errors.is_b2b}</p>
-                )}
+              {errors.is_b2b && <p className={style.error}>{errors.is_b2b}</p>}
             </div>
           </div>
 
