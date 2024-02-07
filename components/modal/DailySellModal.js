@@ -199,13 +199,13 @@ export default function DailySellModal({ isOpen, onActionCloseModal }) {
               <div className={style.ModalField}>
                 <label>Note</label>
                 <br />
-                <input
+                <textarea
                   type={"text"}
                   placeholder="Note..."
                   name="note"
                   onChange={handleOnChangeForm}
                   value={dailySell.note}
-                ></input>
+                ></textarea>
                 {errors.note && <p className={style.error}>{errors.note}</p>}
               </div>
             </div>

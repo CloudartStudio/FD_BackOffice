@@ -3,6 +3,12 @@
     margin-bottom: 10px;
 }
 
+.ModalField label {
+    color: #393939!important;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
 .ModalField button {
     padding: 10px 15px;
     background-color: #6dacff37;
@@ -24,17 +30,32 @@
 .ModalField input[type="tel"],
 .ModalField input[type="date"],
 .ModalField input[type="number"],
+.ModalField textarea,
 .SelectModern {
     width: 90%;
     background-color: #6dacff37;
     border: none;
     border-radius: 5px;
-    color: white;
-    font-weight: 600;
-    height: 4vh;
+    color: #393939;
+    font-weight: 500;
+    height: 6vh;
     margin-top: 10px;
-    font-size: 1rem;
+    font-size: 1.3rem;
     border-bottom: 2px solid #e67d3a;
+}
+
+.ModalField textarea {
+    resize: vertical;
+}
+
+.ModalField input[type="text"]::placeholder,
+.ModalField input[type="email"]::placeholder,
+.ModalField input[type="tel"]::placeholder,
+.ModalField input[type="date"]::placeholder,
+.ModalField input[type="number"]::placeholder,
+.ModalField textarea::placeholder {
+    color: white;
+    opacity: 0.50;
 }
 
 .ModalFieldLogin {
@@ -278,6 +299,7 @@
     width: fit-content;
     font-weight: 900;
     margin: 0px;
+    color: #393939da;
 }
 
 .ModalBody h6 {
@@ -352,8 +374,14 @@
 }
 
 .error {
-    color: rgb(182, 0, 0);
-    font-size: 1.3rem;
+    color: rgb(163, 0, 0);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background-color: #bbb4;
+    padding: 3px;
+    border-radius: 2px;
+    width: 90%; 
 }
 
 .SectionSelector {

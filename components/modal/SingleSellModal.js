@@ -42,7 +42,7 @@ export default function SingleSellModal({ isOpen, onActionCloseModal }) {
   const checkSimpleValidation = (name, value, isFinal) => {
     const c = conf.findIndex((conf) => conf.nome === name);
     if (c != -1) {
-      if (value == "  " || value === null || value === undefined) {
+      if (value == "" || value === null || value === undefined) {
         //IL VALORE è NULLO QUINDI NON CE IL VALORE ,LUTENTE DEVE INSRIRLO
         handleErrors(name, `Il Campo ${name} è obbligatorio!`);
         if (isFinal) {
@@ -202,13 +202,13 @@ export default function SingleSellModal({ isOpen, onActionCloseModal }) {
               <div className={style.ModalField}>
                 <label>Note</label>
                 <br />
-                <input
+                <textarea
                   type={"text"}
                   placeholder="Note..."
                   name="note"
                   onChange={handleOnChangeForm}
                   value={singleSell.note}
-                ></input>
+                ></textarea>
                 {errors.note && <p className={style.error}>{errors.note}</p>}
               </div>
             </div>
