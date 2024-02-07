@@ -1,5 +1,6 @@
 import style from "../../styles/modal.module.css";
-import React, { useState } from "react";
+import NotificationContext from "../../context/notificationContext";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 
 export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
@@ -17,6 +18,8 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
     indirizzo_sede_fisica: "",
     indirizzo_sede_legale: ""
   });
+
+  const NotificationCtx = useContext(NotificationContext);
 
   const conf = [
     {
@@ -141,7 +144,6 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
 
   const submitForm = () => {
     try {
-      alert('1');
       let isValid = true;
       Object.keys(clientB2b).forEach((item) => {
         if (
@@ -153,9 +155,13 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
           isValid = false;
         }
       });
-      alert('2');
-      alert(isValid);
+      
       if (isValid) {
+        NotificationCtx.showNotification({
+          title: "Attesa",
+          message: "Salvataggio in corso...",
+          status: "waiting",
+        });
         axios
           .post("http://localhost:3000/api/auth/account/cliente/b2b", {
             ID_partner: clientB2b.ID_partner,
@@ -172,10 +178,25 @@ export default function NewClientPartnerB2B({ isOpen, onActionCloseModal }) {
             indirizzo_sede_legale: clientB2b.indirizzo_sede_legale,
           })
           .then((result) => {
-            alert("oke");
+            NotificationCtx.showNotification({
+              title: "Salvataggio",
+              message: "Il salvataggio è andato a buon fine",
+              status: "success",
+            });
+            onActionCloseModal();
+          })
+          .catch((error) => {
+            NotificationCtx.showNotification({
+              title: "Errore",
+              message: "Il salvataggio non è andato a buon fine",
+              status: "error",
+            });
+            onActionCloseModal();
+            console.log("error", error);
           });
       }
     } catch (err) {
+      //TODO: LOGGER
       console.log(err);
       alert("error: sei tu!");
     }

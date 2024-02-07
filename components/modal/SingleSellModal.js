@@ -1,5 +1,6 @@
 import style from "../../styles/modal.module.css";
-import React, { useState } from "react";
+import NotificationContext from "../../context/notificationContext";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 
 export default function SingleSellModal({ isOpen, onActionCloseModal }) {
@@ -10,6 +11,8 @@ export default function SingleSellModal({ isOpen, onActionCloseModal }) {
     note: "",
     is_b2b: false,
   });
+
+  const NotificationCtx = useContext(NotificationContext);
 
   const conf = [
     {
@@ -94,8 +97,12 @@ export default function SingleSellModal({ isOpen, onActionCloseModal }) {
           isValid = false;
         }
       });
-      alert(isValid);
       if (isValid) {
+        NotificationCtx.showNotification({
+          title: "Attesa",
+          message: "Salvataggio in corso...",
+          status: "waiting",
+        });
         axios
           .post("http://localhost:3000/api/vendite/singola", {
             ID_partner: 4,
@@ -106,11 +113,20 @@ export default function SingleSellModal({ isOpen, onActionCloseModal }) {
             is_b2b: singleSell.is_b2b,
           })
           .then((result) => {
-            // TODO: Chiamare notification context
-            alert("oke");
+            NotificationCtx.showNotification({
+              title: "Salvataggio",
+              message: "Il salvataggio è andato a buon fine",
+              status: "success",
+            });
+            onActionCloseModal();
           })
           .catch((error) => {
-            alert("error");
+            NotificationCtx.showNotification({
+              title: "Errore",
+              message: "Il salvataggio non è andato a buon fine",
+              status: "error",
+            });
+            onActionCloseModal();
             console.log("error", error);
           });
       }

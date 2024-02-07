@@ -24,6 +24,11 @@
     @extend .PopUp_Container;
 }
 
+.PopUp_Container_Waiting {
+    background-color: rgba(27, 203, 235, 0.733);
+    @extend .PopUp_Container;
+}
+
 .PopUp_Container_Error {
     background-color: #f55b;
     @extend .PopUp_Container;

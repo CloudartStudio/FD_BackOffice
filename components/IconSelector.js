@@ -1,5 +1,5 @@
 import { RiMenu2Fill, RiMenu3Fill, RiMoneyEuroBoxFill, RiAddLine, RiEdit2Line, RiInformationFill, RiPagesFill } from "react-icons/ri";
-
+import { CiNoWaitingSign } from "react-icons/ci";
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai";
 import { MdErrorOutline, MdOutlineDone } from "react-icons/md";
 import { CiClock2 } from "react-icons/ci";
@@ -32,5 +32,7 @@ export default function IconSelector({ IconSelector }) {
             return <MdErrorOutline></MdErrorOutline>;
         case "warning":
             return <IoMdWarning></IoMdWarning>;
+        case "waiting":
+            return <CiNoWaitingSign></CiNoWaitingSign>;
     }
 }
