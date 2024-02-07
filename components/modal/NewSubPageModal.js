@@ -8,130 +8,141 @@ import RoleOptions from "../misc/role_options";
 import { BsGraphUp } from "react-icons/bs";
 import { MdAddChart } from "react-icons/md";
 
-export default function NewSubPageModal({ isOpen, onActionCloseModal, id = null }) {
-    const router = useRouter();
+export default function NewSubPageModal({ onActionCloseModal, id = null }) {
+  const router = useRouter();
 
-    const { ID: test } = router.query;
+  const { ID: test } = router.query;
 
-    const [pageIndex, setPageIndex] = useState(0);
-    const [isInEdit, setIsInEdit] = useState(false);
-    const [Page, setPage] = useState({
-        PageName: "",
-        Link: "",
-        Sections: [],
-    });
+  const [pageIndex, setPageIndex] = useState(0);
+  const [isInEdit, setIsInEdit] = useState(false);
+  const [Page, setPage] = useState({
+    PageName: "",
+    Link: "",
+    Sections: [],
+  });
 
-    const [pageSections, setPageSections] = useState([]);
+  const [pageSections, setPageSections] = useState([]);
 
-    const NotificationCtx = useContext(NotificationContext);
+  const NotificationCtx = useContext(NotificationContext);
 
-    const handleDragStart = (event, element) => {
-        event.dataTransfer.setData("text/plain", JSON.stringify(element));
-    };
+  const handleDragStart = (event, element) => {
+    event.dataTransfer.setData("text/plain", JSON.stringify(element));
+  };
 
-    const handleDragOver = (event) => {
-        event.preventDefault();
-    };
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
 
-    const handleDrop = (event) => {
-        event.preventDefault();
-        const data = JSON.parse(event.dataTransfer.getData("text/plain"));
-        if (pageSections) {
-            setPageSections((prev) => {
-                const res = [
-                    {
-                        VerticalOrder: 0,
-                        data: [
-                            {
-                                NomeSezione: data.name,
-                                Tipo: data.type,
-                                LateralOrder: 0,
-                            },
-                        ],
-                    },
-                ];
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const data = JSON.parse(event.dataTransfer.getData("text/plain"));
+    if (pageSections) {
+      setPageSections((prev) => {
+        const res = [
+          {
+            VerticalOrder: 0,
+            data: [
+              {
+                NomeSezione: data.name,
+                Tipo: data.type,
+                LateralOrder: 0,
+              },
+            ],
+          },
+        ];
 
-                return res;
-            });
-        }
-    };
+        return res;
+      });
+    }
+  };
 
-    const handleDropDirection = (event, direction, verticalOrder) => {
-        event.preventDefault();
-        const data = JSON.parse(event.dataTransfer.getData("text/plain"));
-        if (direction === 0 || direction === 1) {
-            setPageSections((prev) => [
-                ...prev,
-                {
-                    VerticalOrder: prev.length + 1,
-                    data: [
-                        {
-                            NomeSezione: data.name,
-                            Tipo: data.type,
-                            LateralOrder: 0,
-                        },
-                    ],
-                },
-            ]);
-        } else if (direction === 2 || direction === 3) {
-            setPageSections((prev) => {
-                const toReturn = prev.map((section) => {
-                    if (section.VerticalOrder === verticalOrder) {
-                        console.log(section.data, "section.data");
-                        const updatedData = [...section.data];
-                        if (direction === 2) {
-                            updatedData.unshift({
-                                NomeSezione: data.name,
-                                Tipo: data.type,
-                                LateralOrder: section.data.length,
-                            });
-                        } else if (direction === 3) {
-                            updatedData.push({
-                                NomeSezione: data.name,
-                                Tipo: data.type,
-                                LateralOrder: section.data.length,
-                            });
-                        }
-                        return {
-                            ...section,
-                            data: updatedData,
-                        };
-                    } else {
-                        return section;
-                    }
-                });
-                return toReturn;
-            });
-        }
-    };
-
-    useEffect(() => {
-        const fetch = async () => {
-            if (id && isOpen) {
-                setIsInEdit(true);
-                const resposePage = await axios.get("http://localhost:3000/api/manage/dpage/" + id);
-                const { Nome, Link, RelatedSections, IsActive } = resposePage.data;
-                //MinRole_input.current.value = MinRole;
-
-                setPage({
-                    PageName: Nome,
-                    Link: Link,
-                    Sections: RelatedSections,
-                });
-
-                let sections = [];
-                for (const element of RelatedSections) {
-                    const responseSection = await axios.get("http://localhost:3000/api/dynamicSections/" + element);
-                    console.log("CIAO", responseSection.data);
-                    const { collectionName, Data, IsActive, VerticalOrder, _id } = responseSection.data;
-                    sections.push({ collectionName: collectionName, data: Data, IsActive: IsActive, VerticalOrder: VerticalOrder, _id: _id });
-                }
-                setPageSections(sections);
+  const handleDropDirection = (event, direction, verticalOrder) => {
+    event.preventDefault();
+    const data = JSON.parse(event.dataTransfer.getData("text/plain"));
+    if (direction === 0 || direction === 1) {
+      setPageSections((prev) => [
+        ...prev,
+        {
+          VerticalOrder: prev.length + 1,
+          data: [
+            {
+              NomeSezione: data.name,
+              Tipo: data.type,
+              LateralOrder: 0,
+            },
+          ],
+        },
+      ]);
+    } else if (direction === 2 || direction === 3) {
+      setPageSections((prev) => {
+        const toReturn = prev.map((section) => {
+          if (section.VerticalOrder === verticalOrder) {
+            console.log(section.data, "section.data");
+            const updatedData = [...section.data];
+            if (direction === 2) {
+              updatedData.unshift({
+                NomeSezione: data.name,
+                Tipo: data.type,
+                LateralOrder: section.data.length,
+              });
+            } else if (direction === 3) {
+              updatedData.push({
+                NomeSezione: data.name,
+                Tipo: data.type,
+                LateralOrder: section.data.length,
+              });
             }
-        };
+            return {
+              ...section,
+              data: updatedData,
+            };
+          } else {
+            return section;
+          }
+        });
+        return toReturn;
+      });
+    }
+  };
 
-        fetch();
-    }, [isOpen, id]);
+  useEffect(() => {
+    const fetch = async () => {
+      if (id) {
+        setIsInEdit(true);
+        const resposePage = await axios.get(
+          "http://localhost:3000/api/manage/dpage/" + id
+        );
+        const { Nome, Link, RelatedSections, IsActive } = resposePage.data;
+        //MinRole_input.current.value = MinRole;
+
+        setPage({
+          PageName: Nome,
+          Link: Link,
+          Sections: RelatedSections,
+        });
+
+        let sections = [];
+        for (const element of RelatedSections) {
+          const responseSection = await axios.get(
+            "http://localhost:3000/api/dynamicSections/" + element
+          );
+          console.log("CIAO", responseSection.data);
+          const { collectionName, Data, IsActive, VerticalOrder, _id } =
+            responseSection.data;
+          sections.push({
+            collectionName: collectionName,
+            data: Data,
+            IsActive: IsActive,
+            VerticalOrder: VerticalOrder,
+            _id: _id,
+          });
+        }
+        setPageSections(sections);
+      }
+    };
+
+    fetch();
+  }, [id]);
 
     const handleSavePage = async () => {
         if (isInEdit) {
@@ -292,77 +303,91 @@ export default function NewSubPageModal({ isOpen, onActionCloseModal, id = null 
                                                                                     </div>
                                                                                 )}
 
-                                                                                <div
-                                                                                    onDrop={(e) => {
-                                                                                        handleDropDirection(e, 3, section.VerticalOrder);
-                                                                                    }}
-                                                                                    onDragOver={handleDragOver}
-                                                                                    className={PageEditorStyle.DestraSinistra}
-                                                                                ></div>
-                                                                            </div>
-                                                                            <div
-                                                                                onDrop={(e) => {
-                                                                                    handleDropDirection(e, 1, section.VerticalOrder);
-                                                                                }}
-                                                                                onDragOver={handleDragOver}
-                                                                                className={PageEditorStyle.AltoBasso}
-                                                                            ></div>
-                                                                        </div>
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                        );
-                                                    })}
-                                            </div>
-                                        )}
+                                      <div
+                                        onDrop={(e) => {
+                                          handleDropDirection(
+                                            e,
+                                            3,
+                                            section.VerticalOrder
+                                          );
+                                        }}
+                                        onDragOver={handleDragOver}
+                                        className={
+                                          PageEditorStyle.DestraSinistra
+                                        }
+                                      ></div>
                                     </div>
-                                </div>
+                                    <div
+                                      onDrop={(e) => {
+                                        handleDropDirection(
+                                          e,
+                                          1,
+                                          section.VerticalOrder
+                                        );
+                                      }}
+                                      onDragOver={handleDragOver}
+                                      className={PageEditorStyle.AltoBasso}
+                                    ></div>
+                                  </div>
+                                );
+                              })}
                             </div>
-                            <div className={style.ModalFoot}>
-                                <button onClick={handleSavePage} className={style.Success}>
-                                    INVIA
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                </>
-            )}
+                          );
+                        })}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className={style.ModalFoot}>
+              <button onClick={handleSavePage} className={style.Success}>
+                INVIA
+              </button>
+            </div>
+          </div>
         </>
-    );
+      )}
+    </>
+  );
 }
 
 const DraggableTypesOfConfig = ({ handleDragStart }) => {
-    const [draggableTypes, setDraggableTypes] = useState([]);
+  const [draggableTypes, setDraggableTypes] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get("http://localhost:3000/api/types")
-            .then((res) => {
-                console.log("result", res);
-                setDraggableTypes((prev) => {
-                    return [...res.data];
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/types")
+      .then((res) => {
+        console.log("result", res);
+        setDraggableTypes((prev) => {
+          return [...res.data];
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-    return (
-        <div className={PageEditorStyle.PageEditorHeadeButtonContainer}>
-            <div className={PageEditorStyle.PageEditorHeaderDiv}>
-                {draggableTypes.map((element) => {
-                    return (
-                        <button
-                            draggable
-                            onDragStart={(event) => handleDragStart(event, { type: element.typeID, name: element.typeName })}
-                            className={PageEditorStyle.PageEditorHeaderButton}
-                        >
-                            {element.typeName}
-                        </button>
-                    );
-                })}
-            </div>
-        </div>
-    );
+  return (
+    <div className={PageEditorStyle.PageEditorHeadeButtonContainer}>
+      <div className={PageEditorStyle.PageEditorHeaderDiv}>
+        {draggableTypes.map((element) => {
+          return (
+            <button
+              draggable
+              onDragStart={(event) =>
+                handleDragStart(event, {
+                  type: element.typeID,
+                  name: element.typeName,
+                })
+              }
+              className={PageEditorStyle.PageEditorHeaderButton}
+            >
+              {element.typeName}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 };

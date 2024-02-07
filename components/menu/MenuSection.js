@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function MenuSection({ baseSection, PrevLevel, verticalOrder }) {
-    const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();
 
     const handleOpenSubMenu = () => {
         if (baseSection.HaveSubPage) {
-            setIsOpen(isOpen ? false : true);
         } else {
             router.push("/renderData/" + baseSection.page.Link);
         }
@@ -38,11 +36,10 @@ export default function MenuSection({ baseSection, PrevLevel, verticalOrder }) {
 }
 
 const SectionWithSubPages = ({ baseSection }) => {
-    const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();
 
     const handleWitchSubMenu = () => {
-        setIsOpen(isOpen ? false : true);
+
     };
 
     const handleRequest = (e, uri) => {
@@ -60,7 +57,7 @@ const SectionWithSubPages = ({ baseSection }) => {
                 <span>{baseSection.page.Nome}</span>
             </li>
 
-            {isOpen && baseSection.page.Link && (
+            { baseSection.page.Link && (
                 <li
                     onClick={(e) => {
                         handleRequest(e, "/renderData/" + baseSection.page.Link);
@@ -73,7 +70,7 @@ const SectionWithSubPages = ({ baseSection }) => {
                     <span>{baseSection.page.Nome}</span>
                 </li>
             )}
-            {isOpen &&
+            {
                 baseSection.subPages.map((item, index) => (
                     <li
                         onClick={(e) => {

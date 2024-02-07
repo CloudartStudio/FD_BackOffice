@@ -90,7 +90,7 @@ export default function ManagePages({ isPreview = false }) {
                                 isPreview={isPreview}
                                 row_actions={[
                                     {
-                                        doAction: (isOpen, SetOpen, Data) => {},
+                                        doAction: (SetOpen, Data) => {},
                                     },
                                 ]}
                                 footer_action={HandleOpenNewPage}
@@ -106,7 +106,7 @@ export default function ManagePages({ isPreview = false }) {
                     <Head>
                         <title>Manage Page - New page</title>
                     </Head>
-                    <NewPageModal isOpen={openModalNewPage} onActionCloseModal={HandleCloseNewPage}></NewPageModal>
+                    <NewPageModal onActionCloseModal={HandleCloseNewPage}></NewPageModal>
                 </>
             )}
         </>
