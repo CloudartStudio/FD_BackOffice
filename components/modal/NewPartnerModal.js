@@ -1,10 +1,10 @@
 import style from "../../styles/modal.module.css";
 import NotificationContext from "../../context/notificationContext";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-export default function NewPartnerModal({ isOpen, onActionCloseModal }) {
+export default function NewPartnerModal({ onActionCloseModal }) {
     const [newPartner, setNewPartner] = useState({
         ragione_sociale: "",
         partita_iva: "",

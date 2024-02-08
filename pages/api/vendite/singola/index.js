@@ -20,7 +20,7 @@ const postReq = async (req, res) => {
 const getReq = async (req, res) => {
     try {
         const session = await getServerSession(req, res, authOptions);
-        const result = await T_vendita_singola.fetchAll();
+        let result = await T_vendita_singola.fetchAll();
         result = result.map((el) => {
             if (el.ID_partner == session.user.email.ID_partner) {
                 return el;
@@ -41,7 +41,7 @@ export default async (req, res) => {
         if (!session) {
             return res.status(401).json({ message: "Non autorizzato" });
         } else {
-            if (session.user.email.ID_ruolo == 3) {
+            if (session.user.email.ID_ruolo != 3) {
                 return res.status(401).json({ message: "Non autorizzato" });
             }
         }

@@ -61,7 +61,7 @@ const postReq = async (req, res) => {
 const getReq = async (req, res) => {
     try {
         const session = await getServerSession(req, res, authOptions);
-        const result = await T_cliente_partener_b2b.fetchAll();
+        let result = await T_cliente_partener_b2b.fetchAll();
         result = result.map((el) => {
             if (el.ID_partner == session.user.email.ID_partner) {
                 return el;
