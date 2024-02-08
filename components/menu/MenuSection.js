@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 
 export default function MenuSection({ baseSection, PrevLevel, verticalOrder }) {
     const router = useRouter();
+    const [openSubMenu, setOpenSubMenu] = useState(false);
 
     const handleOpenSubMenu = () => {
         if (baseSection.HaveSubPage) {
+            setOpenSubMenu(!openSubMenu);
         } else {
             router.push("/renderData/" + baseSection.page.Link);
         }
@@ -26,7 +28,12 @@ export default function MenuSection({ baseSection, PrevLevel, verticalOrder }) {
                     )}
                     {baseSection.subPages.length > 0 && (
                         <>
-                            <SectionWithSubPages baseSection={baseSection} key={verticalOrder}></SectionWithSubPages>
+                            <SectionWithSubPages
+                                setIsOpen={setOpenSubMenu}
+                                isOpen={openSubMenu}
+                                baseSection={baseSection}
+                                key={verticalOrder}
+                            ></SectionWithSubPages>
                         </>
                     )}
                 </>
@@ -35,11 +42,11 @@ export default function MenuSection({ baseSection, PrevLevel, verticalOrder }) {
     );
 }
 
-const SectionWithSubPages = ({ baseSection }) => {
+const SectionWithSubPages = ({ baseSection, isOpen, setIsOpen }) => {
     const router = useRouter();
 
     const handleWitchSubMenu = () => {
-
+        setIsOpen(!isOpen);
     };
 
     const handleRequest = (e, uri) => {
@@ -57,7 +64,7 @@ const SectionWithSubPages = ({ baseSection }) => {
                 <span>{baseSection.page.Nome}</span>
             </li>
 
-            { baseSection.page.Link && (
+            {isOpen && baseSection.page.Link && (
                 <li
                     onClick={(e) => {
                         handleRequest(e, "/renderData/" + baseSection.page.Link);
@@ -70,7 +77,7 @@ const SectionWithSubPages = ({ baseSection }) => {
                     <span>{baseSection.page.Nome}</span>
                 </li>
             )}
-            {
+            {isOpen &&
                 baseSection.subPages.map((item, index) => (
                     <li
                         onClick={(e) => {

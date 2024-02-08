@@ -96,12 +96,14 @@ const putReq = async (req, res) => {
         }
     }
 
+    const oldPage = await DynamicPage.GetOne(req.body.Page.MainPageId);
+
     const PageToUpdate = new DynamicPage(
         req.body.Page.PageName,
         req.body.Page.Link,
-        mainPage.MinRole,
-        newSections,
-        mainPage.IsAgenzia,
+        oldPage.MinRole,
+        EditedSections,
+        oldPage.IsAgenzia,
         new ObjectId(req.body.Page.MainPageId)
     );
 

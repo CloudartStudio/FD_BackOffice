@@ -174,163 +174,161 @@ export default function NewSubPageModal({ onActionCloseModal, id = null }) {
         <>
             {pageIndex === 0 && (
                 <>
-                    {isOpen && (
-                        <div className={style.Modal}>
-                            <div className={style.ModalHeader}>
-                                {!isInEdit && <h5>NUOVA SOTTO PAGINA {test}</h5>}
-                                {isInEdit && (
-                                    <h5>
-                                        MODIFICA SOTTO PAGINA
-                                        {" - " + Page.PageName}
-                                    </h5>
-                                )}
-                                <span onClick={onActionCloseModal} className={style.closeBtnModal}>
-                                    ✖
-                                </span>
-                            </div>
-                            <div className={style.ModalBody}>
-                                <div className={style.ModalBodyHeader}>
-                                    <div className={style.ModalField}>
-                                        <label>Nome</label>
-                                        <br />
-                                        <input
-                                            value={Page.PageName}
-                                            onChange={(e) => {
-                                                setPage({
-                                                    ...Page,
-                                                    PageName: e.target.value,
-                                                });
-                                            }}
-                                            type={"text"}
-                                            placeholder="Nome..."
-                                            name="Nome"
-                                        ></input>
-                                    </div>
-                                    <div className={style.ModalField}>
-                                        <label>Link</label>
-                                        <br />
-                                        <input
-                                            value={Page.Link}
-                                            onChange={(e) => {
-                                                setPage({
-                                                    ...Page,
-                                                    Link: e.target.value,
-                                                });
-                                            }}
-                                            type={"text"}
-                                            placeholder="Link..."
-                                            name="Link"
-                                        ></input>
-                                    </div>
+                    <div className={style.Modal}>
+                        <div className={style.ModalHeader}>
+                            {!isInEdit && <h5>NUOVA SOTTO PAGINA {test}</h5>}
+                            {isInEdit && (
+                                <h5>
+                                    MODIFICA SOTTO PAGINA
+                                    {" - " + Page.PageName}
+                                </h5>
+                            )}
+                            <span onClick={onActionCloseModal} className={style.closeBtnModal}>
+                                ✖
+                            </span>
+                        </div>
+                        <div className={style.ModalBody}>
+                            <div className={style.ModalBodyHeader}>
+                                <div className={style.ModalField}>
+                                    <label>Nome</label>
+                                    <br />
+                                    <input
+                                        value={Page.PageName}
+                                        onChange={(e) => {
+                                            setPage({
+                                                ...Page,
+                                                PageName: e.target.value,
+                                            });
+                                        }}
+                                        type={"text"}
+                                        placeholder="Nome..."
+                                        name="Nome"
+                                    ></input>
                                 </div>
-                                <div className={PageEditorStyle.PageEditor}>
-                                    <div className={PageEditorStyle.PageEditorHeader}>
-                                        <DraggableTypesOfConfig handleDragStart={handleDragStart}></DraggableTypesOfConfig>
-                                    </div>
-                                    <div className={PageEditorStyle.PageEditorBody}>
-                                        {pageSections.length == 0 && (
-                                            <div
-                                                onDrop={(e) => {
-                                                    handleDrop(e);
-                                                }}
-                                                onDragOver={handleDragOver}
-                                                className={PageEditorStyle.PageEditorPlaceHolder}
-                                            >
-                                                <p>
-                                                    Trascina qui gli elementi per creare la pagina
-                                                    <h3>
-                                                        <MdAddChart></MdAddChart>
-                                                    </h3>
-                                                </p>
-                                            </div>
-                                        )}
-                                        {pageSections.length != 0 && (
-                                            <div className={PageEditorStyle.PageEditorBodyContainer}>
-                                                {pageSections &&
-                                                    pageSections.map((section, index) => {
-                                                        console.log("section" + index, section);
-                                                        return (
-                                                            <div className={PageEditorStyle.PreviewSection}>
-                                                                {section.data.map((element) => {
-                                                                    return (
-                                                                        <div className={PageEditorStyle.ConfigSection}>
+                                <div className={style.ModalField}>
+                                    <label>Link</label>
+                                    <br />
+                                    <input
+                                        value={Page.Link}
+                                        onChange={(e) => {
+                                            setPage({
+                                                ...Page,
+                                                Link: e.target.value,
+                                            });
+                                        }}
+                                        type={"text"}
+                                        placeholder="Link..."
+                                        name="Link"
+                                    ></input>
+                                </div>
+                            </div>
+                            <div className={PageEditorStyle.PageEditor}>
+                                <div className={PageEditorStyle.PageEditorHeader}>
+                                    <DraggableTypesOfConfig handleDragStart={handleDragStart}></DraggableTypesOfConfig>
+                                </div>
+                                <div className={PageEditorStyle.PageEditorBody}>
+                                    {pageSections.length == 0 && (
+                                        <div
+                                            onDrop={(e) => {
+                                                handleDrop(e);
+                                            }}
+                                            onDragOver={handleDragOver}
+                                            className={PageEditorStyle.PageEditorPlaceHolder}
+                                        >
+                                            <p>
+                                                Trascina qui gli elementi per creare la pagina
+                                                <h3>
+                                                    <MdAddChart></MdAddChart>
+                                                </h3>
+                                            </p>
+                                        </div>
+                                    )}
+                                    {pageSections.length != 0 && (
+                                        <div className={PageEditorStyle.PageEditorBodyContainer}>
+                                            {pageSections &&
+                                                pageSections.map((section, index) => {
+                                                    console.log("section" + index, section);
+                                                    return (
+                                                        <div className={PageEditorStyle.PreviewSection}>
+                                                            {section.data.map((element) => {
+                                                                return (
+                                                                    <div className={PageEditorStyle.ConfigSection}>
+                                                                        <div
+                                                                            onDrop={(e) => {
+                                                                                handleDropDirection(e, 0, section.VerticalOrder);
+                                                                            }}
+                                                                            onDragOver={handleDragOver}
+                                                                            className={PageEditorStyle.AltoBasso}
+                                                                        ></div>
+                                                                        <div>
                                                                             <div
                                                                                 onDrop={(e) => {
-                                                                                    handleDropDirection(e, 0, section.VerticalOrder);
+                                                                                    handleDropDirection(e, 2, section.VerticalOrder);
                                                                                 }}
                                                                                 onDragOver={handleDragOver}
-                                                                                className={PageEditorStyle.AltoBasso}
+                                                                                className={PageEditorStyle.DestraSinistra}
                                                                             ></div>
-                                                                            <div>
-                                                                                <div
-                                                                                    onDrop={(e) => {
-                                                                                        handleDropDirection(e, 2, section.VerticalOrder);
-                                                                                    }}
-                                                                                    onDragOver={handleDragOver}
-                                                                                    className={PageEditorStyle.DestraSinistra}
-                                                                                ></div>
-                                                                                {element.IsSaved && (
-                                                                                    <div className={PageEditorStyle.Icon}>
-                                                                                        {element.IsActive && <button>Edit</button>}
-                                                                                        {!element.IsActive == 1 && (
-                                                                                            <button
-                                                                                                onClick={() => {
-                                                                                                    router.push(
-                                                                                                        "/editor/config/" +
-                                                                                                            id +
-                                                                                                            "/" +
-                                                                                                            element.ConfigurationID +
-                                                                                                            "/" +
-                                                                                                            element.Tipo
-                                                                                                    );
-                                                                                                    //ConfigurationID;
-                                                                                                }}
-                                                                                            >
-                                                                                                Configure
-                                                                                            </button>
-                                                                                        )}
-                                                                                    </div>
-                                                                                )}
-                                                                                {!element.IsSaved && (
-                                                                                    <div className={PageEditorStyle.Icon}>
-                                                                                        {element.Tipo == 0 && <BsGraphUp></BsGraphUp>}
-                                                                                        {element.Tipo == 1 && <div>view</div>}
-                                                                                    </div>
-                                                                                )}
+                                                                            {element.IsSaved && (
+                                                                                <div className={PageEditorStyle.Icon}>
+                                                                                    {element.IsActive && <button>Edit</button>}
+                                                                                    {!element.IsActive == 1 && (
+                                                                                        <button
+                                                                                            onClick={() => {
+                                                                                                router.push(
+                                                                                                    "/editor/config/" +
+                                                                                                        id +
+                                                                                                        "/" +
+                                                                                                        element.ConfigurationID +
+                                                                                                        "/" +
+                                                                                                        element.Tipo
+                                                                                                );
+                                                                                                //ConfigurationID;
+                                                                                            }}
+                                                                                        >
+                                                                                            Configure
+                                                                                        </button>
+                                                                                    )}
+                                                                                </div>
+                                                                            )}
+                                                                            {!element.IsSaved && (
+                                                                                <div className={PageEditorStyle.Icon}>
+                                                                                    {element.Tipo == 0 && <BsGraphUp></BsGraphUp>}
+                                                                                    {element.Tipo == 1 && <div>view</div>}
+                                                                                </div>
+                                                                            )}
 
-                                                                                <div
-                                                                                    onDrop={(e) => {
-                                                                                        handleDropDirection(e, 3, section.VerticalOrder);
-                                                                                    }}
-                                                                                    onDragOver={handleDragOver}
-                                                                                    className={PageEditorStyle.DestraSinistra}
-                                                                                ></div>
-                                                                            </div>
                                                                             <div
                                                                                 onDrop={(e) => {
-                                                                                    handleDropDirection(e, 1, section.VerticalOrder);
+                                                                                    handleDropDirection(e, 3, section.VerticalOrder);
                                                                                 }}
                                                                                 onDragOver={handleDragOver}
-                                                                                className={PageEditorStyle.AltoBasso}
+                                                                                className={PageEditorStyle.DestraSinistra}
                                                                             ></div>
                                                                         </div>
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                        );
-                                                    })}
-                                            </div>
-                                        )}
-                                    </div>
+                                                                        <div
+                                                                            onDrop={(e) => {
+                                                                                handleDropDirection(e, 1, section.VerticalOrder);
+                                                                            }}
+                                                                            onDragOver={handleDragOver}
+                                                                            className={PageEditorStyle.AltoBasso}
+                                                                        ></div>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    );
+                                                })}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                            <div className={style.ModalFoot}>
-                                <button onClick={handleSavePage} className={style.Success}>
-                                    INVIA
-                                </button>
-                            </div>
                         </div>
-                    )}
+                        <div className={style.ModalFoot}>
+                            <button onClick={handleSavePage} className={style.Success}>
+                                INVIA
+                            </button>
+                        </div>
+                    </div>
                 </>
             )}
         </>

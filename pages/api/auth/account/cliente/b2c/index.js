@@ -2,20 +2,12 @@ import T_cliente_partener_b2c from "../../../../../../models/sql_model/T_cliente
 import { hashPassword, generateRandomPassword } from "../../../../../../helpers/auth";
 import MailSender from "../../../../../../helpers/mailSender";
 import T_utenti_login from "../../../../../../models/sql_model/T_utenti_login";
+import { authOptions } from "pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
 
 const postReq = async (req, res) => {
     try {
-        const { 
-            ID_partner, 
-            nome, 
-            cognome, 
-            data_nascita, 
-            telefono, 
-            is_maschio, 
-            email, 
-            indirizzo, 
-            custom_data 
-        } = req.body;
+        const { ID_partner, nome, cognome, data_nascita, telefono, is_maschio, email, indirizzo, custom_data } = req.body;
 
         const mewTcliente_p_b2c = new T_cliente_partener_b2c(
             null,
@@ -52,7 +44,13 @@ const postReq = async (req, res) => {
 
 const getReq = async (req, res) => {
     try {
-        const result = await T_cliente_partener_b2c.fetchAll();
+        const session = await getServerSession(req, res, authOptions);
+        let result = await T_cliente_partener_b2c.fetchAll();
+        result = result.map((el) => {
+            if (el.ID_partner == session.user.email.ID_partner) {
+                return el;
+            }
+        });
         res.status(200).json(result);
     } catch (error) {
         res.status(500).send({ message: "Error fetching T_cliente_partener_b2c data", error: error });
@@ -61,6 +59,16 @@ const getReq = async (req, res) => {
 
 export default async (req, res) => {
     try {
+        const session = await getServerSession(req, res, authOptions);
+
+        if (!session) {
+            return res.status(401).json({ message: "Non autorizzato" });
+        } else {
+            if (session.user.email.ID_ruolo != 3) {
+                return res.status(401).json({ message: "Non autorizzato" });
+            }
+        }
+
         if (req.method === "POST") {
             await postReq(req, res);
         } else if (req.method === "GET") {

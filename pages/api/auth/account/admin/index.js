@@ -2,7 +2,8 @@ import T_utenti_login from "../../../../../models/sql_model/T_utenti_login";
 import { hashPassword, generateRandomPassword } from "../../../../../helpers/auth";
 import MailSender from "../../../../../helpers/mailSender";
 import T_admin from "../../../../../models/sql_model/T_admin";
-import { getSession } from "next-auth/react";
+import { authOptions } from "pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
 
 const postReq = async (req, res) => {
     try {
@@ -41,7 +42,7 @@ const getReq = async (req, res) => {
 
 export default async (req, res) => {
     try {
-        const session = await getSession({ req });
+        const session = await getServerSession(req, res, authOptions);
 
         if (!session || session.user.email.ID_ruolo > 1) {
             return res.status(401).json({ message: "Non autorizzato" });

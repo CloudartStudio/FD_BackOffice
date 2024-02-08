@@ -1,5 +1,6 @@
 import T_vendita_singola from "../../../../models/sql_model/T_vendita_singola";
-import { getSession } from "next-auth/react";
+import { authOptions } from "pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
 
 //estraggo id patner da token
 const postReq = async (req, res) => {
@@ -18,7 +19,14 @@ const postReq = async (req, res) => {
 //filtro per ID_partner
 const getReq = async (req, res) => {
     try {
+        const session = await getServerSession(req, res, authOptions);
         const result = await T_vendita_singola.fetchAll();
+        result = result.map((el) => {
+            if (el.ID_partner == session.user.email.ID_partner) {
+                return el;
+            }
+        });
+
         res.status(200).json(result);
     } catch (error) {
         res.status(500).send({ message: "Error fetching T_vendita_singola data", error: error });
@@ -28,12 +36,12 @@ const getReq = async (req, res) => {
 //blocco se non loggato
 export default async (req, res) => {
     try {
-        const session = await getSession({ req });
+        const session = await getServerSession(req, res, authOptions);
 
         if (!session) {
             return res.status(401).json({ message: "Non autorizzato" });
         } else {
-            if (session.user.email.ID_ruolo > 3) {
+            if (session.user.email.ID_ruolo == 3) {
                 return res.status(401).json({ message: "Non autorizzato" });
             }
         }
