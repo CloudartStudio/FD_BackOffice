@@ -12,7 +12,7 @@ const postReq = async (req, res) => {
         const returnObj = await new_T_vendita_singola.insertOne();
         return res.status(201).json(returnObj);
     } catch (error) {
-        res.status(500).send({ message: "Error creating new T_vendita_singola", error: error });
+        return res.status(500).send({ message: "Error creating new T_vendita_singola", error: error });
     }
 };
 
@@ -20,7 +20,7 @@ const postReq = async (req, res) => {
 const getReq = async (req, res) => {
     try {
         const session = await getServerSession(req, res, authOptions);
-        const result = await T_vendita_singola.fetchAll();
+        let result = await T_vendita_singola.fetchAll();
         result = result.map((el) => {
             if (el.ID_partner == session.user.email.ID_partner) {
                 return el;

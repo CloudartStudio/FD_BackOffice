@@ -7,8 +7,8 @@
 
 # PARTNER
 
-| NOME UTENTE       | PASSWORD          | EMAIL                       |
-| ----------------- | ----------------- | --------------------------- |
-| ciccia e lardo    | lPdAZ+#x#u++p$X)  | ciccia.lardo@gmail.com      |
-| cancelleria laura | a7C\*OxoOiW8(En<^ | cancelleria.laura@gmail.com |
-| cancelleria laura | a7C\*OxoOiW8(En<^ | cancelleria.laura@gmail.com |
+| NOME UTENTE | PASSWORD         | EMAIL              |
+| ----------- | ---------------- | ------------------ |
+|             | yK6OhF3vdsKqZI<u | michele@michele.it |
+|             |                  |                    |
+|             |                  |                    |

@@ -2,7 +2,7 @@ import SqlBase from "./base/sqlBase";
 
 class T_cliente_partener_b2c extends SqlBase {
     constructor(id, ID_partner, nome, cognome, data_nascita, telefono, is_maschio, email, indirizzo, custom_data) {
-        super("T_cliente_partener_b2c");
+        super("T_clienti");
         this.ID = id;
         this.ID_partner = ID_partner;
         this.nome = nome;
@@ -16,27 +16,27 @@ class T_cliente_partener_b2c extends SqlBase {
     }
 
     static async fetchAll() {
-        return super.Base_fetchAll("T_cliente_partener_b2c");
+        return super.Base_fetchAll("T_clienti");
     }
 
     static async fetchOne(id) {
-        return super.Base_fetchOne(id, "T_cliente_partener_b2c");
+        return super.Base_fetchOne(id, "T_clienti");
     }
 
     static async fetchOneByField(fieldName, fieldValue) {
-        return super.Base_fetchOneByField(fieldName, fieldValue, "T_cliente_partener_b2c");
+        return super.Base_fetchOneByField(fieldName, fieldValue, "T_clienti");
     }
 
     static async executeQuery() {
-        return super.Base_executeQuery("T_cliente_partener_b2c");
+        return super.Base_executeQuery("T_clienti");
     }
 
     static async Base_executeStoredProcedure() {
-        return super.Base_executeStoredProcedure("T_cliente_partener_b2c");
+        return super.Base_executeStoredProcedure("T_clienti");
     }
 
     static async Base_executeFunction() {
-        return super.Base_executeFunction("T_cliente_partener_b2c");
+        return super.Base_executeFunction("T_clienti");
     }
 }
 
