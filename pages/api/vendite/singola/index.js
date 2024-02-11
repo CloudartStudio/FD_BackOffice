@@ -41,7 +41,7 @@ export default async (req, res) => {
         if (!session) {
             return res.status(401).json({ message: "Non autorizzato" });
         } else {
-            if (session.user.email.ID_ruolo == 3) {
+            if (session.user.email.ID_ruolo != 3) {
                 return res.status(401).json({ message: "Non autorizzato" });
             }
         }

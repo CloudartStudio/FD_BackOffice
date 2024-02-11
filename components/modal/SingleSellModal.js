@@ -2,8 +2,9 @@ import style from "../../styles/modal.module.css";
 import NotificationContext from "../../context/notificationContext";
 import React, { useState, useContext } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
-export default function SingleSellModal({ isOpen, onActionCloseModal }) {
+export default function SingleSellModal({ onActionCloseModal }) {
     const [singleSell, setSingleSell] = useState({
         ID_cliente: null,
         data_vendita: "",
@@ -11,6 +12,8 @@ export default function SingleSellModal({ isOpen, onActionCloseModal }) {
         note: "",
         is_b2b: false,
     });
+
+    const { data: _session } = useSession();
 
     const NotificationCtx = useContext(NotificationContext);
 
@@ -100,7 +103,7 @@ export default function SingleSellModal({ isOpen, onActionCloseModal }) {
                 });
                 axios
                     .post("http://localhost:3000/api/vendite/singola", {
-                        ID_partner: 4,
+                        ID_partner: _session.user.email.ID_partner,
                         ID_cliente: singleSell.ID_cliente,
                         data_vendita: singleSell.data_vendita,
                         prezzo: singleSell.prezzo,

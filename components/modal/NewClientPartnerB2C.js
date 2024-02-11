@@ -2,8 +2,9 @@ import style from "../../styles/modal.module.css";
 import NotificationContext from "../../context/notificationContext";
 import React, { useState, useContext } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
-export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
+export default function NewClientPartnerB2C({ onActionCloseModal }) {
     const [clientB2c, setClientB2c] = useState({
         ID_partner: null,
         nome: "",
@@ -15,6 +16,8 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
         indirizzo: "",
         custom_data: "",
     });
+
+    const { data: _session } = useSession();
 
     const NotificationCtx = useContext(NotificationContext);
 
@@ -132,7 +135,7 @@ export default function NewClientPartnerB2C({ isOpen, onActionCloseModal }) {
                 });
                 axios
                     .post("http://localhost:3000/api/auth/account/cliente/b2c", {
-                        ID_partner: clientB2c.ID_partner,
+                        ID_partner: _session.user.email.ID_partner,
                         nome: clientB2c.nome,
                         cognome: clientB2c.cognome,
                         data_nascita: clientB2c.data_nascita,
