@@ -50,8 +50,9 @@
     background-color: #ffffff33;
     border: none;
     border-radius: 10px;
-    width: 90%;
     padding: 10px;
+    flex: 1;
+    margin: 0px 10px;
 }
 
 .PageEditor .PageEditorBody {

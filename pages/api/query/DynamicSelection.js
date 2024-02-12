@@ -17,7 +17,8 @@ const getReq = async (req, res) => {
                     let alias = "T";
                     if (el.includes("ID_cliente")) {
                         alias = "C";
-                        el = 'CONCAT("C"."nome", \' \', "C"."cognome") as "ID_cliente"';
+                        el =
+                            'CASE WHEN "C"."ragione_sociale" IS NULL THEN CONCAT("C"."nome", \' \', "C"."cognome") ELSE "C"."ragione_sociale" END  as "ID_cliente","T"."prezzo"';
                     } else if (el.includes("ID_partner")) {
                         alias = "P";
                         el.replace("ID_partner", "ID");
@@ -140,6 +141,8 @@ const getReq = async (req, res) => {
 
                 const query = SelectQueryBlock + FromQueryBlock + " " + JoinQueryBlock + " " + WhereQueryBlock + " " + GroupByQueryBlock + OrderByQueryBlock;
                 const pool = await PG_databaseFactoryAsync();
+
+                console.log("query", query);
 
                 const result = await pool.query(query);
 

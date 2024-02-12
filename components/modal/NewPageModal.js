@@ -6,7 +6,10 @@ import axios from "axios";
 import NotificationContext from "../../context/notificationContext";
 import RoleOptions from "../misc/role_options";
 import { BsGraphUp } from "react-icons/bs";
+import { RxSection } from "react-icons/rx";
 import { MdAddChart } from "react-icons/md";
+import { IoMdCloseCircle } from "react-icons/io";
+import IconSelector from "../IconSelector";
 
 export default function NewPageModal({ onActionCloseModal, id = null }) {
     const router = useRouter();
@@ -24,6 +27,48 @@ export default function NewPageModal({ onActionCloseModal, id = null }) {
     const [pageSections, setPageSections] = useState([]);
 
     const NotificationCtx = useContext(NotificationContext);
+
+    const handleDeleteSection = async (element, section) => {
+        setPageSections((prev) => {
+            if (prev.length == 1 && prev[0].data.length == 1) {
+                return prev;
+            }
+
+            //UNA SEZIONE IN ORIZIONATALE
+            if (prev.length == 1) {
+                const newSections = prev.map((section) => {
+                    const newData = section.data.filter((el) => el !== element);
+                    return {
+                        ...section,
+                        data: newData,
+                    };
+                });
+                return newSections;
+            }
+
+            //PIU SEZIONI VERTICALI
+            if (prev.length > 1) {
+                const s = prev.find((el) => el == section);
+                if (s.data.length == 1) {
+                    const newSections = prev.filter((el) => el !== section);
+                    return newSections;
+                } else {
+                    const newSections = prev.map((section) => {
+                        if (section == s) {
+                            const newData = section.data.filter((el) => el !== element);
+                            return {
+                                ...section,
+                                data: newData,
+                            };
+                        } else {
+                            return section;
+                        }
+                    });
+                    return newSections;
+                }
+            }
+        });
+    };
 
     const handleDragStart = (event, element) => {
         event.dataTransfer.setData("text/plain", JSON.stringify(element));
@@ -144,7 +189,6 @@ export default function NewPageModal({ onActionCloseModal, id = null }) {
     const handleSavePage = async () => {
         if (isInEdit) {
             Page["id"] = id;
-            alert("min role " + Page.MinRole);
             const response = await axios.put("http://localhost:3000/api/manage/dpage", {
                 Page: {
                     PageName: Page.PageName,
@@ -313,27 +357,79 @@ export default function NewPageModal({ onActionCloseModal, id = null }) {
                                                                                 <div className={PageEditorStyle.Icon}>
                                                                                     {element.IsActive && <button>Edit</button>}
                                                                                     {!element.IsActive == 1 && (
-                                                                                        <button
-                                                                                            onClick={() => {
-                                                                                                router.push(
-                                                                                                    "/editor/config/" +
-                                                                                                        id +
-                                                                                                        "/" +
-                                                                                                        element.ConfigurationID +
-                                                                                                        "/" +
-                                                                                                        element.Tipo
-                                                                                                );
-                                                                                            }}
-                                                                                        >
-                                                                                            Configure
-                                                                                        </button>
+                                                                                        <div style={{ position: "relative" }}>
+                                                                                            <span
+                                                                                                onClick={() => {
+                                                                                                    handleDeleteSection(element, section);
+                                                                                                }}
+                                                                                                style={{
+                                                                                                    fontSize: "1rem",
+                                                                                                    position: "absolute",
+                                                                                                    right: "5px",
+                                                                                                    top: "5px",
+                                                                                                    opacity: "0.9",
+                                                                                                }}
+                                                                                            >
+                                                                                                <IoMdCloseCircle></IoMdCloseCircle>
+                                                                                            </span>
+                                                                                            <button
+                                                                                                onClick={() => {
+                                                                                                    router.push(
+                                                                                                        "/editor/config/" +
+                                                                                                            id +
+                                                                                                            "/" +
+                                                                                                            element.ConfigurationID +
+                                                                                                            "/" +
+                                                                                                            element.Tipo
+                                                                                                    );
+                                                                                                }}
+                                                                                            >
+                                                                                                Configure
+                                                                                            </button>
+                                                                                        </div>
                                                                                     )}
                                                                                 </div>
                                                                             )}
                                                                             {!element.IsSaved && (
                                                                                 <div className={PageEditorStyle.Icon}>
-                                                                                    {element.Tipo == 0 && <BsGraphUp></BsGraphUp>}
-                                                                                    {element.Tipo == 1 && <div>view</div>}
+                                                                                    {element.Tipo == 0 && (
+                                                                                        <div style={{ position: "relative" }}>
+                                                                                            <span
+                                                                                                onClick={() => {
+                                                                                                    handleDeleteSection(element, section);
+                                                                                                }}
+                                                                                                style={{
+                                                                                                    fontSize: "1rem",
+                                                                                                    position: "absolute",
+                                                                                                    right: "5px",
+                                                                                                    top: "5px",
+                                                                                                    opacity: "0.9",
+                                                                                                }}
+                                                                                            >
+                                                                                                <IoMdCloseCircle></IoMdCloseCircle>
+                                                                                            </span>
+                                                                                            <BsGraphUp></BsGraphUp>
+                                                                                        </div>
+                                                                                    )}
+                                                                                    {element.Tipo == 1 && (
+                                                                                        <div style={{ position: "relative" }}>
+                                                                                            <span
+                                                                                                onClick={() => {
+                                                                                                    handleDeleteSection(element, section);
+                                                                                                }}
+                                                                                                style={{
+                                                                                                    fontSize: "1rem",
+                                                                                                    position: "absolute",
+                                                                                                    right: "5px",
+                                                                                                    top: "5px",
+                                                                                                    opacity: "0.9",
+                                                                                                }}
+                                                                                            >
+                                                                                                <IoMdCloseCircle></IoMdCloseCircle>
+                                                                                            </span>
+                                                                                            <RxSection></RxSection>
+                                                                                        </div>
+                                                                                    )}
                                                                                 </div>
                                                                             )}
 
@@ -395,7 +491,7 @@ const DraggableTypesOfConfig = ({ handleDragStart }) => {
     return (
         <div className={PageEditorStyle.PageEditorHeadeButtonContainer}>
             <div className={PageEditorStyle.PageEditorHeaderDiv}>
-                {draggableTypes.map((element) => {
+                {draggableTypes.map((element, index) => {
                     return (
                         <button
                             draggable
@@ -407,7 +503,7 @@ const DraggableTypesOfConfig = ({ handleDragStart }) => {
                             }
                             className={PageEditorStyle.PageEditorHeaderButton}
                         >
-                            {element.typeName}
+                            <IconSelector IconSelector={element.typeName} key={index}></IconSelector>
                         </button>
                     );
                 })}
