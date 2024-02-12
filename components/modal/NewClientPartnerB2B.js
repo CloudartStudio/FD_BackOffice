@@ -208,19 +208,7 @@ export default function NewClientPartnerB2B({ onActionCloseModal }) {
 
                 <div className={style.ModalBody}>
                     <div className={style.ModalBodyLabelContainer}>
-                        {/* ID_partner */}
-                        <div className={style.ModalField}>
-                            <label>ID Partner</label>
-                            <br />
-                            <input
-                                type={"text"}
-                                placeholder="ID Partner..."
-                                name="ID_partner"
-                                onChange={handleOnChangeForm}
-                                value={clientB2b.ID_partner}
-                            ></input>
-                            {errors.ID_partner && <p className={style.error}>{errors.ID_partner}</p>}
-                        </div>
+                        
 
                         {/* ragione_sociale */}
                         <div className={style.ModalField}>

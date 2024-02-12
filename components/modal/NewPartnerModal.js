@@ -366,6 +366,8 @@ export default function NewPartnerModal({ onActionCloseModal }) {
                             <br />
                             <input type={"checkbox"} placeholder="B2C..." name="is_b2c" onChange={handleOnChangeForm} value={newPartner.is_b2c}></input>
                         </div>
+
+                        
                     </div>
                 </div>
 

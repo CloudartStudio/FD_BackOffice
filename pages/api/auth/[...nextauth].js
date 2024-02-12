@@ -33,6 +33,13 @@ const formatJWT = (result, email) => {
             ID_partner: result.utenteLogin.ID_utente,
             ID: result.utenteLogin.ID,
         };
+        if (result.partener) {
+            obj.partener = {
+                nome: result.partener.nome,
+                ID_ruolo: result.partener.ID_ruolo,
+                ragione_sociale: result.partener.ragione_sociale,
+            }
+        }
         return {
             email: obj,
         };
@@ -52,8 +59,17 @@ export const authOptions = {
                     result = await verifyCredentials(admin.ID, password, 1);
                 } else {
                     const partener = await T_partener.fetchOneByField("email", email);
+                    console.log('partner: ', partener)
                     if (partener) {
                         result = await verifyCredentials(partener.ID, password, 3);
+                        const tokenPartner = {
+                            ragione_sociale: result.partener.ragione_sociale,
+                            nome: result.partener.nome,
+                            ID_ruolo: result.partener.ID_ruolo,
+                            
+                        };
+                        result.tokenPartner = { ...tokenPartner };
+                        
                     } else {
                         const cliente_partener_b2c = await T_cliente_partener_b2c.fetchOneByField("email", email);
                         if (cliente_partener_b2c) {

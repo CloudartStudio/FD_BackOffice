@@ -201,16 +201,20 @@ MAIN ELEMNT ARANCIO:
     transform: scale(1.15);
 }
 
+.IconLogOut:hover {
+    left: 2vh;
+}
+
 .IconLogOut {
     display: block;
     position: fixed;
     top: 1vh;
     font-size: 2rem;
     left: 1vh;
-    opacity: 0.6;
+    opacity: 1;
     transition: all 0.3s;
-    background-color: #ffffff0f !important;
     height: 2rem;
     padding: 4px;
     border-radius: 5px;
+    z-index: 1000;
 }
