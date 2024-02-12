@@ -3,6 +3,8 @@ import { CiNoWaitingSign } from "react-icons/ci";
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai";
 import { MdErrorOutline, MdOutlineDone } from "react-icons/md";
 import { CiClock2 } from "react-icons/ci";
+import { BsGraphUp } from "react-icons/bs";
+import { RxSection } from "react-icons/rx";
 
 export default function IconSelector({ IconSelector }) {
     switch (IconSelector) {
@@ -34,5 +36,9 @@ export default function IconSelector({ IconSelector }) {
             return <IoMdWarning></IoMdWarning>;
         case "waiting":
             return <CiNoWaitingSign></CiNoWaitingSign>;
+        case "Graph":
+            return <BsGraphUp></BsGraphUp>;
+        case "Visualizer":
+            return <RxSection></RxSection>;
     }
 }

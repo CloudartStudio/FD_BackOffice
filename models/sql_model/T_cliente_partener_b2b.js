@@ -16,7 +16,7 @@ class T_cliente_partener_b2b extends SqlBase {
         indirizzo_sede_fisica,
         indirizzo_sede_legale
     ) {
-        super("T_cliente_partener_b2b");
+        super("T_clienti");
         this.ID = id;
         this.ID_partner = ID_partner;
         this.ragione_sociale = ragione_sociale;
@@ -33,27 +33,27 @@ class T_cliente_partener_b2b extends SqlBase {
     }
 
     static async fetchAll() {
-        return super.Base_fetchAll("T_cliente_partener_b2b");
+        return super.Base_fetchAll("T_clienti");
     }
 
     static async fetchOne(id) {
-        return super.Base_fetchOne(id, "T_cliente_partener_b2b");
+        return super.Base_fetchOne(id, "T_clienti");
     }
 
     static async fetchOneByField(fieldName, fieldValue) {
-        return super.Base_fetchOneByField(fieldName, fieldValue, "T_cliente_partener_b2b");
+        return super.Base_fetchOneByField(fieldName, fieldValue, "T_clienti");
     }
 
     static async executeQuery() {
-        return super.Base_executeQuery("T_cliente_partener_b2b");
+        return super.Base_executeQuery("T_clienti");
     }
 
     static async Base_executeStoredProcedure() {
-        return super.Base_executeStoredProcedure("T_cliente_partener_b2b");
+        return super.Base_executeStoredProcedure("T_clienti");
     }
 
     static async Base_executeFunction() {
-        return super.Base_executeFunction("T_cliente_partener_b2b");
+        return super.Base_executeFunction("T_clienti");
     }
 }
 

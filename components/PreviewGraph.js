@@ -20,19 +20,33 @@ ChartJS.register(RadialLinearScale, ArcElement, LinearScale, BarElement, Categor
 const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphDataContainer }) => {
     const [graphType, setGraphType] = useState(0);
     const options = {
-        indexAxis: isXAxis ? "x" : "y", //x/y axis MOLTO FIGO
-        responsive: true,
-        plugins: {
-            legend: {
-                position: legendTop ? "top" : "bottom",
+        scales: {
+            y: {
+                ticks: {
+                    color: "#393939",
+                    font: {
+                        size: 12,
+                        weight: 700,
+                    },
+                    stepSize: 2,
+                    beginAtZero: true,
+                },
             },
-            title: {
-                display: !hide,
-                text: graphName,
+            x: {
+                ticks: {
+                    color: "#393939",
+                    font: {
+                        size: 12,
+                        weight: 700,
+                    },
+                    stepSize: 2,
+                    beginAtZero: true,
+                },
             },
         },
     };
 
+    const Names = GraphDataContainer[0].find((el) => el.coordinate === "labelDataSet").data;
     const labels = GraphDataContainer[0].find((el) => el.coordinate === "Labels").data;
 
     //CAMPI PER QUERY MODEL
@@ -44,9 +58,9 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphDataCo
 
     const data = {
         labels,
-        datasets: GraphDataContainer.map((GraphData) => {
+        datasets: GraphDataContainer.map((GraphData, index) => {
             return {
-                label: GraphData.find((el) => el.coordinate === "labelDataSet").data,
+                label: GraphData.find((el) => el.coordinate === "labelDataSet").data[index],
                 data: GraphData.find((el) => el.coordinate === "GraphData").data,
                 backgroundColor:
                     GraphData.find((el) => el.coordinate === "backgroundColor").data != "RANDOM"
@@ -68,6 +82,7 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphDataCo
 
     return (
         <>
+            <h2 style={{ margin: "5px" }}>{graphName}</h2>
             <select
                 className={style.Select}
                 value={graphType}
@@ -83,13 +98,14 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphDataCo
                 <option value={5}>Grafico a polare</option>
                 <option value={7}>Grafico a radar</option>
             </select>
-
-            {graphType === 0 && <Bar options={options} data={data} />}
-            {graphType === 1 && <Line options={options} data={data} />}
-            {graphType === 3 && <Doughnut options={options} data={data} />}
-            {graphType === 4 && <Pie options={options} data={data} />}
-            {graphType === 5 && <PolarArea options={options} data={data} />}
-            {graphType === 7 && <Radar options={options} data={data} />}
+            <div style={{ paddingBottom: "10vh" }}>
+                {graphType === 0 && <Bar options={options} data={data} />}
+                {graphType === 1 && <Line options={options} data={data} />}
+                {graphType === 3 && <Doughnut options={options} data={data} />}
+                {graphType === 4 && <Pie options={options} data={data} />}
+                {graphType === 5 && <PolarArea options={options} data={data} />}
+                {graphType === 7 && <Radar options={options} data={data} />}
+            </div>
         </>
     );
 };

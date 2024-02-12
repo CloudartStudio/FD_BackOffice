@@ -26,12 +26,13 @@ const getReq = async (req, res) => {
 };
 
 export default async (req, res) => {
-    const session = await getSession({ req });
-
-    if (!session) {
-        return res.status(401).json({ message: "Non autorizzato" });
-    }
     try {
+        const session = await getServerSession(req, res, authOptions);
+
+        if (!session) {
+            return res.status(401).json({ message: "Non autorizzato" });
+        }
+
         if (req.method === "GET") {
             return getReq(req, res);
         } else {
