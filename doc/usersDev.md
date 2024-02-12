@@ -10,5 +10,5 @@
 | NOME UTENTE | PASSWORD         | EMAIL              |
 | ----------- | ---------------- | ------------------ |
 |             | yK6OhF3vdsKqZI<u | michele@michele.it |
-|             |                  |                    |
+|             | w#D%2))%-SMc>>Nf | salumeria@mail.it  |
 |             |                  |                    |

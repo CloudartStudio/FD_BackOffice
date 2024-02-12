@@ -3,7 +3,7 @@ import NotificationContext from "../../context/notificationContext";
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import Toggle from "../../components/misc/toggle"
+import Toggle from "../../components/misc/toggle";
 
 export default function SingleSellModal({ onActionCloseModal }) {
     const [singleSell, setSingleSell] = useState({
@@ -194,17 +194,11 @@ export default function SingleSellModal({ onActionCloseModal }) {
                     </div>
 
                     {/* is_b2b */}
-                    {/* <div className={style.ModalField}>
-                        <label>Cliente B2B</label>
-                        <br />
-                        <input type={"checkbox"} placeholder="Telefono..." name="is_b2b" onChange={handleOnChangeForm} value={singleSell.is_b2b}></input>
-                        {errors.is_b2b && <p className={style.error}>{errors.is_b2b}</p>}
-                    </div> */}
                     <Toggle 
                         data={[{label: "B2B"}, {label: "B2C"}]}
                         setStato={() => {handleOnChangeForm({target: {name: "is_b2b", value: !singleSell.is_b2b}})}}
                         stato={singleSell.is_b2b}
-                    ><h5 className={style.ModalField}>Tipo Cliente</h5></Toggle>
+                    ><h5 className={style.ModalField} >Tipo Cliente</h5></Toggle>
                 </div>
 
                 <div className={style.ModalFoot}>

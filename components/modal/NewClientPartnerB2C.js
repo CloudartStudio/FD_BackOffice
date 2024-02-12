@@ -258,17 +258,13 @@ export default function NewClientPartnerB2C({ onActionCloseModal }) {
                         </div>
 
                         {/* is_maschio */}
-                        {/* <div className={style.ModalField}>
-                            <label>Sesso</label>
-                            <br />
-                            <input type={"checkbox"} placeholder="Sesso..." name="is_maschio" onChange={handleOnChangeForm} value={clientB2c.is_maschio}></input>
-                            {errors.is_maschio && <p className={style.error}>{errors.is_maschio}</p>}
-                        </div> */}
-                        <Toggle 
-                            data={[{label: "M"}, {label: "F"}]}
-                            setStato={() => {handleOnChangeForm({target: {name: "is_maschio", value: !clientB2c.is_b2b}})}}
-                            stato={clientB2c.is_maschio}
-                        ><h5 className={style.ModalField}>Sesso</h5></Toggle>
+                        <div className={style.ModalField}>
+                            <Toggle 
+                                data={[{label: "M"}, {label: "F"}]}
+                                setStato={() => {handleOnChangeForm({target: {name: "is_maschio", value: !clientB2c.is_maschio}})}}
+                                stato={clientB2c.is_maschio}
+                            ><h5 className={style.ModalField}>Sesso</h5></Toggle>
+                        </div>
                     </div>                    
                 </div>
 

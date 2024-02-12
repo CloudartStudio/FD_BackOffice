@@ -59,7 +59,7 @@
     border: #393939aa 2px solid;
     border-radius: 5px;
     color: white;
-    width: 89px;
+    width: min-content;
     height: 40px;
 }
 
@@ -67,9 +67,13 @@
     background-color: #939393aa;
     border-radius: 5px;
     padding: 5px;
+    width: 5vw;
 }
 
-
+.inactive {
+    padding: 5px;
+    width: 5vw;
+}
 
 .avatar {
     display: flex;

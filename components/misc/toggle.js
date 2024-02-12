@@ -6,8 +6,8 @@ export default function toggle({ data, stato, setStato, children }) {
         <div>
             <p>{children}</p>
             <div className={style.toggle}>
-                <div className={stato ? style.active : ""} onClick={() =>{setStato()}}>{data[0].label}</div>
-                <div className={!stato ? style.active : ""} onClick={() =>{setStato()}}>{data[1].label}</div>
+                <div className={stato ? style.active : style.inactive} onClick={() =>{setStato()}}>{data[0].label}</div>
+                <div className={!stato ? style.active : style.inactive} onClick={() =>{setStato()}}>{data[1].label}</div>
             </div>
         </div>
     );
