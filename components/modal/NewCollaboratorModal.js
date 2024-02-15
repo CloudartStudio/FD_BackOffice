@@ -5,7 +5,7 @@ import axios from "axios";
 import Toggle from "../../components/misc/toggle"
 
 export default function NewCollaboratorModal({ onActionCloseModal }) {
-	const HaveMoreLocationsRef = useRef(null);
+	const HaveMoreSpecializationRef = useRef(null);
 	const [newCollaborator, newCewCollaborator] = useState({
 		nome: "",
         cognome: "",
@@ -15,22 +15,36 @@ export default function NewCollaboratorModal({ onActionCloseModal }) {
         telefono: "",
 		cellulare: "",
         email: "",
-
 		partita_iva: "",
 		documento: "",
-
 		commerciale: false,
-
 		note: "",
-
 		specializzazione: ""
 	});
 
-	const [showMultipleSpecializzazione, setShowMultipleSpecializzazione] = useState(false);
+	const [showMultipleSpecialization, setShowMultipleSpecialization] = useState(false);
+
+	const [specializationFields, setSpecializationFields] = useState(['']);
+
+	const addSpecializationField = () => { 
+		setSpecializationFields([...specializationFields, '']); 
+	};
+
+	const handleSpecializationFieldChange = (index, value) => {
+		const updatedFields = [...specializationFields];
+		updatedFields[index] = value;
+		setSpecializationFields(updatedFields);
+	};
+
+	const removeSpecializationField = (index) => {
+		const updatedFields = [...specializationFields];
+		updatedFields.splice(index, 1);
+		setSpecializationFields(updatedFields);
+	};
 
     const handleCheckboxChange = () => {
         // Aggiorna lo stato in base al valore corrente della checkbox
-        setShowMultipleSpecializzazione(HaveMoreLocationsRef.current.checked);
+        setShowMultipleSpecialization(HaveMoreSpecializationRef.current.checked);
     };
 
     const [errors, setErrors] = useState({});
@@ -133,9 +147,7 @@ export default function NewCollaboratorModal({ onActionCloseModal }) {
 						{/* Documento */}
 						<div className={style.ModalField}>
 							<label>Carica Documento</label>
-							<div className={style.FullModalFieldSectionOnlyDownload}>
-								<input id="file-upload" type={"file"} />
-							</div>
+							<input id="file-upload" type={"file"} />
 						</div>
 					</div>
 
@@ -157,41 +169,54 @@ export default function NewCollaboratorModal({ onActionCloseModal }) {
 
 					{/* specializzazione */}
 					<div className={style.ModalField}>
-                            {" "}
-                            <div className={style.ModalFieldSection}>
-                                <h3>Specializzazione</h3>
-                                <input
-                                    ref={HaveMoreLocationsRef}
-                                    type="checkbox"
-                                    placeholder="Piu sedi..."
-                                    name="Piu sedi"
-                                    onChange={handleCheckboxChange}
-                                ></input>
-                                <br /> <br />
-                                <label>Indirizzo 1</label>
-                                <input
-                                    type="text"
-                                    placeholder="Indirizzo 1..."
-                                ></input>
-                                <br />
-                                <br />
-                                {showMultipleSpecializzazione && (
-                                    <>
-                                        <label>Indirizzo 2</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Indirizzo 2..."
-                                        ></input>
-                                        <br /> <br />
-                                        <label>Indirizzo 3</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Indirizzo 3..."
-                                        ></input>
-                                    </>
-                                )}
-                            </div>
+						{" "}
+						<div className={style.ModalFieldSection}>
+							<h3>Specializzazione</h3>
+							<input
+								ref={HaveMoreSpecializationRef}
+								type="checkbox"
+								placeholder="Piu Specializzazioni..."
+								onChange={handleCheckboxChange}
+							></input>
+							<br />
+							<label>Specializzazione</label>
+							<input
+								type="text"
+								placeholder="Specializzazione..."
+							></input>
+							<br />
+							<br />
+							{showMultipleSpecialization && (
+								<>
+									{specializationFields.map((field, index) => (
+										<div key={index} className={style.ModalFieldSection}>
+											<label>Specializzazione</label>
+											<br />
+											<input
+												type="text"
+												value={field}
+												placeholder="Specializzazione..."
+												onChange={(e) => handleSpecializationFieldChange(index, e.target.value)}
+											/>
+											<br />
+											<button onClick={() => removeSpecializationField(index)}>Rimuovi</button>
+											<br />
+											<br />
+										</div>
+									))}
+									<br />
+									<br />
+									<button 
+										className={style.success}
+										onClick={addSpecializationField}
+									>Aggiungi</button>
+								</>
+							)}
+							<br />
+									<br />
+						</div>
 					</div>
+
 				</div>
 
 				<div className={style.ModalFoot}>

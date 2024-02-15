@@ -44,6 +44,20 @@
     border-bottom: 2px solid #e67d3a;
 }
 
+.ModalField input[type="file"] {
+    width: 90%;
+    background-color: #6dacff37;
+    border: none;
+    border-radius: 5px;
+    color: #393939;
+    font-weight: 500;
+    height: 6vh;
+    margin-top: 10px;
+    font-size: 1.3rem;
+    padding: 10px 10px 0 10px;
+}
+
+
 .ModalField textarea {
     resize: vertical;
 }
