@@ -2,26 +2,25 @@
 .TableBase {
     display: flex;
     flex-direction: column;
-    width: 100%;
     border: none;
     margin: auto;
     margin-top: 3vh;
     border-radius: 10px;
+    max-width: 75vw;
+    overflow-x: auto;
 }
 
 .TableBase .TableHeadBox {
-    background-color: #ff7721a1;
-    border-radius: 10px 10px 0px 0px;
-    color: rgb(47, 47, 47);
-    font-weight: 800;
-    font-size: 1.3rem;
-    padding: 5px;
+    background-color: #2e2e2e10;
+    color: #2f2f2fb1;
+    font-weight: 900;
+    font-size: 1.4rem;
+    padding: 15px;
 }
 
 .TableBase .TableBodyBox {
     min-height: 20vh;
-    border-radius: 0px 0px 10px 10px;
-    border: 5px solid #ff7721a1;
+    max-height: 50vh;
 }
 
 .TableBaseRow {
@@ -52,24 +51,23 @@
 .TableBaseRowWhite {
     display: flex;
     background-color: transparent;
-    color: rgb(47, 47, 47);
+    color: #2f2f2fb1;
     font-weight: 600;
 }
 
 .TableBaseRowWhite div {
-    border-left: 1px solid #ff772131;
-    border-right: 1px solid #ff772131;
     padding: 6px 0px;
 }
 
 .TableBaseRowBlue div {
     padding: 6px 0px;
+    background-color: #2e2e2e12;
 }
 
 .TableBaseRowBlue {
     display: flex;
-    background-color: #ff7721a1;
-    color: rgb(37, 37, 37);
+
+    color: #2f2f2fb1;
     font-weight: 600;
 }
 
@@ -95,6 +93,7 @@
 .TableBaseCell {
     flex: 1;
     text-align: center;
+    width: 10vw;
 }
 
 .PageContainer {

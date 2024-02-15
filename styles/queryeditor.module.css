@@ -253,9 +253,17 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    flex: 1;
-    width: 99%;
+    flex: 99;
     margin: auto;
+}
+
+.DeleteButnDataSet {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    align-items: center;
+    margin: auto;
+    margin-left: 15px;
 }
 
 .VisualizerContainerMultiple {

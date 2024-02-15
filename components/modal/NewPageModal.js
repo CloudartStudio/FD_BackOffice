@@ -70,6 +70,64 @@ export default function NewPageModal({ onActionCloseModal, id = null }) {
         });
     };
 
+    const handleDeleteSavedConfig = async (element, section) => {
+        setPageSections((prev) => {
+            if (prev.length == 1 && prev[0].data.length == 1) {
+                return prev;
+            }
+
+            //UNA SEZIONE IN ORIZIONATALE
+            if (prev.length == 1) {
+                const newSections = prev.map((section) => {
+                    const newData = [];
+                    section.data.map((el) => {
+                        if (el !== element) {
+                            newData.push(el);
+                        } else {
+                            el.IsDeleted = true;
+                            newData.push(el);
+                        }
+                    });
+                    return {
+                        ...section,
+                        data: newData,
+                    };
+                });
+                return newSections;
+            }
+
+            //PIU SEZIONI VERTICALI
+            if (prev.length > 1) {
+                const s = prev.find((el) => el == section);
+                if (s.data.length == 1) {
+                    const newSections = prev.filter((el) => el !== section);
+                    return newSections;
+                } else {
+                    const newSections = prev.map((section) => {
+                        if (section == s) {
+                            const newData = [];
+                            section.data.map((el) => {
+                                if (el !== element) {
+                                    newData.push(el);
+                                } else {
+                                    el.IsDeleted = true;
+                                    newData.push(el);
+                                }
+                            });
+                            return {
+                                ...section,
+                                data: newData,
+                            };
+                        } else {
+                            return section;
+                        }
+                    });
+                    return newSections;
+                }
+            }
+        });
+    };
+
     const handleDragStart = (event, element) => {
         event.dataTransfer.setData("text/plain", JSON.stringify(element));
     };
@@ -337,118 +395,122 @@ export default function NewPageModal({ onActionCloseModal, id = null }) {
                                                         <div className={PageEditorStyle.PreviewSection}>
                                                             {section.data.map((element) => {
                                                                 return (
-                                                                    <div className={PageEditorStyle.ConfigSection}>
-                                                                        <div
-                                                                            onDrop={(e) => {
-                                                                                handleDropDirection(e, 0, section.VerticalOrder);
-                                                                            }}
-                                                                            onDragOver={handleDragOver}
-                                                                            className={PageEditorStyle.AltoBasso}
-                                                                        ></div>
-                                                                        <div>
-                                                                            <div
-                                                                                onDrop={(e) => {
-                                                                                    handleDropDirection(e, 2, section.VerticalOrder);
-                                                                                }}
-                                                                                onDragOver={handleDragOver}
-                                                                                className={PageEditorStyle.DestraSinistra}
-                                                                            ></div>
-                                                                            {element.IsSaved && (
-                                                                                <div className={PageEditorStyle.Icon}>
-                                                                                    {element.IsActive && <button>Edit</button>}
-                                                                                    {!element.IsActive == 1 && (
-                                                                                        <div style={{ position: "relative" }}>
-                                                                                            <span
-                                                                                                onClick={() => {
-                                                                                                    handleDeleteSection(element, section);
-                                                                                                }}
-                                                                                                style={{
-                                                                                                    fontSize: "1rem",
-                                                                                                    position: "absolute",
-                                                                                                    right: "5px",
-                                                                                                    top: "5px",
-                                                                                                    opacity: "0.9",
-                                                                                                }}
-                                                                                            >
-                                                                                                <IoMdCloseCircle></IoMdCloseCircle>
-                                                                                            </span>
-                                                                                            <button
-                                                                                                onClick={() => {
-                                                                                                    router.push(
-                                                                                                        "/editor/config/" +
-                                                                                                            id +
-                                                                                                            "/" +
-                                                                                                            element.ConfigurationID +
-                                                                                                            "/" +
-                                                                                                            element.Tipo
-                                                                                                    );
-                                                                                                }}
-                                                                                            >
-                                                                                                Configure
-                                                                                            </button>
+                                                                    <>
+                                                                        {!element.IsDeleted && (
+                                                                            <div className={PageEditorStyle.ConfigSection}>
+                                                                                <div
+                                                                                    onDrop={(e) => {
+                                                                                        handleDropDirection(e, 0, section.VerticalOrder);
+                                                                                    }}
+                                                                                    onDragOver={handleDragOver}
+                                                                                    className={PageEditorStyle.AltoBasso}
+                                                                                ></div>
+                                                                                <div>
+                                                                                    <div
+                                                                                        onDrop={(e) => {
+                                                                                            handleDropDirection(e, 2, section.VerticalOrder);
+                                                                                        }}
+                                                                                        onDragOver={handleDragOver}
+                                                                                        className={PageEditorStyle.DestraSinistra}
+                                                                                    ></div>
+                                                                                    {!element.IsDeleted && element.IsSaved && (
+                                                                                        <div className={PageEditorStyle.Icon}>
+                                                                                            {element.IsActive && <button>Edit</button>}
+                                                                                            {!element.IsActive == 1 && (
+                                                                                                <div style={{ position: "relative" }}>
+                                                                                                    <span
+                                                                                                        onClick={() => {
+                                                                                                            handleDeleteSavedConfig(element, section);
+                                                                                                        }}
+                                                                                                        style={{
+                                                                                                            fontSize: "1rem",
+                                                                                                            position: "absolute",
+                                                                                                            right: "5px",
+                                                                                                            top: "5px",
+                                                                                                            opacity: "0.9",
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        <IoMdCloseCircle></IoMdCloseCircle>
+                                                                                                    </span>
+                                                                                                    <button
+                                                                                                        onClick={() => {
+                                                                                                            router.push(
+                                                                                                                "/editor/config/" +
+                                                                                                                    id +
+                                                                                                                    "/" +
+                                                                                                                    element.ConfigurationID +
+                                                                                                                    "/" +
+                                                                                                                    element.Tipo
+                                                                                                            );
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        Configure
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            )}
                                                                                         </div>
                                                                                     )}
-                                                                                </div>
-                                                                            )}
-                                                                            {!element.IsSaved && (
-                                                                                <div className={PageEditorStyle.Icon}>
-                                                                                    {element.Tipo == 0 && (
-                                                                                        <div style={{ position: "relative" }}>
-                                                                                            <span
-                                                                                                onClick={() => {
-                                                                                                    handleDeleteSection(element, section);
-                                                                                                }}
-                                                                                                style={{
-                                                                                                    fontSize: "1rem",
-                                                                                                    position: "absolute",
-                                                                                                    right: "5px",
-                                                                                                    top: "5px",
-                                                                                                    opacity: "0.9",
-                                                                                                }}
-                                                                                            >
-                                                                                                <IoMdCloseCircle></IoMdCloseCircle>
-                                                                                            </span>
-                                                                                            <BsGraphUp></BsGraphUp>
+                                                                                    {!element.IsDeleted && !element.IsSaved && (
+                                                                                        <div className={PageEditorStyle.Icon}>
+                                                                                            {element.Tipo == 0 && (
+                                                                                                <div style={{ position: "relative" }}>
+                                                                                                    <span
+                                                                                                        onClick={() => {
+                                                                                                            handleDeleteSection(element, section);
+                                                                                                        }}
+                                                                                                        style={{
+                                                                                                            fontSize: "1rem",
+                                                                                                            position: "absolute",
+                                                                                                            right: "5px",
+                                                                                                            top: "5px",
+                                                                                                            opacity: "0.9",
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        <IoMdCloseCircle></IoMdCloseCircle>
+                                                                                                    </span>
+                                                                                                    <BsGraphUp></BsGraphUp>
+                                                                                                </div>
+                                                                                            )}
+                                                                                            {element.Tipo == 1 && (
+                                                                                                <div style={{ position: "relative" }}>
+                                                                                                    <span
+                                                                                                        onClick={() => {
+                                                                                                            handleDeleteSection(element, section);
+                                                                                                        }}
+                                                                                                        style={{
+                                                                                                            fontSize: "1rem",
+                                                                                                            position: "absolute",
+                                                                                                            right: "5px",
+                                                                                                            top: "5px",
+                                                                                                            opacity: "0.9",
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        <IoMdCloseCircle></IoMdCloseCircle>
+                                                                                                    </span>
+                                                                                                    <RxSection></RxSection>
+                                                                                                </div>
+                                                                                            )}
                                                                                         </div>
                                                                                     )}
-                                                                                    {element.Tipo == 1 && (
-                                                                                        <div style={{ position: "relative" }}>
-                                                                                            <span
-                                                                                                onClick={() => {
-                                                                                                    handleDeleteSection(element, section);
-                                                                                                }}
-                                                                                                style={{
-                                                                                                    fontSize: "1rem",
-                                                                                                    position: "absolute",
-                                                                                                    right: "5px",
-                                                                                                    top: "5px",
-                                                                                                    opacity: "0.9",
-                                                                                                }}
-                                                                                            >
-                                                                                                <IoMdCloseCircle></IoMdCloseCircle>
-                                                                                            </span>
-                                                                                            <RxSection></RxSection>
-                                                                                        </div>
-                                                                                    )}
-                                                                                </div>
-                                                                            )}
 
-                                                                            <div
-                                                                                onDrop={(e) => {
-                                                                                    handleDropDirection(e, 3, section.VerticalOrder);
-                                                                                }}
-                                                                                onDragOver={handleDragOver}
-                                                                                className={PageEditorStyle.DestraSinistra}
-                                                                            ></div>
-                                                                        </div>
-                                                                        <div
-                                                                            onDrop={(e) => {
-                                                                                handleDropDirection(e, 1, section.VerticalOrder);
-                                                                            }}
-                                                                            onDragOver={handleDragOver}
-                                                                            className={PageEditorStyle.AltoBasso}
-                                                                        ></div>
-                                                                    </div>
+                                                                                    <div
+                                                                                        onDrop={(e) => {
+                                                                                            handleDropDirection(e, 3, section.VerticalOrder);
+                                                                                        }}
+                                                                                        onDragOver={handleDragOver}
+                                                                                        className={PageEditorStyle.DestraSinistra}
+                                                                                    ></div>
+                                                                                </div>
+                                                                                <div
+                                                                                    onDrop={(e) => {
+                                                                                        handleDropDirection(e, 1, section.VerticalOrder);
+                                                                                    }}
+                                                                                    onDragOver={handleDragOver}
+                                                                                    className={PageEditorStyle.AltoBasso}
+                                                                                ></div>
+                                                                            </div>
+                                                                        )}
+                                                                    </>
                                                                 );
                                                             })}
                                                         </div>

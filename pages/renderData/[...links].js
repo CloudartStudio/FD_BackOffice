@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { ThreeCircles } from "react-loader-spinner";
 import PreviewGraph from "../../components/PreviewGraph";
+import PreviewVisualizer from "../../components/PreviewVisualizer";
 import ModelProvider from "../../models/dto/GraphDTO/ModelProvider";
 
 export default function render_data() {
@@ -64,7 +65,13 @@ export default function render_data() {
                                                 {section.Configurations.sort((a, b) => a.LateralOrder - b.LateralOrder).map((element, indexdue) => {
                                                     return (
                                                         <div key={indexdue} className={PageEditorStyle.ConfigSection}>
-                                                            {element.active && <ConfigVisualizer Metadata={element.metadata} Structure={element.structure} />}
+                                                            {element.active && (
+                                                                <ConfigVisualizer
+                                                                    Metadata={element.metadata}
+                                                                    Structure={element.structure}
+                                                                    tipo={element.tipo}
+                                                                />
+                                                            )}
                                                         </div>
                                                     );
                                                 })}
@@ -80,7 +87,7 @@ export default function render_data() {
     );
 }
 
-const ConfigVisualizer = ({ Metadata, Structure }) => {
+const ConfigVisualizer = ({ Metadata, Structure, tipo }) => {
     const [PreviewModel, setPreviewModel] = useState(null);
     const metadata = Metadata;
     const structure = Structure;
@@ -118,9 +125,10 @@ const ConfigVisualizer = ({ Metadata, Structure }) => {
 
     return (
         <>
-            {PreviewModel && (
+            {tipo === 0 && PreviewModel && (
                 <PreviewGraph graphName={"grafico di prova"} isXAxis={true} key={1} legendTop={true} GraphDataContainer={PreviewModel}></PreviewGraph>
             )}
+            {tipo === 1 && PreviewModel && <PreviewVisualizer GraphDataContainer={PreviewModel}></PreviewVisualizer>}
         </>
     );
 };

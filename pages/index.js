@@ -1,10 +1,12 @@
-import Head from "next/head";
 import fetch from "node-fetch";
 import NewPartnerModal from "../components/modal/NewPartnerModal";
 import { useEffect, useState } from "react";
 import style from "../styles/home.module.css";
 import Tabs from "../components/Tabs/modernTabs";
 import ManagePages from "../components/PagesComponent/ManagePages";
+import ManagePartner from "../components/PagesComponent/ManagePartner";
+import ManageClientB2B from "../components/PagesComponent/ManageClientB2B";
+import ManageClientB2C from "../components/PagesComponent/ManageClientB2C";
 import Link from "next/link";
 import NewClientPartnerB2B from "../components/modal/NewClientPartnerB2B";
 import NewClientPartnerB2C from "../components/modal/NewClientPartnerB2C";
@@ -141,7 +143,7 @@ const Home = () => {
                             <Tabs
                                 data={[
                                     {
-                                        label: "PAGES",
+                                        label: "PAGINE",
                                         content: (
                                             <>
                                                 <br></br>
@@ -153,8 +155,22 @@ const Home = () => {
                                         ),
                                     },
                                     {
-                                        label: "USERS",
-                                        content: "Users",
+                                        label: "PARTNER",
+                                        content: (
+                                            <>
+                                                <br></br>
+                                                <ManagePartner isPreview={true}></ManagePartner>
+                                            </>
+                                        ),
+                                    },
+                                    {
+                                        label: "COLLABORATORI",
+                                        content: (
+                                            <>
+                                                <br></br>
+                                                <ManagePages isPreview={true}></ManagePages>
+                                            </>
+                                        ),
                                     },
                                 ]}
                             ></Tabs>
@@ -163,8 +179,22 @@ const Home = () => {
                             <Tabs
                                 data={[
                                     {
-                                        label: "LISTA CLIENTI",
-                                        content: "CLIENTI",
+                                        label: "CLIENTI B2C",
+                                        content: (
+                                            <>
+                                                <br></br>
+                                                <ManageClientB2C isPreview={true}></ManageClientB2C>
+                                            </>
+                                        ),
+                                    },
+                                    {
+                                        label: "CLIENTI B2B",
+                                        content: (
+                                            <>
+                                                <br></br>
+                                                <ManageClientB2B isPreview={true}></ManageClientB2B>
+                                            </>
+                                        ),
                                     },
                                 ]}
                             ></Tabs>

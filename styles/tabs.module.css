@@ -16,15 +16,17 @@
     background-color: transparent;
     transition: border-color 0.3s;
     text-align: center;
-    color: rgb(47, 47, 47);
+    color: #2f2f2f91;
     font-weight: 600;
-    border-bottom: 2px solid #d45100a1;
+    border-bottom: 2px solid #2f2f2f21;
+    width: 100%;
 }
 .tabs button:hover {
-    border-bottom: 2px solid #2d70d4a1;
+    border-bottom: 2px solid #2e2e2e91;
 }
 .tabs button.active {
-    border-bottom: 5px solid #d45100a1;
+    border-bottom: 5px solid #2e2e2eb1;
+    color: #2f2f2fb1;
     padding-bottom: -3px;
 }
 

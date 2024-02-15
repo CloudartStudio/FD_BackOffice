@@ -37,7 +37,6 @@ const PreviewVisualizer = ({ GraphDataContainer }) => {
 
     return (
         <div className={st.VisualizerContainer}>
-            aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             {data.datasets.map((el) => {
                 return (
                     <div className={st.Visualizer}>

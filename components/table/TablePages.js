@@ -44,22 +44,7 @@ export default function TablePages({ setUpdate, head_data, body_data, footer_act
                                     return (
                                         <>
                                             {!isPreview && (
-                                                <>
-                                                    {Title && (
-                                                        <div className={style.TableBaseRow}>
-                                                            <h3>{Title}</h3>
-                                                        </div>
-                                                    )}
-                                                    {Description && (
-                                                        <div className={style.TableBaseRow}>
-                                                            <i>{Description}</i>
-                                                        </div>
-                                                    )}
-                                                </>
-                                            )}
-
-                                            {!isPreview && (
-                                                <div className={style.TableBaseRow} style={{ marginTop: "20px" }}>
+                                                <div className={style.TableBaseRow}>
                                                     {tr.col.map((th) => {
                                                         return <div className={style.TableBaseHeader}>{th.label}</div>;
                                                     })}
@@ -67,7 +52,7 @@ export default function TablePages({ setUpdate, head_data, body_data, footer_act
                                             )}
 
                                             {isPreview && (
-                                                <div className={style.TableBaseRow} style={{ marginTop: "20px" }}>
+                                                <div className={style.TableBaseRow}>
                                                     {tr.col.map((th) => {
                                                         if (th.label != "Edit") return <div className={style.TableBaseHeader}>{th.label}</div>;
                                                     })}
@@ -146,10 +131,8 @@ export default function TablePages({ setUpdate, head_data, body_data, footer_act
                 </>
             )}
             {IndexOfThePage === 1 && <NewPageModal onActionCloseModal={HandleCloseNewPage} id={editPageId}></NewPageModal>}
-            {IndexOfThePage === 2 && (
-                <DeletePageModal onActionCloseModal={HandleCloseDeletePage} id={editPageId} name={activeName}></DeletePageModal>
-            )}
-            {IndexOfThePage === 3 && <NewPageModal  onActionCloseModal={HandleCloseNewPage} id={editPageId}></NewPageModal>}
+            {IndexOfThePage === 2 && <DeletePageModal onActionCloseModal={HandleCloseDeletePage} id={editPageId} name={activeName}></DeletePageModal>}
+            {IndexOfThePage === 3 && <NewPageModal onActionCloseModal={HandleCloseNewPage} id={editPageId}></NewPageModal>}
         </>
     );
 }

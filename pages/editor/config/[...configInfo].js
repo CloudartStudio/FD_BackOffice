@@ -14,6 +14,7 @@ const RenderData = () => {
     const router = useRouter();
     const configID = router.query.configInfo[1];
     const configType = parseInt(router.query.configInfo[2]);
+    const inEdit = parseInt(router.query.configInfo[3]);
     const pageID = router.query.configInfo[0];
     const [PreviewModel, setPreviewModel] = useState(null);
     let baseModel = ModelProvider(configType);
@@ -274,6 +275,21 @@ const RenderData = () => {
                 });
         };
         fetchData();
+
+        // if (inEdit) {
+        //     axios
+        //         .post("http://localhost:3000/api/query/GetQuery", { configID })
+        //         .then((result) => {
+        //             const { data } = result;
+        //             console.log(data, "data");
+        //             SetQueryModelContainer(data.QueryModelContainer);
+        //             setActiveTable(data.metadata[0].from);
+        //             setOrderByFields(data.metadata[0].order);
+        //         })
+        //         .catch((error) => {
+        //             alert("ERROR");
+        //         });
+        // }
     }, []);
 
     return (
@@ -342,7 +358,7 @@ const TableTools = ({ handleDragStart, setActiveTable, setQuarableTableColumns, 
                                         setActiveTable(table);
                                     }}
                                 >
-                                    {table.nome_tabella}
+                                    {table.nome_tabella.replace("T_", "").replace("_", " ")}
                                 </div>
                             );
                         }
@@ -357,7 +373,7 @@ const TableTools = ({ handleDragStart, setActiveTable, setQuarableTableColumns, 
                                     }
                                 }}
                             >
-                                {table.nome_tabella}
+                                {table.nome_tabella.replace("T_", "").replace("_", " ")}
                             </div>
                         );
                     })}
@@ -367,7 +383,7 @@ const TableTools = ({ handleDragStart, setActiveTable, setQuarableTableColumns, 
                     {QuarableTableColumns.map((c, index) => {
                         return (
                             <div draggable onDragStart={(event) => handleDragStart(event, { columun: c, table: activeTable })}>
-                                {c.COLUMN_NAME}
+                                {c.COLUMN_NAME.length > 2 ? c.COLUMN_NAME.replace("T_", "").replaceAll("_", " ").replace("ID", "") : c.COLUMN_NAME}
                             </div>
                         );
                     })}
@@ -631,10 +647,44 @@ const QuerySection = ({
 }) => {
     return (
         <div className={style.QueryVisualizer}>
+            <div
+                style={{
+                    margin: "auto",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    width: "98%",
+                    textAlign: "center",
+                }}
+            >
+                {QueryModelContainer[0].map((q) => {
+                    return <div style={{ flex: 1 }}>{q.label}</div>;
+                })}
+            </div>
             <div className={style.Visualizer}>
                 {QueryModelContainer.map((QueryModel, DataSetIndex) => {
                     return (
-                        <>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                flexDirection: "row",
+                                width: "98%",
+                            }}
+                        >
+                            <button
+                                className={style.DeleteButnDataSet}
+                                onClick={() => {
+                                    SetQueryModelContainer((prev) => {
+                                        if (prev.length > 1) return prev.filter((el, i) => i != DataSetIndex);
+                                        else return prev;
+                                    });
+                                }}
+                            >
+                                x
+                            </button>
                             <div className={style.VisualizerDataSet}>
                                 {QueryModel.map((q) => {
                                     if (q.querable) {
@@ -661,7 +711,7 @@ const QuerySection = ({
                                     }
                                 })}
                             </div>
-                        </>
+                        </div>
                     );
                 })}
             </div>
@@ -694,7 +744,6 @@ const NonQuerableField = ({ q, handleSetQueryModelContainer, DataSetIndex, activ
     return (
         <div id={q.nome_campo} className={style.ModalField}>
             <label className={style.ModalFieldLabel}>
-                {q.label}
                 <div>
                     <EditQueryModelSmallButton
                         handleSetQueryModelContainer={handleSetQueryModelContainer}
@@ -827,7 +876,6 @@ const QuerableField = ({ SetQueryModelContainer, QueryModelContainer, q, handleD
         <div id={q.nome_campo} className={style.ModalField}>
             <PopUpHaving open={open} handleClose={handleClose} q={q}></PopUpHaving>
             <label className={style.ModalFieldLabel}>
-                {q.label}
                 <div>
                     <EditQueryModelSmallButton
                         handleSetQueryModelContainer={handleSetQueryModelContainer}

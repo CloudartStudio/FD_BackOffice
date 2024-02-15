@@ -60,7 +60,7 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphDataCo
         labels,
         datasets: GraphDataContainer.map((GraphData, index) => {
             return {
-                label: GraphData.find((el) => el.coordinate === "labelDataSet").data[index],
+                label: GraphData.find((el) => el.coordinate === "labelDataSet").data,
                 data: GraphData.find((el) => el.coordinate === "GraphData").data,
                 backgroundColor:
                     GraphData.find((el) => el.coordinate === "backgroundColor").data != "RANDOM"
@@ -98,7 +98,7 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphDataCo
                 <option value={5}>Grafico a polare</option>
                 <option value={7}>Grafico a radar</option>
             </select>
-            <div style={{ paddingBottom: "10vh" }}>
+            <div style={{ paddingBottom: "10vh", width: "100%" }}>
                 {graphType === 0 && <Bar options={options} data={data} />}
                 {graphType === 1 && <Line options={options} data={data} />}
                 {graphType === 3 && <Doughnut options={options} data={data} />}

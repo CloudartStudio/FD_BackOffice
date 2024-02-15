@@ -57,12 +57,21 @@ const putReq = async (req, res) => {
     }
 
     const EditedSections = [];
+    let SectionRemoved = false;
     console.log("Pagina e sezioni", req.body.Page);
     if (req.body.Page.Sections) {
         for (var s of req.body.Page.Sections) {
-            if (s.data && s.data.find((d) => !d.IsSaved)) {
+            const sectiondata = [];
+            s.data.map((d) => {
+                if (d.IsDeleted) {
+                } else {
+                    sectiondata.push(d);
+                    SectionRemoved = true;
+                }
+            });
+            if (sectiondata && sectiondata.find((d) => !d.IsSaved)) {
                 await Promise.all(
-                    s.data.map(async (d) => {
+                    sectiondata.map(async (d) => {
                         if (!d.IsSaved) {
                             const conf = new Configuration(d, s.Type);
                             const res = await conf.save();
@@ -71,9 +80,9 @@ const putReq = async (req, res) => {
                     })
                 );
 
-                const dynSectionRequest = new DynamicSections(s.data, s.VerticalOrder);
-                dynSectionRequest.data = s.data;
-                if (s.data.find((d) => d.IsSaved === true)) {
+                const dynSectionRequest = new DynamicSections(sectiondata, s.VerticalOrder);
+                dynSectionRequest.data = sectiondata;
+                if (sectiondata.find((d) => d.IsSaved === true)) {
                     // se entra qui allora la sezione è stata modificata
                     await dynSectionRequest.Update(s._id);
                     EditedSections.push(new ObjectId(s._id));
@@ -85,6 +94,13 @@ const putReq = async (req, res) => {
             } else {
                 //se entra qui allora non è stata modificata, aggiungo l'id per non perderla
                 EditedSections.push(new ObjectId(s._id));
+            }
+
+            //se c' un campom delete aggiorno la
+            if (SectionRemoved) {
+                const dynSectionRequest = new DynamicSections(sectiondata, s.VerticalOrder);
+                dynSectionRequest.data = sectiondata;
+                await dynSectionRequest.Update(s._id);
             }
         }
     }
