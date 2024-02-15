@@ -1,11 +1,12 @@
 import Head from "next/head";
 import fetch from "node-fetch";
-import NewPartnerModal from "../components/modal/NewPartnerModal";
 import { useEffect, useState } from "react";
 import style from "../styles/home.module.css";
 import Tabs from "../components/Tabs/modernTabs";
 import ManagePages from "../components/PagesComponent/ManagePages";
 import Link from "next/link";
+import NewPartnerModal from "../components/modal/NewPartnerModal";
+import NewCollaboratorModal from "../components/modal/NewCollaboratorModal";
 import NewClientPartnerB2B from "../components/modal/NewClientPartnerB2B";
 import NewClientPartnerB2C from "../components/modal/NewClientPartnerB2C";
 import SingleSellModal from "../components/modal/SingleSellModal";
@@ -14,7 +15,6 @@ import { useSession } from "next-auth/react";
 
 const Home = () => {
     const [indexData, setIndexData] = useState([]);
-
     const [indexOfPage, SetIndexOfPage] = useState(0);
     const { data: _session, status } = useSession();
 
@@ -42,6 +42,14 @@ const Home = () => {
         SetIndexOfPage(0);
     };
 
+    const HandleOpenNewCollaborator = () => {
+        SetIndexOfPage(1)
+    }
+    
+    const HandleCloseNewCollaborator = () => {
+        SetIndexOfPage(0)
+    }
+    
     const HandleOpenSingleSell = () => {
         SetIndexOfPage(5);
     };
@@ -113,7 +121,7 @@ const Home = () => {
 
                         <div className={style.BtnContainer}>
                             {_session.user.email.ID_ruolo === 1 && (
-                                <button id="add-customer" class="SimpleCard Clickable">
+                                <button id="add-customer" class="SimpleCard Clickable" onClick={HandleOpenNewCollaborator}>
                                     <h3>NUOVO COLLABORATORE</h3>
                                 </button>
                             )}
@@ -173,6 +181,7 @@ const Home = () => {
                 </div>
             )}
 
+            {indexOfPage === 1 && <NewCollaboratorModal onActionCloseModal={HandleCloseNewCollaborator}></NewCollaboratorModal>}
             {indexOfPage === 2 && <NewPartnerModal onActionCloseModal={HandleCloseNewPartner}></NewPartnerModal>}
             {indexOfPage === 3 && <NewClientPartnerB2B onActionCloseModal={HandleCloseNewClientPartnerB2B}></NewClientPartnerB2B>}
             {indexOfPage === 4 && <NewClientPartnerB2C onActionCloseModal={HandleCloseNewClientPartnerB2C}></NewClientPartnerB2C>}

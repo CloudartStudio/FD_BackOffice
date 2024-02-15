@@ -43,7 +43,7 @@ const ModernLayout = ({ children }) => {
                 </div>
                 {status != "loading" && status != "unauthenticated" && (
                     <div className={style.IconLogOut}>
-                        <AvatarWithMenu name="Fichele"></AvatarWithMenu>
+                        <AvatarWithMenu />
                     </div>
                 )}
 

@@ -360,7 +360,7 @@ export default function NewPartnerModal({ onActionCloseModal }) {
                         <div className={style.ModalField}>
                             <Toggle 
                                 data={[{label: "B2B"}, {label: "B2C"}]}
-                                setStato={() => {handleOnChangeForm({target: {name: "is_b2b", value: !newPartner.is_b2b}})}}
+                                setStato={() => {handleOnChangeForm({target: {name: "is_b2b", value: !newPartner.is_b2b}})}} //puto 2
                                 stato={newPartner.is_b2b}
                             ><h5 className={style.ModalField} >Tipo Cliente</h5></Toggle>
                         </div>
