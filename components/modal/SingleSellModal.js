@@ -3,6 +3,8 @@ import NotificationContext from "../../context/notificationContext";
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Toggle from "../../components/misc/toggle";
+import AutoComplete from "../../components/misc/AutoComplete";
 
 export default function SingleSellModal({ onActionCloseModal }) {
     const [singleSell, setSingleSell] = useState({
@@ -45,28 +47,33 @@ export default function SingleSellModal({ onActionCloseModal }) {
     const checkSimpleValidation = (name, value, isFinal) => {
         const c = conf.findIndex((conf) => conf.nome === name);
         if (c != -1) {
-            if (value == "" || value === null || value === undefined) {
-                //IL VALORE è NULLO QUINDI NON CE IL VALORE ,LUTENTE DEVE INSRIRLO
-                handleErrors(name, `Il Campo ${name} è obbligatorio!`);
-                if (isFinal) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                //VALORE CE FARE IL CONTROLLO CON L'ESPRESSIONE
-                if (!conf[c].expression.test(value)) {
-                    handleErrors(name, `Il valore inserito in ${name} non è corretto`);
+            try{
+                if (value === "" || value === null || value === undefined) {
+                    //IL VALORE è NULLO QUINDI NON CE IL VALORE ,LUTENTE DEVE INSRIRLO
+                    handleErrors(name, `Il Campo ${name} è obbligatorio!`);
                     if (isFinal) {
                         return false;
                     } else {
                         return true;
                     }
                 } else {
-                    handleErrors(name, null);
-                    return true;
+                    //VALORE CE FARE IL CONTROLLO CON L'ESPRESSIONE
+                    if (!conf[c].expression.test(value)) {
+                        handleErrors(name, `Il valore inserito in ${name} non è corretto`);
+                        if (isFinal) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        handleErrors(name, null);
+                        return true;
+                    }
                 }
-            }
+            }catch(err){
+                console.log(err)
+;            }
+            
         } else {
             handleErrors(name, null);
             return true;
@@ -148,15 +155,23 @@ export default function SingleSellModal({ onActionCloseModal }) {
                     <div className={style.ModalBodyLabelContainer}>
                         {/* ID_cliente */}
                         <div className={style.ModalField}>
-                            <label>ID Cliente</label>
+                            <label>Cliente</label>
                             <br />
-                            <input
+                            {/* <input
                                 type={"text"}
                                 placeholder="ID Cliente..."
                                 name="ID_cliente"
                                 onChange={handleOnChangeForm}
                                 value={singleSell.ID_cliente}
-                            ></input>
+                            ></input> */}
+
+                            <AutoComplete 
+                                setOutValue={(valore_in_entrata) => {
+                                    handleOnChangeForm({target: {name: "ID_cliente", value: valore_in_entrata}})
+                                }}
+                                singleSell={singleSell}
+                            />
+
                             {errors.ID_cliente && <p className={style.error}>{errors.ID_cliente}</p>}
                         </div>
                         {/* data_vendita */}
@@ -193,12 +208,11 @@ export default function SingleSellModal({ onActionCloseModal }) {
                     </div>
 
                     {/* is_b2b */}
-                    <div className={style.ModalField}>
-                        <label>Cliente B2B</label>
-                        <br />
-                        <input type={"checkbox"} placeholder="Telefono..." name="is_b2b" onChange={handleOnChangeForm} value={singleSell.is_b2b}></input>
-                        {errors.is_b2b && <p className={style.error}>{errors.is_b2b}</p>}
-                    </div>
+                    <Toggle 
+                        data={[{label: "B2B"}, {label: "B2C"}]}
+                        setStato={() => {handleOnChangeForm({target: {name: "is_b2b", value: !singleSell.is_b2b}})}}
+                        stato={singleSell.is_b2b}
+                    ><h5 className={style.ModalField} >Tipo Cliente</h5></Toggle>
                 </div>
 
                 <div className={style.ModalFoot}>

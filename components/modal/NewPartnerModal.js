@@ -3,6 +3,7 @@ import NotificationContext from "../../context/notificationContext";
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Toggle from "../../components/misc/toggle";
 
 export default function NewPartnerModal({ onActionCloseModal }) {
     const [newPartner, setNewPartner] = useState({
@@ -352,19 +353,25 @@ export default function NewPartnerModal({ onActionCloseModal }) {
                             ></input>
                             {errors.numero_dipendenti && <p className={style.error}>{errors.numero_dipendenti}</p>}
                         </div>
+                    </div>
+
+                    <div className={style.ModalBodyLabelContainer}>
+                        {/* is_b2b */}
+                        <div className={style.ModalField}>
+                            <Toggle 
+                                data={[{label: "B2B"}, {label: "B2C"}]}
+                                setStato={() => {handleOnChangeForm({target: {name: "is_b2b", value: !newPartner.is_b2b}})}} //puto 2
+                                stato={newPartner.is_b2b}
+                            ><h5 className={style.ModalField} >Tipo Cliente</h5></Toggle>
+                        </div>
 
                         {/* is_b2b */}
                         <div className={style.ModalField}>
-                            <label>Cliente B2B</label>
-                            <br />
-                            <input type={"checkbox"} placeholder="B2B..." name="is_b2b" onChange={handleOnChangeForm} value={newPartner.is_b2b}></input>
-                        </div>
-
-                        {/* is_b2c */}
-                        <div className={style.ModalField}>
-                            <label>Cliente B2C</label>
-                            <br />
-                            <input type={"checkbox"} placeholder="B2C..." name="is_b2c" onChange={handleOnChangeForm} value={newPartner.is_b2c}></input>
+                            <Toggle 
+                                data={[{label: "B2B"}, {label: "B2C"}]}
+                                setStato={() => {handleOnChangeForm({target: {name: "is_b2c", value: !newPartner.is_b2c}})}}
+                                stato={newPartner.is_b2c}
+                            ><h5 className={style.ModalField} >Tipo Cliente</h5></Toggle>
                         </div>
                     </div>
                 </div>

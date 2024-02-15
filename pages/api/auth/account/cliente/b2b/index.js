@@ -62,13 +62,14 @@ const getReq = async (req, res) => {
     try {
         const session = await getServerSession(req, res, authOptions);
         let result = await T_cliente_partener_b2b.fetchAll();
-        result = result.map((el) => {
-            if (el.ID_partner == session.user.email.ID_partner) {
-                return el;
+        const r = [];
+        result.map((el) => {
+            if (el.ID_partner == session.user.email.ID_partner && el.ragione_sociale != null) {
+                r.push(el);
             }
         });
 
-        res.status(200).json(result);
+        res.status(200).json(r);
     } catch (error) {
         res.status(500).send({ message: "Error fetching T_cliente_partener_b2b data", error: error });
     }

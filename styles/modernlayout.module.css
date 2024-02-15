@@ -195,10 +195,13 @@ MAIN ELEMNT ARANCIO:
     border-radius: 5px;
 }
 
-.IconMain:hover,
-.IconLogOut:hover {
+.IconMain:hover {
     opacity: 1;
     transform: scale(1.15);
+}
+
+.IconLogOut:hover {
+    opacity: 1;
 }
 
 .IconLogOut {
@@ -207,10 +210,10 @@ MAIN ELEMNT ARANCIO:
     top: 1vh;
     font-size: 2rem;
     left: 1vh;
-    opacity: 0.6;
+    opacity: 1;
     transition: all 0.3s;
-    background-color: #ffffff0f !important;
     height: 2rem;
     padding: 4px;
     border-radius: 5px;
+    z-index: 1000;
 }

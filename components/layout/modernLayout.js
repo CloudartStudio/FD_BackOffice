@@ -7,8 +7,8 @@ import IconSelector from "../IconSelector";
 import NotificationContext from "../../context/notificationContext";
 import PopupSimple from "../misc/popup_simple";
 import { useSession } from "next-auth/react";
-import LogoutButton from "../../components/layout/logoutBtn";
 import LoginModal from "../../components/modal/LoginModal";
+import AvatarWithMenu from "../misc/AvatarWithMenu";
 
 const ModernLayout = ({ children }) => {
     const [IsFullScreen, setISFullScreen] = useState(false);
@@ -43,7 +43,7 @@ const ModernLayout = ({ children }) => {
                 </div>
                 {status != "loading" && status != "unauthenticated" && (
                     <div className={style.IconLogOut}>
-                        <LogoutButton></LogoutButton>
+                        <AvatarWithMenu />
                     </div>
                 )}
 

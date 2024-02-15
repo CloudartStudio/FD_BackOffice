@@ -3,6 +3,7 @@ import NotificationContext from "../../context/notificationContext";
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Toggle from "../../components/misc/toggle"
 
 export default function NewClientPartnerB2C({ onActionCloseModal }) {
     const [clientB2c, setClientB2c] = useState({
@@ -181,21 +182,6 @@ export default function NewClientPartnerB2C({ onActionCloseModal }) {
 
                 <div className={style.ModalBody}>
                     <div className={style.ModalBodyLabelContainer}>
-                        {/* ID_partner */}
-                        <div className={style.ModalField}>
-                            <label>ID Partner</label>
-                            <br />
-                            <input
-                                type={"text"}
-                                placeholder="ID Partner..."
-                                name="ID_partner"
-                                onChange={handleOnChangeForm}
-                                value={clientB2c.ID_partner}
-                            ></input>
-                            {/* visualizzatore dell'errore */}
-                            {errors.ID_partner && <p className={style.error}>{errors.ID_partner}</p>}
-                        </div>
-
                         {/* nome */}
                         <div className={style.ModalField}>
                             <label>Nome</label>
@@ -204,15 +190,23 @@ export default function NewClientPartnerB2C({ onActionCloseModal }) {
                             {/* visualizzatore dell'errore */}
                             {errors.nome && <p className={style.error}>{errors.nome}</p>}
                         </div>
-                    </div>
-
-                    <div className={style.ModalBodyLabelContainer}>
+                        
                         {/* cognome */}
                         <div className={style.ModalField}>
                             <label>Cognome</label>
                             <br />
                             <input type={"text"} placeholder="Cognome..." name="cognome" onChange={handleOnChangeForm} value={clientB2c.cognome}></input>
                             {errors.cognome && <p className={style.error}>{errors.cognome}</p>}
+                        </div>
+                    </div>
+
+                    <div className={style.ModalBodyLabelContainer}>
+                        {/* indirizzo */}
+                        <div className={style.ModalField}>
+                            <label>Indirizzo</label>
+                            <br />
+                            <input type={"text"} placeholder="Indirizzo..." name="indirizzo" onChange={handleOnChangeForm} value={clientB2c.indirizzo}></input>
+                            {errors.indirizzo && <p className={style.error}>{errors.indirizzo}</p>}
                         </div>
 
                         {/* data_nascita */}
@@ -249,14 +243,6 @@ export default function NewClientPartnerB2C({ onActionCloseModal }) {
                     </div>
 
                     <div className={style.ModalBodyLabelContainer}>
-                        {/* indirizzo */}
-                        <div className={style.ModalField}>
-                            <label>Indirizzo</label>
-                            <br />
-                            <input type={"text"} placeholder="Indirizzo..." name="indirizzo" onChange={handleOnChangeForm} value={clientB2c.indirizzo}></input>
-                            {errors.indirizzo && <p className={style.error}>{errors.indirizzo}</p>}
-                        </div>
-
                         {/* custom_data */}
                         <div className={style.ModalField}>
                             <label>Custom Data</label>
@@ -270,15 +256,16 @@ export default function NewClientPartnerB2C({ onActionCloseModal }) {
                             ></input>
                             {errors.custom_data && <p className={style.error}>{errors.custom_data}</p>}
                         </div>
-                    </div>
 
-                    {/* is_maschio */}
-                    <div className={style.ModalField}>
-                        <label>Sesso</label>
-                        <br />
-                        <input type={"checkbox"} placeholder="Sesso..." name="is_maschio" onChange={handleOnChangeForm} value={clientB2c.is_maschio}></input>
-                        {errors.is_maschio && <p className={style.error}>{errors.is_maschio}</p>}
-                    </div>
+                        {/* is_maschio */}
+                        <div className={style.ModalField}>
+                            <Toggle 
+                                data={[{label: "M"}, {label: "F"}]}
+                                setStato={() => {handleOnChangeForm({target: {name: "is_maschio", value: !clientB2c.is_maschio}})}}
+                                stato={clientB2c.is_maschio}
+                            ><h5 className={style.ModalField}>Sesso</h5></Toggle>
+                        </div>
+                    </div>                    
                 </div>
 
                 <div className={style.ModalFoot}>

@@ -248,6 +248,16 @@
     display: none;
 }
 
+.FullModalFieldSectionOnlyDownload {
+    vertical-align: top;
+    background-color: #6dacff37;
+    border-radius: 5px;
+    width: 50%;
+    height: 4vh;
+    padding: 10px;
+    
+}
+
 .checkboxField {
     margin: 10px 20px;
     display: inline-block;

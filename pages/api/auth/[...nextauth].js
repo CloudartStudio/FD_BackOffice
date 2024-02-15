@@ -14,11 +14,24 @@ const verifyCredentials = async (id_acc_data, supposedPassword, RoleID) => {
         return false;
     }
 
+    let infoUtente = {};
+
+    if (utenteLogin.ID_ruolo == 1) {
+        infoUtente = await T_admin.fetchOne(utenteLogin.ID_utente);
+        infoUtente.ruolo = "admin"; 
+    }
+
+    if (utenteLogin.ID_ruolo == 3) {
+        infoUtente = await T_partener.fetchOne(utenteLogin.ID_utente);
+        infoUtente.ruolo = "partner"; 
+    }
+
     const isValid = await verifyPassword(supposedPassword, utenteLogin.password);
 
     if (isValid) {
         return {
             utenteLogin,
+            infoUtente
         };
     } else {
         return false;
@@ -33,6 +46,19 @@ const formatJWT = (result, email) => {
             ID_partner: result.utenteLogin.ID_utente,
             ID: result.utenteLogin.ID,
         };
+        if (result.tokenPartner) {
+            obj.partener = {
+                email: result.tokenPartner.email,
+                ruolo: result.tokenPartner.ruolo,
+                ragione_sociale: result.tokenPartner.ragione_sociale,
+            }
+        }
+        if (result.tokenAdmin) {
+            obj.admin = {
+                email: result.tokenAdmin.email,
+                ruolo: result.tokenAdmin.ruolo,
+            }
+        }
         return {
             email: obj,
         };
@@ -50,10 +76,23 @@ export const authOptions = {
                 const admin = await T_admin.fetchOneByField("email", email);
                 if (admin) {
                     result = await verifyCredentials(admin.ID, password, 1);
+                    const tokenAdmin = {
+                        email: result.infoUtente.email,
+                        ruolo: result.infoUtente.ruolo,
+                    };
+                    result.tokenAdmin = { ...tokenAdmin };
                 } else {
                     const partener = await T_partener.fetchOneByField("email", email);
+                    console.log('partner: ', partener)
                     if (partener) {
                         result = await verifyCredentials(partener.ID, password, 3);
+                        const tokenPartner = {
+                            ragione_sociale: result.infoUtente.ragione_sociale,
+                            email: result.infoUtente.email,
+                            ruolo: result.infoUtente.ruolo,
+                        };
+                        result.tokenPartner = { ...tokenPartner };
+                        
                     } else {
                         const cliente_partener_b2c = await T_cliente_partener_b2c.fetchOneByField("email", email);
                         if (cliente_partener_b2c) {
