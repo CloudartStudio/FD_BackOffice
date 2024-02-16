@@ -24,11 +24,7 @@ export default function NewClientPartnerB2B({ onActionCloseModal }) {
 
     const NotificationCtx = useContext(NotificationContext);
 
-    const conf = [
-        {
-            nome: "ID_partner",
-            expression: /^[0-9]+$/,
-        },
+    const conf = [       
         {
             nome: "ragione_sociale",
             expression: /^[a-z0-9 ]+$/i,

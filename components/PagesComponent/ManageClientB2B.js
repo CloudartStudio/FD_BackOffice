@@ -82,7 +82,7 @@ export default function ManageClient({ isPreview = false }) {
 
     return (
         <>
-            {_session.user.email.ID_ruolo == 1 && indexOfPage === 0 && (
+            {_session.user.email.ID_ruolo == 3 && indexOfPage === 0 && (
                 <div className={isPreview ? "" : style.PageContainer}>
                     <Head>
                         <title>Manage Page</title>

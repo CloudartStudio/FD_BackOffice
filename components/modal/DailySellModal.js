@@ -2,6 +2,7 @@ import style from "../../styles/modal.module.css";
 import NotificationContext from "../../context/notificationContext";
 import React, { useState, useContext } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 export default function DailySellModal({ isOpen, onActionCloseModal }) {
     const [dailySell, setDailySell] = useState({
@@ -10,6 +11,8 @@ export default function DailySellModal({ isOpen, onActionCloseModal }) {
         totale_numero_vendite: "",
         note: "",
     });
+
+    const { data: _session } = useSession();
 
     const NotificationCtx = useContext(NotificationContext);
 
@@ -97,9 +100,10 @@ export default function DailySellModal({ isOpen, onActionCloseModal }) {
                     message: "Salvataggio in corso...",
                     status: "waiting",
                 });
+                console.log(_session.user.email.ID_partner);
                 axios
                     .post("http://localhost:3000/api/vendite/giornaliera", {
-                        ID_partner: 3,
+                        ID_partner: _session.user.email.ID_partner,
                         data: dailySell.data,
                         totale_incasso: dailySell.totale_incasso,
                         totale_numero_vendite: dailySell.totale_numero_vendite,

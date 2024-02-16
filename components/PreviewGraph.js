@@ -82,7 +82,7 @@ const PreviewGraph = ({ isXAxis, legendTop, graphName, hide = false, GraphDataCo
 
     return (
         <>
-            <h2 style={{ margin: "5px" }}>{graphName}</h2>
+            <h2 style={{ margin: "5px" }}>{GraphDataContainer[0].find((el) => el.coordinate === "labelDataSet").data}</h2>
             <select
                 className={style.Select}
                 value={graphType}

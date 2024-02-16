@@ -69,7 +69,7 @@ export default function render_data() {
                                                                 <ConfigVisualizer
                                                                     Metadata={element.metadata}
                                                                     Structure={element.structure}
-                                                                    tipo={element.tipo}
+                                                                    tipo={element.Tipo}
                                                                 />
                                                             )}
                                                         </div>
@@ -125,10 +125,10 @@ const ConfigVisualizer = ({ Metadata, Structure, tipo }) => {
 
     return (
         <>
-            {tipo === 0 && PreviewModel && (
+            {tipo == 0 && PreviewModel && (
                 <PreviewGraph graphName={"grafico di prova"} isXAxis={true} key={1} legendTop={true} GraphDataContainer={PreviewModel}></PreviewGraph>
             )}
-            {tipo === 1 && PreviewModel && <PreviewVisualizer GraphDataContainer={PreviewModel}></PreviewVisualizer>}
+            {tipo == 1 && PreviewModel && <PreviewVisualizer GraphDataContainer={PreviewModel}></PreviewVisualizer>}
         </>
     );
 };

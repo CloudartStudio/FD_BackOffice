@@ -24,10 +24,6 @@ export default function NewClientPartnerB2C({ onActionCloseModal }) {
 
     const conf = [
         {
-            nome: "ID_partner",
-            expression: /^[0-9]+$/,
-        },
-        {
             nome: "nome",
             expression: /^[a-z ]+$/i,
         },

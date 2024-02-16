@@ -18,7 +18,7 @@ const postReq = async (req, res) => {
 const getReq = async (req, res) => {
     try {
         const session = await getServerSession(req, res, authOptions);
-        const result = await T_vendita_giornaliera.fetchAll();
+        let result = await T_vendita_giornaliera.fetchAll();
         result = result.map((el) => {
             if (el.ID_partner == session.user.email.ID_partner) {
                 return el;

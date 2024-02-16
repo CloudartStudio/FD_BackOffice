@@ -359,19 +359,19 @@ export default function NewPartnerModal({ onActionCloseModal }) {
                         {/* is_b2b */}
                         <div className={style.ModalField}>
                             <Toggle 
-                                data={[{label: "B2B"}, {label: "B2C"}]}
+                                data={[{label: "SI"}, {label: "NO"}]}
                                 setStato={() => {handleOnChangeForm({target: {name: "is_b2b", value: !newPartner.is_b2b}})}} //puto 2
                                 stato={newPartner.is_b2b}
-                            ><h5 className={style.ModalField} >Tipo Cliente</h5></Toggle>
+                            ><h5 className={style.ModalField} >B2B</h5></Toggle>
                         </div>
 
                         {/* is_b2b */}
                         <div className={style.ModalField}>
                             <Toggle 
-                                data={[{label: "B2B"}, {label: "B2C"}]}
+                                data={[{label: "SI"}, {label: "NO"}]}
                                 setStato={() => {handleOnChangeForm({target: {name: "is_b2c", value: !newPartner.is_b2c}})}}
                                 stato={newPartner.is_b2c}
-                            ><h5 className={style.ModalField} >Tipo Cliente</h5></Toggle>
+                            ><h5 className={style.ModalField} >B2C</h5></Toggle>
                         </div>
                     </div>
                 </div>

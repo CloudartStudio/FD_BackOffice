@@ -67,7 +67,7 @@ const ModernMenu = ({ IsFullScreen }) => {
                                         Router.push("/");
                                     }}
                                 >
-                                    <h1>IKEA</h1> <i>your</i> <h3>FIRST DATA</h3>
+                                    <h1>FIRST DATA</h1>
                                 </div>
 
                                 <div
