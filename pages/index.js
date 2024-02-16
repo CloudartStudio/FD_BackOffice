@@ -16,7 +16,26 @@ import DailySellModal from "../components/modal/DailySellModal";
 import { useSession } from "next-auth/react";
 
 const Home = () => {
-    const [indexData, setIndexData] = useState([]);
+    const [indexData, setIndexData] = useState({
+        labelhome_data: [
+            {
+                Label: "FATTURATO TOTALE CLIENTI",
+                Value: "124.565.247€",
+            },
+            {
+                Label: "NUMERO CLIENTI AGENZIA",
+                Value: 1346,
+            },
+            {
+                Label: "€ ADS SPEDI DAL CLIENTE",
+                Value: "1.234.567€",
+            },
+            {
+                Label: "PERCENTUALE DI CRESCITA",
+                Value: "12%",
+            },
+        ],
+    });
     const [indexOfPage, SetIndexOfPage] = useState(0);
     const { data: _session, status } = useSession();
 
@@ -45,13 +64,13 @@ const Home = () => {
     };
 
     const HandleOpenNewCollaborator = () => {
-        SetIndexOfPage(1)
-    }
-    
+        SetIndexOfPage(1);
+    };
+
     const HandleCloseNewCollaborator = () => {
-        SetIndexOfPage(0)
-    }
-    
+        SetIndexOfPage(0);
+    };
+
     const HandleOpenSingleSell = () => {
         SetIndexOfPage(5);
     };
@@ -68,28 +87,28 @@ const Home = () => {
         SetIndexOfPage(0);
     };
 
-    useEffect(() => {
-        const _fetch = async () => {
-            const response = await fetch("http://localhost:3000/api/getMenuData");
-            const responseOfCentralLabel = await fetch("http://localhost:3000/api/getCentralLabelHome");
+    // useEffect(() => {
+    //     const _fetch = async () => {
+    //         const response = await fetch("http://localhost:3000/api/getMenuData");
+    //         const responseOfCentralLabel = await fetch("http://localhost:3000/api/getCentralLabelHome");
 
-            const menu_data = await response.json();
-            const labelhome_data = await responseOfCentralLabel.json();
+    //         const menu_data = await response.json();
+    //         const labelhome_data = await responseOfCentralLabel.json();
 
-            const data = {
-                menu_data: menu_data,
-                labelhome_data: labelhome_data,
-            };
+    //         const data = {
+    //             menu_data: menu_data,
+    //             labelhome_data: labelhome_data,
+    //         };
 
-            return data;
-        };
+    //         return data;
+    //     };
 
-        _fetch()
-            .then((result) => {
-                setIndexData(result);
-            })
-            .catch((error) => {});
-    }, []);
+    //     _fetch()
+    //         .then((result) => {
+    //             setIndexData(result);
+    //         })
+    //         .catch((error) => {});
+    // }, []);
 
     return (
         <>

@@ -185,3 +185,21 @@
     justify-content: center;
     font-size: 2rem;
 }
+
+.Configure {
+    padding: 10px 15px;
+    border: 2px solid white;
+    background-color: #ffffff00;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    color: white;
+    letter-spacing: 2px;
+    font-weight: 600;
+    transition: all 0.5s ease;
+}
+
+.Configure:hover {
+    background-color: #ffffff33;
+    cursor: pointer;
+    transform: scale(1.1);
+}

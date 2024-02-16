@@ -43,7 +43,7 @@ export default function NewPartnerModal({ onActionCloseModal }) {
         {
             nome: "telefono",
             expression: /^[0-9]+$/,
-            MaxLen: 9,
+            MaxLen: 10,
         },
         {
             nome: "cellulare",
@@ -76,7 +76,7 @@ export default function NewPartnerModal({ onActionCloseModal }) {
         },
         {
             nome: "nome",
-            expression: /^[a-z ]+$/i,
+            expression: /^[a-z0-9]+$/i,
         },
     ];
 
@@ -358,20 +358,28 @@ export default function NewPartnerModal({ onActionCloseModal }) {
                     <div className={style.ModalBodyLabelContainer}>
                         {/* is_b2b */}
                         <div className={style.ModalField}>
-                            <Toggle 
-                                data={[{label: "SI"}, {label: "NO"}]}
-                                setStato={() => {handleOnChangeForm({target: {name: "is_b2b", value: !newPartner.is_b2b}})}} //puto 2
+                            <Toggle
+                                data={[{ label: "SI" }, { label: "NO" }]}
+                                setStato={() => {
+                                    handleOnChangeForm({ target: { name: "is_b2b", value: !newPartner.is_b2b } });
+                                }} //puto 2
                                 stato={newPartner.is_b2b}
-                            ><h5 className={style.ModalField} >B2B</h5></Toggle>
+                            >
+                                <h5 className={style.ModalField}>B2B</h5>
+                            </Toggle>
                         </div>
 
                         {/* is_b2b */}
                         <div className={style.ModalField}>
-                            <Toggle 
-                                data={[{label: "SI"}, {label: "NO"}]}
-                                setStato={() => {handleOnChangeForm({target: {name: "is_b2c", value: !newPartner.is_b2c}})}}
+                            <Toggle
+                                data={[{ label: "SI" }, { label: "NO" }]}
+                                setStato={() => {
+                                    handleOnChangeForm({ target: { name: "is_b2c", value: !newPartner.is_b2c } });
+                                }}
                                 stato={newPartner.is_b2c}
-                            ><h5 className={style.ModalField} >B2C</h5></Toggle>
+                            >
+                                <h5 className={style.ModalField}>B2C</h5>
+                            </Toggle>
                         </div>
                     </div>
                 </div>

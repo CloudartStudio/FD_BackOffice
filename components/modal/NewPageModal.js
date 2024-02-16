@@ -432,7 +432,20 @@ export default function NewPageModal({ onActionCloseModal, id = null }) {
                                                                                                     >
                                                                                                         <IoMdCloseCircle></IoMdCloseCircle>
                                                                                                     </span>
+                                                                                                    <span
+                                                                                                        style={{
+                                                                                                            fontSize: "1.2rem",
+                                                                                                            position: "absolute",
+                                                                                                            left: "10px",
+                                                                                                            top: "1vh",
+                                                                                                            opacity: "0.9",
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        {element.Tipo == 0 && <BsGraphUp></BsGraphUp>}
+                                                                                                        {element.Tipo == 1 && <RxSection></RxSection>}
+                                                                                                    </span>
                                                                                                     <button
+                                                                                                        className={PageEditorStyle.Configure}
                                                                                                         onClick={() => {
                                                                                                             router.push(
                                                                                                                 "/editor/config/" +
