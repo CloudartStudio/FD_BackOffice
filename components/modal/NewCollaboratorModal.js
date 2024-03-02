@@ -8,19 +8,75 @@ export default function NewCollaboratorModal({ onActionCloseModal }) {
 	const HaveMoreSpecializationRef = useRef(null);
 	const [newCollaborator, newCewCollaborator] = useState({
 		nome: "",
-        cognome: "",
-        data_nascita: "",
-        is_maschio: false,
-        indirizzo: "",
-        telefono: "",
+		cognome: "",
+		data_nascita: "",
+		is_maschio: false,
+		indirizzo: "",
+		telefono: "",
 		cellulare: "",
-        email: "",
+		email: "",
 		partita_iva: "",
 		documento: "",
 		commerciale: false,
 		note: "",
 		specializzazione: ""
 	});
+
+    // da inserire quelli corretti
+    const conf = [
+        {
+            nome: "ragione_sociale",
+            expression: /^[a-z0-9 ]+$/i,
+        },
+        {
+            nome: "partita_iva",
+            expression: /^[0-9]+$/i,
+            MaxLen: 11,
+        },
+        {
+            nome: "codice_sdi",
+            expression: /^[a-z0-9]+$/i,
+            MaxLen: 7,
+        },
+        {
+            nome: "telefono",
+            expression: /^[0-9]+$/,
+            MaxLen: 10,
+        },
+        {
+            nome: "cellulare",
+            expression: /^[0-9]+$/,
+            MaxLen: 10,
+        },
+        {
+            nome: "indirizzo_sede_fisica",
+            expression: /^[a-z0-9,. ]+$/i,
+        },
+        {
+            nome: "indirizzo_sede_legale",
+            expression: /^[a-z0-9,. ]+$/i,
+        },
+        {
+            nome: "settore_merceologico",
+            expression: /^[0-9]+$/,
+        },
+        {
+            nome: "pec",
+            expression: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
+        },
+        {
+            nome: "email",
+            expression: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
+        },
+        {
+            nome: "numero_dipendenti",
+            expression: /^[0-9]+$/,
+        },
+        {
+            nome: "nome",
+            expression: /^[a-z0-9]+$/i,
+        },
+    ];
 
 	const [showMultipleSpecialization, setShowMultipleSpecialization] = useState(false);
 
@@ -213,7 +269,7 @@ export default function NewCollaboratorModal({ onActionCloseModal }) {
 								</>
 							)}
 							<br />
-									<br />
+                            <br />
 						</div>
 					</div>
 

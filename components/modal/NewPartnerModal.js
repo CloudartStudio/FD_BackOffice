@@ -4,6 +4,7 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Toggle from "../../components/misc/toggle";
+import AutoCompleteSM from "../../components/misc/AutoCompleteSM";
 
 export default function NewPartnerModal({ onActionCloseModal }) {
     const [newPartner, setNewPartner] = useState({
@@ -312,13 +313,21 @@ export default function NewPartnerModal({ onActionCloseModal }) {
                         <div className={style.ModalField}>
                             <label>Settore Merceologico</label>
                             <br />
-                            <input
+
+                            {/* <input
                                 type={"text"}
                                 placeholder="Settore Merceologico..."
                                 name="settore_merceologico"
                                 onChange={handleOnChangeForm}
                                 value={newPartner.settore_merceologico}
-                            ></input>
+                            ></input> */}
+
+                            <AutoCompleteSM 
+                                setOutValue={(valore_in_entrata) => {
+                                    handleOnChangeForm({target: {name: "Settore Merceologico", value: valore_in_entrata}})
+                                }}
+                                newPartner={newPartner}
+                            />
                             {errors.settore_merceologico && <p className={style.error}>{errors.settore_merceologico}</p>}
                         </div>
                     </div>
